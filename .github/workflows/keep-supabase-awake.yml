@@ -1,0 +1,19 @@
+name: Keep Supabase Awake
+
+on:
+  schedule:
+    # Runs every 3 days at 00:00 UTC to keep Supabase active
+    - cron: '0 0 */3 * *'
+  workflow_dispatch: # Allows manual trigger anytime from GitHub Actions tab
+
+jobs:
+  ping-supabase:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Ping Supabase REST API
+        run: |
+          curl -s -o /dev/null -w "%{http_code}" \
+            -H "apikey: ${{ secrets.SUPABASE_ANON_KEY || 'sb_publishable_l8fPEsnp4Xfh45Tt6r9Hww_dRF7BWf6' }}" \
+            -H "Authorization: Bearer ${{ secrets.SUPABASE_ANON_KEY || 'sb_publishable_l8fPEsnp4Xfh45Tt6r9Hww_dRF7BWf6' }}" \
+            "${{ secrets.SUPABASE_URL || 'https://uapzzvneelycauqzwsfj.supabase.co' }}/rest/v1/projects?select=count"
+          echo "Supabase successfully pinged to prevent auto-pause!"
