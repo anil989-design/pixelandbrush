@@ -1,112 +1,123 @@
-import { useState, useEffect, useRef, useCallback } from "react";
+import { useState, useEffect, useRef } from "react";
 import { supabase } from "./supabaseClient";
 
-/* ── Global Styles ───────────────────────────────────────────────────────── */
+/* ── Global Styles & Typography ───────────────────────────────────────────── */
 const G = () => (
   <style>{`
-    @import url('https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Outfit:wght@300;400;500;600;700&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600;700&family=Syne:wght@700;800&display=swap');
 
     *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
     html { scroll-behavior:smooth; }
-    body { background:#060912; color:#e8edf7; font-family:'Outfit',sans-serif; overflow-x:hidden; cursor:none; }
-    ::-webkit-scrollbar { width:3px; }
-    ::-webkit-scrollbar-track { background:#060912; }
-    ::-webkit-scrollbar-thumb { background:#1e3a8a; border-radius:2px; }
+    body {
+      background:#070A11;
+      color:#E2E8F0;
+      font-family:'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      overflow-x:hidden;
+      cursor:none;
+      letter-spacing: -0.01em;
+    }
 
-    /* Bootstrap Reboot Overrides to preserve Cyberpunk Dark Theme */
-    a { text-decoration: none; color: inherit; }
+    ::-webkit-scrollbar { width:5px; }
+    ::-webkit-scrollbar-track { background:#070A11; }
+    ::-webkit-scrollbar-thumb { background:#1E293B; border-radius:4px; }
+    ::-webkit-scrollbar-thumb:hover { background:#3B82F6; }
+
+    /* Bootstrap Overrides */
+    a { text-decoration: none; color: inherit; transition: all .25s ease; }
     a:hover { color: inherit; }
-    h1, h2, h3, h4, h5, h6 { font-family: 'Baloo 2', sans-serif; color: #e8edf7; }
+    h1, h2, h3, h4, h5, h6 {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-weight: 700;
+      color: #FFFFFF;
+      letter-spacing: -0.025em;
+    }
 
-    @keyframes floatY    { 0%,100%{transform:translateY(0)}  50%{transform:translateY(-16px)} }
-    @keyframes blink     { 0%,100%{opacity:1} 50%{opacity:0} }
-    @keyframes ticker    { from{transform:translateX(0)} to{transform:translateX(-50%)} }
-    @keyframes scanline  { 0%{top:-30%;opacity:.7} 100%{top:130%;opacity:0} }
-    @keyframes gradShift { 0%,100%{background-position:0% 50%} 50%{background-position:100% 50%} }
-    @keyframes nameReveal { 0%{opacity:0;clip-path:inset(0 100% 0 0)} 100%{opacity:1;clip-path:inset(0 0% 0 0)} }
-    @keyframes taglineIn  { 0%{opacity:0;transform:translateY(14px)} 100%{opacity:1;transform:translateY(0)} }
-    @keyframes photoFloat { 0%,100%{transform:translateY(0px)} 50%{transform:translateY(-12px)} }
-    @keyframes glowPulse  { 0%,100%{opacity:.5} 50%{opacity:1} }
-    @keyframes charIn {
-      0%   { opacity:0; transform:translateY(60px) rotateX(-90deg); filter:blur(8px); }
-      60%  { opacity:1; filter:blur(0); }
-      100% { opacity:1; transform:translateY(0) rotateX(0deg); }
-    }
-    @keyframes shimmerSweep { 0%{background-position:-200% center} 100%{background-position:200% center} }
-    @keyframes starPop {
-      0%   { opacity:0; transform:scale(0) rotate(-30deg); }
-      60%  { opacity:1; transform:scale(1.15) rotate(5deg); }
-      100% { opacity:1; transform:scale(1) rotate(0); }
-    }
-    @keyframes ctaGlow {
-      0%,100% { box-shadow:0 0 40px rgba(37,99,235,.2),inset 0 1px 0 rgba(96,165,250,.06); }
-      50%     { box-shadow:0 0 90px rgba(34,211,238,.25),inset 0 1px 0 rgba(34,211,238,.12); }
-    }
-    @keyframes fadeUp { from{opacity:0;transform:translateY(20px)} to{opacity:1;transform:none} }
-    @keyframes faqOpen { from{opacity:0;transform:translateY(-6px)} to{opacity:1;transform:none} }
-    @keyframes whatsappBounce { 0%,100%{transform:scale(1)} 50%{transform:scale(1.12)} }
+    /* Keyframes */
+    @keyframes floatSlow   { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-10px)} }
+    @keyframes floatPulse  { 0%,100%{opacity:.4;transform:scale(1)} 50%{opacity:.7;transform:scale(1.08)} }
+    @keyframes pulseDot    { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:.4;transform:scale(.75)} }
+    @keyframes ticker      { from{transform:translateX(0)} to{transform:translateX(-50%)} }
+    @keyframes shimmerText { 0%{background-position:0% 50%} 50%{background-position:100% 50%} 100%{background-position:0% 50%} }
+    @keyframes cardFadeUp  { from{opacity:0;transform:translateY(24px)} to{opacity:1;transform:none} }
+    @keyframes glowSweep   { 0%{left:-100%} 100%{left:200%} }
+    @keyframes whatsappHop { 0%,100%{transform:scale(1)} 50%{transform:scale(1.08)} }
 
-    .char-wrap { display:inline-block; overflow:hidden; vertical-align:bottom; }
-    .char { display:inline-block; animation:charIn .7s cubic-bezier(.22,1,.36,1) both; }
-    .shimmer-text {
-      background:linear-gradient(90deg,#60a5fa 0%,#e8edf7 30%,#22d3ee 50%,#e8edf7 70%,#60a5fa 100%);
-      background-size:200% auto;
-      -webkit-background-clip:text;
-      -webkit-text-fill-color:transparent;
-      animation:shimmerSweep 3s linear infinite;
-    }
+    /* Reveal Animation Classes */
     .rv {
       opacity:0;
-      transition:opacity .8s cubic-bezier(.22,1,.36,1), transform .8s cubic-bezier(.22,1,.36,1);
+      transform:translateY(28px);
+      transition:opacity .75s cubic-bezier(.16,1,.3,1), transform .75s cubic-bezier(.16,1,.3,1);
       will-change:opacity,transform;
     }
-    .rv.up    { transform:translateY(52px) scale(.97); }
-    .rv.down  { transform:translateY(-52px) scale(.97); }
-    .rv.left  { transform:translateX(-52px) scale(.97); }
-    .rv.right { transform:translateX(52px)  scale(.97); }
-    .rv.sc    { transform:scale(.88); }
-    .rv.vis   { opacity:1; transform:none; }
+    .rv.vis { opacity:1; transform:none; }
 
+    /* Gradient Typography */
+    .grad-text {
+      background: linear-gradient(135deg, #FFFFFF 20%, #93C5FD 70%, #38BDF8 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .grad-accent {
+      background: linear-gradient(135deg, #60A5FA 0%, #38BDF8 50%, #818CF8 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    /* Glassmorphism Cards */
+    .glass-card {
+      background: rgba(15, 23, 42, 0.65);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-radius: 18px;
+      transition: all .35s cubic-bezier(.16,1,.3,1);
+    }
+    .glass-card:hover {
+      background: rgba(19, 29, 54, 0.85);
+      border-color: rgba(96, 165, 250, 0.35);
+      transform: translateY(-6px);
+      box-shadow: 0 20px 45px rgba(0, 0, 0, 0.4), 0 0 35px rgba(59, 130, 246, 0.15);
+    }
+
+    /* Form Inputs */
+    .pro-input {
+      background: rgba(10, 15, 26, 0.85) !important;
+      border: 1px solid rgba(255, 255, 255, 0.1) !important;
+      color: #FFFFFF !important;
+      border-radius: 10px !important;
+      padding: .85rem 1.1rem !important;
+      font-size: .92rem !important;
+      font-family: 'Inter', sans-serif !important;
+      transition: all .25s ease !important;
+    }
+    .pro-input:focus {
+      border-color: #3B82F6 !important;
+      background: rgba(15, 23, 42, 0.98) !important;
+      box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2) !important;
+      color: #FFFFFF !important;
+    }
+    .pro-input::placeholder {
+      color: #64748B !important;
+    }
+
+    /* Mobile Drawer */
     .mobile-drawer {
-      position:fixed; top:0; right:0; bottom:0; width:285px;
-      background:rgba(4,5,15,.98); border-left:1px solid rgba(37,99,235,.22);
-      backdrop-filter:blur(30px); z-index:800;
-      padding:5.5rem 1.8rem 2rem; display:flex; flex-direction:column; gap:.4rem;
-      transform:translateX(100%); transition:transform .4s cubic-bezier(.22,1,.36,1);
+      position:fixed; top:0; right:0; bottom:0; width:300px;
+      background:rgba(8, 12, 22, 0.98); border-left:1px solid rgba(255,255,255,0.08);
+      backdrop-filter:blur(32px); z-index:1050;
+      padding:5rem 2rem 2rem; display:flex; flex-direction:column; gap:.8rem;
+      transform:translateX(100%); transition:transform .35s cubic-bezier(.16,1,.3,1);
     }
     .mobile-drawer.open { transform:translateX(0); }
     .mobile-overlay {
-      position:fixed; inset:0; z-index:799; background:rgba(0,0,0,.55);
-      opacity:0; pointer-events:none; transition:opacity .35s;
+      position:fixed; inset:0; z-index:1040; background:rgba(0,0,0,.65);
+      opacity:0; pointer-events:none; transition:opacity .3s;
     }
     .mobile-overlay.open { opacity:1; pointer-events:all; }
 
-    .faq-answer { animation:faqOpen .3s ease both; }
-
-    /* Bootstrap Custom Dark Form Inputs */
-    .pb-form-control {
-      background: rgba(3,3,10,.88) !important;
-      border: 1px solid rgba(37,99,235,.18) !important;
-      color: #e8edf7 !important;
-      border-radius: 8px !important;
-      padding: .8rem 1rem !important;
-      font-size: .9rem !important;
-      font-family: 'Outfit', sans-serif !important;
-      transition: border-color .3s, box-shadow .3s !important;
-    }
-    .pb-form-control:focus {
-      border-color: #2563eb !important;
-      box-shadow: 0 0 0 3px rgba(37,99,235,.2) !important;
-      background: rgba(3,3,12,.95) !important;
-    }
-    .pb-form-control::placeholder {
-      color: #4a5472 !important;
-    }
-
-    @media (max-width:900px) {
-      .nav-links { display:none !important; }
-      .nav-btns  { display:none !important; }
-      .hamburger { display:flex !important; }
+    @media (max-width:992px) {
+      .desktop-nav { display:none !important; }
+      .mobile-menu-btn { display:flex !important; }
     }
     @media (max-width:768px) {
       body { cursor:auto; }
@@ -114,69 +125,37 @@ const G = () => (
   `}</style>
 );
 
-/* ── Bidirectional scroll reveal ─────────────────────────────────────────── */
-const useReveal = () => {
-  useEffect(() => {
-    const els = Array.from(document.querySelectorAll(".rv"));
-    const map = new Map();
-    const obs = new IntersectionObserver(entries => {
-      entries.forEach(e => {
-        const coming = e.isIntersecting;
-        if (coming) {
-          const d = parseFloat(e.target.dataset.delay || 0);
-          setTimeout(() => e.target.classList.add("vis"), d * 1000);
-        } else {
-          if (map.has(e.target)) {
-            e.target.classList.remove("vis");
-            const rect = e.target.getBoundingClientRect();
-            const isBelow = rect.top > window.innerHeight / 2;
-            const base = e.target.dataset.dir || "up";
-            e.target.classList.remove("up","down","left","right","sc");
-            if (base === "left" || base === "right") {
-              e.target.classList.add(isBelow ? "left" : "right");
-            } else {
-              e.target.classList.add(isBelow ? "up" : "down");
-            }
-          }
-        }
-        map.set(e.target, coming);
-      });
-    }, { threshold: 0.1 });
-    els.forEach(el => { el.classList.add(el.dataset.dir || "up"); obs.observe(el); });
-    return () => obs.disconnect();
-  }, []);
-};
-
-/* ── Cursor ──────────────────────────────────────────────────────────────── */
+/* ── Minimalist Cursor ────────────────────────────────────────────────────── */
 const Cursor = () => {
   const dot = useRef(null), ring = useRef(null);
-  const p = useRef({x:0,y:0}), l = useRef({x:0,y:0});
+  const p = useRef({x:-100,y:-100}), l = useRef({x:-100,y:-100});
   useEffect(() => {
     const mv = e => { p.current = {x:e.clientX,y:e.clientY}; };
     window.addEventListener("mousemove", mv);
-    const g = () => ring.current && (ring.current.style.transform="scale(2)");
-    const s = () => ring.current && (ring.current.style.transform="scale(1)");
-    document.querySelectorAll("a,button,[data-hover]").forEach(el => {
-      el.addEventListener("mouseenter",g); el.addEventListener("mouseleave",s);
+    const expand = () => ring.current && (ring.current.style.transform="scale(1.8)", ring.current.style.borderColor="rgba(96,165,250,0.8)");
+    const shrink = () => ring.current && (ring.current.style.transform="scale(1)", ring.current.style.borderColor="rgba(59,130,246,0.45)");
+    document.querySelectorAll("a,button,input,select,textarea").forEach(el => {
+      el.addEventListener("mouseenter", expand);
+      el.addEventListener("mouseleave", shrink);
     });
     let raf;
     const loop = () => {
-      l.current.x += (p.current.x - l.current.x) * .1;
-      l.current.y += (p.current.y - l.current.y) * .1;
-      if (dot.current)  { dot.current.style.left=p.current.x-5+"px"; dot.current.style.top=p.current.y-5+"px"; }
-      if (ring.current) { ring.current.style.left=l.current.x-20+"px"; ring.current.style.top=l.current.y-20+"px"; }
+      l.current.x += (p.current.x - l.current.x) * .14;
+      l.current.y += (p.current.y - l.current.y) * .14;
+      if (dot.current)  { dot.current.style.left=p.current.x-4+"px"; dot.current.style.top=p.current.y-4+"px"; }
+      if (ring.current) { ring.current.style.left=l.current.x-18+"px"; ring.current.style.top=l.current.y-18+"px"; }
       raf = requestAnimationFrame(loop);
     };
     loop();
     return () => { cancelAnimationFrame(raf); window.removeEventListener("mousemove",mv); };
   },[]);
   return (<>
-    <div ref={dot}  style={{position:"fixed",width:10,height:10,background:"#60a5fa",borderRadius:"50%",pointerEvents:"none",zIndex:9999,mixBlendMode:"screen"}}/>
-    <div ref={ring} style={{position:"fixed",width:40,height:40,border:"1.5px solid #2563eb",borderRadius:"50%",pointerEvents:"none",zIndex:9998,transition:"transform .35s cubic-bezier(.22,1,.36,1)",mixBlendMode:"screen"}}/>
+    <div ref={dot} style={{position:"fixed",width:8,height:8,background:"#60A5FA",borderRadius:"50%",pointerEvents:"none",zIndex:9999,transition:"opacity .2s"}}/>
+    <div ref={ring} style={{position:"fixed",width:36,height:36,border:"1.5px solid rgba(59,130,246,0.45)",borderRadius:"50%",pointerEvents:"none",zIndex:9998,transition:"transform .25s ease, border-color .25s ease"}}/>
   </>);
 };
 
-/* ── Scroll Progress Bar ─────────────────────────────────────────────────── */
+/* ── Scroll Progress Indicator ───────────────────────────────────────────── */
 const ScrollProgress = () => {
   const [w, setW] = useState(0);
   useEffect(() => {
@@ -191,10 +170,10 @@ const ScrollProgress = () => {
     <div style={{
       position:"fixed",top:0,left:0,height:3,zIndex:9997,
       width:`${w}%`,
-      background:"linear-gradient(90deg,#1e3a8a,#2563eb,#22d3ee)",
-      boxShadow:"0 0 12px rgba(34,211,238,.6)",
+      background:"linear-gradient(90deg,#2563EB,#38BDF8,#818CF8)",
+      boxShadow:"0 0 10px rgba(56,189,248,0.5)",
       pointerEvents:"none",
-      transition:"width .08s linear",
+      transition:"width .06s linear",
     }}/>
   );
 };
@@ -203,7 +182,7 @@ const ScrollProgress = () => {
 const BackToTop = () => {
   const [show, setShow] = useState(false);
   useEffect(() => {
-    const fn = () => setShow(window.scrollY > 500);
+    const fn = () => setShow(window.scrollY > 450);
     window.addEventListener("scroll", fn, { passive: true });
     return () => window.removeEventListener("scroll", fn);
   }, []);
@@ -213,500 +192,479 @@ const BackToTop = () => {
       aria-label="Back to top"
       onClick={() => window.scrollTo({ top:0, behavior:"smooth" })}
       style={{
-        position:"fixed",bottom:"5.5rem",right:"1.8rem",zIndex:600,
-        width:46,height:46,borderRadius:"50%",
-        background:"linear-gradient(135deg,#1e3a8a,#2563eb)",
-        border:"1px solid rgba(37,99,235,.55)",
-        color:"#fff",fontSize:"1.1rem",cursor:"pointer",
-        boxShadow:"0 0 22px rgba(37,99,235,.45)",
+        position:"fixed",bottom:"5.5rem",right:"1.8rem",zIndex:500,
+        width:46,height:46,borderRadius:"12px",
+        background:"rgba(15,23,42,0.85)",
+        border:"1px solid rgba(255,255,255,0.12)",
+        color:"#E2E8F0",fontSize:"1.1rem",cursor:"pointer",
+        backdropFilter:"blur(16px)",
+        boxShadow:"0 10px 25px rgba(0,0,0,0.35)",
         display:"flex",alignItems:"center",justifyContent:"center",
-        transition:"box-shadow .3s,transform .3s",
+        transition:"all .3s ease",
       }}
-      onMouseEnter={e=>{e.currentTarget.style.boxShadow="0 0 36px rgba(37,99,235,.7)";e.currentTarget.style.transform="scale(1.1)";}}
-      onMouseLeave={e=>{e.currentTarget.style.boxShadow="0 0 22px rgba(37,99,235,.45)";e.currentTarget.style.transform="none";}}>
-      <i className="bi bi-arrow-up"></i>
+      onMouseEnter={e=>{e.currentTarget.style.borderColor="#3B82F6";e.currentTarget.style.transform="translateY(-3px)";e.currentTarget.style.color="#38BDF8";}}
+      onMouseLeave={e=>{e.currentTarget.style.borderColor="rgba(255,255,255,0.12)";e.currentTarget.style.transform="none";e.currentTarget.style.color="#E2E8F0";}}>
+      <i className="bi bi-chevron-up"></i>
     </button>
   );
 };
 
-/* ── WhatsApp Button ─────────────────────────────────────────────────────── */
+/* ── WhatsApp Floating Button ────────────────────────────────────────────── */
 const WhatsApp = () => (
   <a
     href="https://wa.me/447700000000?text=Hi%20Pixel%20%26%20Brush%2C%20I%27d%20love%20to%20discuss%20a%20project!"
     target="_blank" rel="noopener noreferrer"
-    aria-label="Chat on WhatsApp"
+    aria-label="Direct WhatsApp Message"
     style={{
-      position:"fixed",bottom:"1.8rem",right:"1.8rem",zIndex:600,
-      width:52,height:52,borderRadius:"50%",
+      position:"fixed",bottom:"1.8rem",right:"1.8rem",zIndex:500,
+      width:52,height:52,borderRadius:"14px",
       background:"#25D366",
-      boxShadow:"0 0 22px rgba(37,211,102,.5)",
+      boxShadow:"0 10px 25px rgba(37,211,102,0.35)",
       display:"flex",alignItems:"center",justifyContent:"center",
-      fontSize:"1.5rem",color:"#fff",textDecoration:"none",
-      animation:"whatsappBounce 2.5s ease-in-out infinite",
-      transition:"box-shadow .3s,transform .3s",
+      fontSize:"1.5rem",color:"#FFFFFF",textDecoration:"none",
+      animation:"whatsappHop 3s ease-in-out infinite",
+      transition:"all .3s ease",
     }}
-    onMouseEnter={e=>{e.currentTarget.style.boxShadow="0 0 36px rgba(37,211,102,.8)";e.currentTarget.style.transform="scale(1.1)";e.currentTarget.style.animation="none";}}
-    onMouseLeave={e=>{e.currentTarget.style.boxShadow="0 0 22px rgba(37,211,102,.5)";e.currentTarget.style.transform="none";e.currentTarget.style.animation="whatsappBounce 2.5s ease-in-out infinite";}}>
+    onMouseEnter={e=>{e.currentTarget.style.boxShadow="0 15px 35px rgba(37,211,102,0.55)";e.currentTarget.style.transform="scale(1.08)";}}
+    onMouseLeave={e=>{e.currentTarget.style.boxShadow="0 10px 25px rgba(37,211,102,0.35)";e.currentTarget.style.transform="none";}}>
     <i className="bi bi-whatsapp"></i>
   </a>
 );
 
-/* ── Background Canvas ───────────────────────────────────────────────────── */
-const HexMesh = () => {
-  const canvasRef = useRef(null);
-  useEffect(() => {
-    const canvas = canvasRef.current;
-    const ctx = canvas.getContext("2d");
-    let W = canvas.width = window.innerWidth;
-    let H = canvas.height = window.innerHeight;
-    const HEX = 38;
-    const cols = Math.ceil(W/(HEX*1.75))+2;
-    const rows = Math.ceil(H/(HEX*1.55))+2;
-    const hexes = [];
-    for(let r=0;r<rows;r++) for(let c=0;c<cols;c++) {
-      hexes.push({
-        x: c*HEX*1.75-HEX, y: r*HEX*1.55+(c%2===0?0:HEX*.78)-HEX,
-        phase: Math.random()*Math.PI*2, speed: .0003+Math.random()*.0005,
-        bright: Math.random()<.05, color: Math.random()<.15?"34,211,238":"40,90,200",
-      });
-    }
-    const COLS = Math.floor(W/20);
-    const drops = Array.from({length:COLS},()=>({
-      y: Math.random()*-H, speed: 1.5+Math.random()*3,
-      opacity: .03+Math.random()*.05, char: ()=>String.fromCharCode(0x30A0+Math.random()*96),
-    }));
-    const rings = Array.from({length:5},(_,i)=>({
-      r:80+i*90, speed:.0003*(i%2===0?1:-1),
-      angle:Math.random()*Math.PI*2, opacity:.04+i*.015, dashes:6+i*2,
-    }));
-    const drawHex=(x,y,size,alpha,col)=>{
-      ctx.beginPath();
-      for(let i=0;i<6;i++){
-        const a=(Math.PI/180)*(60*i-30);
-        i===0?ctx.moveTo(x+size*Math.cos(a),y+size*Math.sin(a)):ctx.lineTo(x+size*Math.cos(a),y+size*Math.sin(a));
-      }
-      ctx.closePath(); ctx.strokeStyle=`rgba(${col},${alpha})`; ctx.lineWidth=.7; ctx.stroke();
-      if(alpha>.12){ctx.fillStyle=`rgba(${col},${alpha*.15})`;ctx.fill();}
-    };
-    let t=0,raf;
-    const draw=()=>{
-      ctx.clearRect(0,0,W,H); t++;
-      const cx=W/2,cy=H*.45;
-      for(let i=0;i<12;i++){
-        const a=(i/12)*Math.PI*2+t*.001; const len=Math.min(W,H)*.55;
-        const alpha=.04+.03*Math.sin(t*.008+i);
-        const grad=ctx.createLinearGradient(cx,cy,cx+Math.cos(a)*len,cy+Math.sin(a)*len);
-        grad.addColorStop(0,"rgba(37,99,235,"+alpha+")"); grad.addColorStop(1,"rgba(34,211,238,0)");
-        ctx.beginPath();ctx.moveTo(cx,cy);ctx.lineTo(cx+Math.cos(a)*len,cy+Math.sin(a)*len);
-        ctx.strokeStyle=grad;ctx.lineWidth=1.5;ctx.stroke();
-      }
-      hexes.forEach(h=>{
-        const wave=Math.sin(t*h.speed*1000+h.phase);
-        const alpha=h.bright?(.05+.15*(wave*.5+.5)):(.015+.05*(wave*.5+.5));
-        drawHex(h.x,h.y,HEX-2,alpha,h.color);
-      });
-      rings.forEach(rng=>{
-        rng.angle+=rng.speed;
-        ctx.save();ctx.translate(cx,cy);ctx.rotate(rng.angle);
-        ctx.setLineDash([12,rng.r*Math.PI*2/rng.dashes-12]);
-        ctx.beginPath();ctx.arc(0,0,rng.r,0,Math.PI*2);
-        ctx.strokeStyle=`rgba(37,99,235,${rng.opacity})`;
-        ctx.lineWidth=1;ctx.stroke();ctx.setLineDash([]);ctx.restore();
-      });
-      drops.forEach((d,i)=>{
-        ctx.font="12px monospace";ctx.fillStyle=`rgba(34,211,238,${d.opacity})`;
-        ctx.fillText(d.char(),i*20,d.y);d.y+=d.speed; if(d.y>H){d.y=Math.random()*-200;}
-      });
-      raf=requestAnimationFrame(draw);
-    };
-    draw();
-    const resize=()=>{W=canvas.width=window.innerWidth;H=canvas.height=window.innerHeight;};
-    window.addEventListener("resize",resize);
-    return()=>{cancelAnimationFrame(raf);window.removeEventListener("resize",resize);};
-  },[]);
-  return <canvas ref={canvasRef} style={{position:"fixed",inset:0,zIndex:0,pointerEvents:"none"}}/>;
-};
+/* ── Ambient Studio Spotlight Background ─────────────────────────────────── */
+const StudioAura = () => (
+  <div style={{position:"fixed",inset:0,zIndex:0,pointerEvents:"none",overflow:"hidden"}}>
+    {/* Primary Sapphire Cone */}
+    <div style={{position:"absolute",top:"-15%",left:"25%",width:"65vw",height:"55vw",background:"radial-gradient(ellipse,rgba(37,99,235,0.12) 0%,rgba(14,165,233,0.03) 50%,transparent 70%)",filter:"blur(80px)",animation:"floatPulse 8s ease-in-out infinite"}}/>
+    {/* Secondary Indigo Accent */}
+    <div style={{position:"absolute",top:"40%",right:"-10%",width:"50vw",height:"50vw",background:"radial-gradient(circle,rgba(99,102,241,0.08) 0%,transparent 65%)",filter:"blur(90px)",animation:"floatPulse 10s ease-in-out infinite"}}/>
+    {/* Subtle Grid Texture */}
+    <div style={{position:"absolute",inset:0,backgroundImage:"linear-gradient(rgba(255,255,255,0.015) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.015) 1px, transparent 1px)",backgroundSize:"60px 60px",opacity:0.6}}/>
+  </div>
+);
 
-/* ── Loader ──────────────────────────────────────────────────────────────── */
-const Loader = ({onDone}) => {
-  const [showName,setShowName]=useState(false);
-  const [showTag,setShowTag]=useState(false);
-  const [phase,setPhase]=useState("in");
-  useEffect(()=>{
-    setTimeout(()=>setShowName(true),200);
-    setTimeout(()=>setShowTag(true),700);
-    setTimeout(()=>setPhase("out"),1900);
-    setTimeout(()=>{setPhase("done");onDone();},2600);
-  },[onDone]);
-  if(phase==="done") return null;
+/* ── Button Component ────────────────────────────────────────────────────── */
+const Button = ({children,primary,href,onClick,disabled,className="",outline}) => {
+  const Tag = href ? "a" : "button";
   return (
-    <div style={{position:"fixed",inset:0,zIndex:10000,background:"#060912",display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center",gap:"1.6rem",opacity:phase==="out"?0:1,transform:phase==="out"?"scale(1.03)":"scale(1)",transition:phase==="out"?"opacity .7s ease,transform .7s ease":"none"}}>
-      <HexMesh/>
-      <div style={{position:"relative",zIndex:1,display:"flex",flexDirection:"column",alignItems:"center",gap:"1.6rem"}}>
-        {showName&&(<div style={{fontFamily:"'Baloo 2',sans-serif",fontWeight:800,fontSize:"clamp(2.2rem,7vw,3.8rem)",letterSpacing:".08em",background:"linear-gradient(90deg,#2563eb,#60a5fa,#e8edf7,#60a5fa,#22d3ee)",backgroundSize:"300%",WebkitBackgroundClip:"text",WebkitTextFillColor:"transparent",animation:"nameReveal .8s cubic-bezier(.22,1,.36,1) forwards,gradShift 4s ease infinite",textTransform:"uppercase"}}>PIXEL & BRUSH</div>)}
-        {showTag&&(<div style={{color:"#6f7a96",fontSize:".72rem",letterSpacing:".28em",textTransform:"uppercase",animation:"taglineIn .6s ease forwards"}}>Digital Creative Agency · UK</div>)}
-      </div>
-    </div>
-  );
-};
-
-/* ── Magnetic Button ─────────────────────────────────────────────────────── */
-const Btn = ({children,primary,href,onClick,disabled,className=""}) => {
-  const ref = useRef(null);
-  const onMove = e => {
-    if(!ref.current) return;
-    const r = ref.current.getBoundingClientRect();
-    ref.current.style.transform=`translate(${(e.clientX-r.left-r.width/2)*.22}px,${(e.clientY-r.top-r.height/2)*.22}px)`;
-  };
-  const Tag = href?"a":"button";
-  return (
-    <Tag ref={ref} href={href} onClick={onClick} disabled={disabled}
+    <Tag
+      href={href}
+      onClick={onClick}
+      disabled={disabled}
       className={className}
-      onMouseMove={onMove} onMouseLeave={()=>ref.current&&(ref.current.style.transform="none")}
       style={{
-        display:"inline-flex",alignItems:"center",justifyContent:"center",gap:".5rem",
-        padding:".88rem 2.2rem",borderRadius:6,
-        fontFamily:"'Baloo 2',sans-serif",fontWeight:700,fontSize:".95rem",
-        cursor:disabled?"not-allowed":"none",border:"none",textDecoration:"none",letterSpacing:".04em",
-        transition:"transform .5s cubic-bezier(.22,1,.36,1),box-shadow .3s,opacity .3s",
+        display:"inline-flex",alignItems:"center",justifyContent:"center",gap:".6rem",
+        padding:".85rem 1.8rem",borderRadius:"10px",
+        fontFamily:"'Plus Jakarta Sans',sans-serif",fontWeight:600,fontSize:".92rem",
+        cursor:disabled?"not-allowed":"pointer",border:"none",textDecoration:"none",
+        transition:"all .25s ease",
+        letterSpacing:"-0.01em",
         opacity:disabled?.6:1,
         ...(primary
-          ?{background:"linear-gradient(135deg,#1e3a8a,#2563eb)",color:"#fff",boxShadow:"0 0 28px rgba(37,99,235,.45)"}
-          :{background:"transparent",color:"#e8edf7",border:"1px solid rgba(37,99,235,.35)"}),
-      }}>{children}</Tag>
+          ? {
+              background:"linear-gradient(135deg,#2563EB,#1D4ED8)",
+              color:"#FFFFFF",
+              boxShadow:"0 8px 24px rgba(37,99,235,0.35)",
+            }
+          : outline
+          ? {
+              background:"rgba(255,255,255,0.03)",
+              color:"#FFFFFF",
+              border:"1px solid rgba(255,255,255,0.12)",
+              backdropFilter:"blur(10px)",
+            }
+          : {
+              background:"rgba(255,255,255,0.06)",
+              color:"#E2E8F0",
+              border:"1px solid rgba(255,255,255,0.08)",
+            }),
+      }}
+      onMouseEnter={e=>{
+        if(!disabled){
+          if(primary){e.currentTarget.style.boxShadow="0 12px 30px rgba(37,99,235,0.55)";e.currentTarget.style.transform="translateY(-2px)";}
+          else{e.currentTarget.style.borderColor="rgba(255,255,255,0.25)";e.currentTarget.style.background="rgba(255,255,255,0.08)";e.currentTarget.style.transform="translateY(-2px)";}
+        }
+      }}
+      onMouseLeave={e=>{
+        if(!disabled){
+          if(primary){e.currentTarget.style.boxShadow="0 8px 24px rgba(37,99,235,0.35)";e.currentTarget.style.transform="none";}
+          else{e.currentTarget.style.borderColor=outline?"rgba(255,255,255,0.12)":"rgba(255,255,255,0.08)";e.currentTarget.style.background=outline?"rgba(255,255,255,0.03)":"rgba(255,255,255,0.06)";e.currentTarget.style.transform="none";}
+        }
+      }}>
+      {children}
+    </Tag>
   );
 };
 
-/* ── Counter ─────────────────────────────────────────────────────────────── */
-const Ctr = ({end,suffix=""}) => {
+/* ── Animated Metric Counter ─────────────────────────────────────────────── */
+const Metric = ({end,suffix=""}) => {
   const [n,setN]=useState(0);
   const ref=useRef(null),started=useRef(false);
   useEffect(()=>{
     const obs=new IntersectionObserver(([e])=>{
       if(e.isIntersecting&&!started.current){
         started.current=true; let v=0;
-        const id=setInterval(()=>{v+=end/50;if(v>=end){setN(end);clearInterval(id);}else setN(Math.round(v));},28);
+        const id=setInterval(()=>{v+=end/40;if(v>=end){setN(end);clearInterval(id);}else setN(Math.round(v));},30);
       }
-    },{threshold:.3});
+    },{threshold:.2});
     if(ref.current) obs.observe(ref.current);
     return()=>obs.disconnect();
   },[end]);
   return <span ref={ref}>{n}{suffix}</span>;
 };
 
-/* ── Ticker ──────────────────────────────────────────────────────────────── */
-const Ticker = () => {
-  const items = ["Web Development","·","Social Media","·","Graphic Design","·","Brand Identity","·","UI/UX Design","·","Digital Strategy","·","SEO Optimisation","·","Content Creation","·"];
-  const all = [...items,...items];
-  return (
-    <div style={{overflow:"hidden",borderTop:"1px solid rgba(37,99,235,.1)",borderBottom:"1px solid rgba(37,99,235,.1)",padding:".8rem 0",background:"rgba(37,99,235,.02)",position:"relative",zIndex:1}}>
-      <div style={{display:"flex",gap:"2.5rem",whiteSpace:"nowrap",animation:"ticker 30s linear infinite"}}>
-        {all.map((t,i)=><span key={i} style={{color:t==="·"?"#2563eb":"#3a4258",fontFamily:"'Baloo 2',sans-serif",fontWeight:700,fontSize:".8rem",letterSpacing:".14em",textTransform:"uppercase"}}>{t}</span>)}
-      </div>
+/* ── Section Header ──────────────────────────────────────────────────────── */
+const SectionHeader = ({badge,title,subtitle,center=false}) => (
+  <div className={`mb-5 ${center ? "text-center mx-auto" : ""}`} style={{maxWidth:680}}>
+    <div style={{display:"inline-flex",alignItems:"center",gap:".5rem",background:"rgba(59,130,246,0.1)",border:"1px solid rgba(59,130,246,0.2)",padding:".3rem .85rem",borderRadius:"100px",marginBottom:"1rem"}}>
+      <span style={{width:6,height:6,background:"#38BDF8",borderRadius:"50%"}}/>
+      <span style={{color:"#60A5FA",fontSize:".75rem",fontWeight:700,letterSpacing:".08em",textTransform:"uppercase"}}>{badge}</span>
     </div>
-  );
-};
-
-/* ── Split-char heading ──────────────────────────────────────────────────── */
-const SplitHeading = ({text,size="clamp(3rem,8vw,6.5rem)",delay=0,shimmer=false}) => {
-  const [vis,setVis]=useState(false);
-  const ref=useRef(null);
-  useEffect(()=>{
-    const obs=new IntersectionObserver(([e])=>{if(e.isIntersecting){setVis(true);obs.disconnect();}},{threshold:.1});
-    if(ref.current) obs.observe(ref.current);
-    return()=>obs.disconnect();
-  },[]);
-  const chars=text.split("");
-  return (
-    <div ref={ref} style={{fontFamily:"'Baloo 2',sans-serif",fontSize:size,letterSpacing:".04em",lineHeight:1.02,display:"block",perspective:"600px"}}>
-      {chars.map((ch,i)=>(
-        <span key={i} style={{
-          animationDelay:vis?`${delay+i*0.045}s`:"9999s",animationPlayState:vis?"running":"paused",
-          ...(shimmer?{}:{background:"linear-gradient(130deg,#e8edf7 0%,#60a5fa 55%,#22d3ee 100%)",WebkitBackgroundClip:"text",WebkitTextFillColor:"transparent"}),
-        }} className={shimmer?"char shimmer-text":"char"}>
-          {ch===" "?"\u00a0":ch}
-        </span>
-      ))}
-    </div>
-  );
-};
-
-/* ── Photo Cutout ────────────────────────────────────────────────────────── */
-const PhotoCutout = () => (
-  <div style={{position:"relative",width:"clamp(240px,26vw,360px)",flexShrink:0,animation:"photoFloat 5s ease-in-out infinite",margin:"0 auto"}}>
-    <div style={{position:"absolute",bottom:"-8%",left:"10%",right:"10%",height:"55%",background:"radial-gradient(ellipse,rgba(37,99,235,.42) 0%,transparent 70%)",filter:"blur(26px)",animation:"glowPulse 3s ease-in-out infinite",zIndex:0}}/>
-    <div style={{position:"relative",zIndex:1,background:"linear-gradient(160deg,rgba(30,58,138,.18),rgba(34,211,238,.07))",border:"1px solid rgba(37,99,235,.25)",borderRadius:"50% 50% 46% 46% / 40% 40% 60% 60%",overflow:"hidden",aspectRatio:"3/4",display:"flex",alignItems:"flex-end",justifyContent:"center",backdropFilter:"blur(2px)"}}>
-      <div style={{width:"88%",height:"95%",background:"linear-gradient(160deg,rgba(37,99,235,.14),rgba(34,211,238,.06))",borderRadius:"50% 50% 0 0",display:"flex",alignItems:"center",justifyContent:"center"}}>
-        <img src="/me.png" alt="Anil" style={{width:"100%",height:"100%",objectFit:"cover",objectPosition:"center top"}}/>
-      </div>
-    </div>
-    <div style={{position:"absolute",inset:"-8%",border:"1px dashed rgba(37,99,235,.18)",borderRadius:"50% 50% 46% 46% / 40% 40% 60% 60%",animation:"floatY 6s ease-in-out infinite",zIndex:0}}/>
-    {[{t:"3x",l:"Avg Growth",pos:{bottom:"8%",right:"-8%"}},{t:"15+",l:"Projects",pos:{top:"12%",left:"-10%"}}].map((b,i)=>(
-      <div key={i} style={{position:"absolute",...b.pos,background:"rgba(8,12,28,.92)",border:"1px solid rgba(37,99,235,.32)",borderRadius:10,padding:".55rem .9rem",zIndex:2,backdropFilter:"blur(10px)"}}>
-        <div style={{fontFamily:"'Baloo 2',sans-serif",fontSize:"1.3rem",background:"linear-gradient(135deg,#60a5fa,#22d3ee)",WebkitBackgroundClip:"text",WebkitTextFillColor:"transparent"}}>{b.t}</div>
-        <div style={{color:"#6f7a96",fontSize:".62rem",letterSpacing:".08em",textTransform:"uppercase",fontFamily:"'Outfit',sans-serif"}}>{b.l}</div>
-      </div>
-    ))}
+    <h2 style={{fontSize:"clamp(2rem, 3.5vw, 2.8rem)",lineHeight:1.15,marginBottom:".9rem"}}>
+      {title}
+    </h2>
+    {subtitle && <p style={{color:"#94A3B8",fontSize:"1.02rem",lineHeight:1.68,margin:0}}>{subtitle}</p>}
   </div>
 );
 
-/* ── Service Card ────────────────────────────────────────────────────────── */
-const SvcCard = ({iconClass,title,desc,features,delay}) => {
-  const [hov,setHov]=useState(false);
-  return (
-    <div className="h-100 rv sc" data-delay={delay}
-      onMouseEnter={()=>setHov(true)} onMouseLeave={()=>setHov(false)}
-      style={{
-        background:hov?"rgba(22,12,48,.96)":"rgba(8,4,20,.82)",
-        border:`1px solid ${hov?"rgba(37,99,235,.52)":"rgba(37,99,235,.1)"}`,
-        borderRadius:18,padding:"2.6rem 2.1rem",position:"relative",overflow:"hidden",
-        transition:"all .45s cubic-bezier(.22,1,.36,1)",
-        boxShadow:hov?"0 22px 65px rgba(37,99,235,.2),inset 0 1px 0 rgba(96,165,250,.12)":"none",
-        transform:hov?"translateY(-10px)":"none",
-        display:"flex",flexDirection:"column"
-      }}>
-      <div style={{position:"absolute",top:0,left:0,right:0,height:2,background:"linear-gradient(90deg,#1e3a8a,#22d3ee)",transform:`scaleX(${hov?1:0})`,transition:"transform .45s cubic-bezier(.22,1,.36,1)",transformOrigin:"left"}}/>
-      <div style={{position:"absolute",width:180,height:180,background:"radial-gradient(circle,rgba(37,99,235,.14),transparent 70%)",top:-50,right:-50,opacity:hov?1:0,transition:"opacity .45s",pointerEvents:"none"}}/>
-      <div style={{fontSize:"2.2rem",marginBottom:"1.3rem",color:"#60a5fa",filter:`drop-shadow(0 0 10px rgba(37,99,235,${hov?.85:.25}))`,transition:"filter .3s"}}>
-        <i className={iconClass}></i>
-      </div>
-      <h3 style={{fontFamily:"'Baloo 2',sans-serif",fontWeight:800,fontSize:"1.25rem",letterSpacing:"-.01em",marginBottom:".65rem"}}>{title}</h3>
-      <p style={{color:"#8a93ab",fontSize:".88rem",lineHeight:1.74,marginBottom:"1.5rem",flexGrow:1}}>{desc}</p>
-      <ul style={{listStyle:"none",paddingLeft:0,display:"flex",flexDirection:"column",gap:".45rem",marginBottom:"1.8rem"}}>
-        {features.map((f,i)=>(<li key={i} style={{display:"flex",alignItems:"center",gap:".6rem",fontSize:".83rem",color:"#9898b8"}}><span style={{color:"#2563eb",flexShrink:0}}>▸</span>{f}</li>))}
-      </ul>
-      <Btn href="#contact">Enquire →</Btn>
-    </div>
-  );
-};
+/* ── Navigation ──────────────────────────────────────────────────────────── */
+const Navigation = () => {
+  const [scrolled, setScrolled] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
+  useEffect(() => {
+    const fn = () => setScrolled(window.scrollY > 30);
+    window.addEventListener("scroll", fn);
+    return () => window.removeEventListener("scroll", fn);
+  }, []);
 
-/* ── Portfolio Card ──────────────────────────────────────────────────────── */
-const PortCard = ({img,title,desc,tag,delay}) => {
-  const [hov,setHov]=useState(false);
-  return (
-    <div className="h-100 rv" data-delay={delay}
-      onMouseEnter={()=>setHov(true)} onMouseLeave={()=>setHov(false)}
-      style={{
-        borderRadius:18,overflow:"hidden",border:"1px solid rgba(37,99,235,.1)",
-        transition:"transform .5s cubic-bezier(.22,1,.36,1),box-shadow .5s",
-        transform:hov?"translateY(-12px) scale(1.015)":"none",
-        boxShadow:hov?"0 30px 85px rgba(37,99,235,.24)":"none",
-        display:"flex",flexDirection:"column"
-      }}>
-      <div style={{height:200,position:"relative",overflow:"hidden",background:"#0a0f1e"}}>
-        <img src={img} alt={title} style={{width:"100%",height:"100%",objectFit:"cover",transform:hov?"scale(1.08)":"scale(1)",transition:"transform .6s cubic-bezier(.22,1,.36,1)"}}/>
-        <div style={{position:"absolute",inset:0,background:"linear-gradient(135deg,rgba(30,58,138,.35),rgba(0,0,0,.2))",opacity:hov?.45:.65,transition:"opacity .5s"}}/>
-        {hov&&<div style={{position:"absolute",left:0,right:0,height:"50%",background:"linear-gradient(transparent,rgba(37,99,235,.1),transparent)",animation:"scanline 1.6s linear infinite"}}/>}
-      </div>
-      <div style={{background:"rgba(8,4,20,.97)",padding:"1.7rem",flexGrow:1,display:"flex",flexDirection:"column",justifyContent:"space-between"}}>
-        <div>
-          <h3 style={{fontFamily:"'Baloo 2',sans-serif",fontWeight:800,fontSize:"1.05rem",letterSpacing:"-.01em",marginBottom:".35rem"}}>{title}</h3>
-          <p style={{color:"#8a93ab",fontSize:".83rem",marginBottom:".85rem",lineHeight:1.62}}>{desc}</p>
-        </div>
-        <div>
-          <span style={{background:"rgba(37,99,235,.09)",border:"1px solid rgba(37,99,235,.2)",color:"#60a5fa",fontSize:".68rem",padding:".22rem .7rem",borderRadius:4,textTransform:"uppercase",letterSpacing:".08em"}}>{tag}</span>
-        </div>
-      </div>
-    </div>
-  );
-};
-
-/* ── Testimonial Card ────────────────────────────────────────────────────── */
-const TestiCard = ({quote,name,role,company,delay}) => (
-  <div className="h-100 rv sc" data-delay={delay} style={{background:"rgba(8,4,22,.88)",border:"1px solid rgba(37,99,235,.14)",borderRadius:18,padding:"2.2rem",position:"relative",overflow:"hidden",display:"flex",flexDirection:"column",justifyContent:"space-between"}}>
-    <div style={{position:"absolute",top:0,left:0,right:0,height:2,background:"linear-gradient(90deg,transparent,rgba(37,99,235,.6),rgba(34,211,238,.5),transparent)"}}/>
-    <div>
-      <div style={{fontFamily:"Georgia,serif",fontSize:"3.5rem",lineHeight:.75,color:"rgba(37,99,235,.25)",marginBottom:"1rem",userSelect:"none"}}>"</div>
-      <div style={{display:"flex",gap:".25rem",marginBottom:"1.1rem"}}>
-        {[1,2,3,4,5].map(s=>(<span key={s} style={{color:"#f59e0b",fontSize:"1.05rem",display:"inline-block",animation:`starPop .4s ${s*.08}s cubic-bezier(.22,1,.36,1) both`}}>★</span>))}
-      </div>
-      <p style={{color:"#aab5cc",fontSize:".92rem",lineHeight:1.78,marginBottom:"1.8rem",fontStyle:"italic"}}>"{quote}"</p>
-    </div>
-    <div style={{display:"flex",alignItems:"center",gap:"1rem"}}>
-      <div style={{width:46,height:46,borderRadius:"50%",background:"linear-gradient(135deg,#1e3a8a,#22d3ee)",display:"flex",alignItems:"center",justifyContent:"center",fontFamily:"'Baloo 2',sans-serif",fontWeight:800,fontSize:"1.1rem",flexShrink:0,color:"#fff"}}>{name.charAt(0)}</div>
-      <div>
-        <div style={{fontFamily:"'Baloo 2',sans-serif",fontWeight:700,fontSize:".95rem"}}>{name}</div>
-        <div style={{color:"#6f7a96",fontSize:".75rem",marginTop:".1rem"}}>{role} · {company}</div>
-      </div>
-    </div>
-  </div>
-);
-
-/* ── Pricing Card ────────────────────────────────────────────────────────── */
-const PricingCard = ({name,price,desc,features,highlight,cta,delay}) => {
-  const [hov,setHov]=useState(false);
-  return (
-    <div className="h-100 rv sc" data-delay={delay}
-      onMouseEnter={()=>setHov(true)} onMouseLeave={()=>setHov(false)}
-      style={{
-        background:highlight?"linear-gradient(145deg,rgba(30,58,138,.45),rgba(34,211,238,.08))":"rgba(8,4,20,.82)",
-        border:`1px solid ${hov||highlight?"rgba(37,99,235,.52)":"rgba(37,99,235,.1)"}`,
-        borderRadius:18,padding:"2.6rem 2rem",position:"relative",overflow:"hidden",
-        transition:"all .45s cubic-bezier(.22,1,.36,1)",
-        boxShadow:highlight||hov?"0 28px 70px rgba(37,99,235,.22)":"none",
-        transform:hov?"translateY(-10px)":"none",
-        display:"flex",flexDirection:"column",justifyContent:"space-between"
-      }}>
-      <div>
-        {highlight&&(
-          <div style={{position:"absolute",top:-14,left:"50%",transform:"translateX(-50%)",background:"linear-gradient(135deg,#1e3a8a,#22d3ee)",padding:".32rem 1.2rem",borderRadius:100,fontFamily:"'Baloo 2',sans-serif",fontWeight:700,fontSize:".7rem",letterSpacing:".12em",textTransform:"uppercase",whiteSpace:"nowrap"}}>⭐ Most Popular</div>
-        )}
-        <div style={{position:"absolute",top:0,left:0,right:0,height:2,background:"linear-gradient(90deg,transparent,#2563eb,#22d3ee,transparent)",opacity:highlight||hov?1:0,transition:"opacity .3s"}}/>
-        <div style={{fontFamily:"'Baloo 2',sans-serif",fontWeight:700,fontSize:".7rem",color:"#2563eb",letterSpacing:".2em",textTransform:"uppercase",marginBottom:".7rem"}}>{name}</div>
-        <div style={{fontFamily:"'Baloo 2',sans-serif",fontWeight:800,fontSize:"2.8rem",marginBottom:".25rem"}}>
-          {price}<span style={{fontSize:".85rem",color:"#6f7a96",fontWeight:400,fontFamily:"'Outfit',sans-serif"}}> /project</span>
-        </div>
-        <p style={{color:"#8a93ab",fontSize:".88rem",marginBottom:"1.8rem",lineHeight:1.65}}>{desc}</p>
-        <ul style={{listStyle:"none",paddingLeft:0,display:"flex",flexDirection:"column",gap:".6rem",marginBottom:"2.2rem"}}>
-          {features.map((f,i)=>(<li key={i} style={{display:"flex",alignItems:"center",gap:".6rem",fontSize:".86rem",color:"#9898b8"}}><i className="bi bi-check2 text-info flex-shrink-0"></i>{f}</li>))}
-        </ul>
-      </div>
-      <Btn primary={highlight} href="#contact" className="w-100">{cta||"Get Started →"}</Btn>
-    </div>
-  );
-};
-
-/* ── FAQ Item ────────────────────────────────────────────────────────────── */
-const FaqItem = ({q,a,isOpen,toggle}) => (
-  <div style={{borderBottom:"1px solid rgba(37,99,235,.1)"}}>
-    <button onClick={toggle} style={{width:"100%",textAlign:"left",background:"none",border:"none",padding:"1.4rem 0",cursor:"pointer",color:"#e8edf7",display:"flex",justifyContent:"space-between",alignItems:"center",gap:"1rem"}}>
-      <span style={{fontFamily:"'Baloo 2',sans-serif",fontWeight:700,fontSize:"1rem",lineHeight:1.4}}>{q}</span>
-      <span style={{color:"#2563eb",fontSize:"1.4rem",flexShrink:0,transform:isOpen?"rotate(45deg)":"rotate(0deg)",transition:"transform .35s cubic-bezier(.22,1,.36,1)",display:"inline-block"}}>+</span>
-    </button>
-    <div style={{maxHeight:isOpen?500:0,overflow:"hidden",transition:"max-height .4s cubic-bezier(.22,1,.36,1)"}}>
-      <p className={isOpen?"faq-answer":""} style={{color:"#8a93ab",fontSize:".9rem",lineHeight:1.76,paddingBottom:"1.4rem"}}>{a}</p>
-    </div>
-  </div>
-);
-
-/* ── Nav ─────────────────────────────────────────────────────────────────── */
-const Nav = ({vis}) => {
-  const [sc,setSc]=useState(false);
-  const [open,setOpen]=useState(false);
-  useEffect(()=>{ const fn=()=>setSc(window.scrollY>50); window.addEventListener("scroll",fn); return()=>window.removeEventListener("scroll",fn); },[]);
-  const close=()=>setOpen(false);
   return (
     <>
-      <nav style={{position:"fixed",top:0,left:0,right:0,zIndex:500,padding:"1.1rem clamp(1.5rem,5vw,4rem)",display:"flex",alignItems:"center",justifyContent:"space-between",background:sc?"rgba(3,3,10,.88)":"transparent",backdropFilter:sc?"blur(22px)":"none",borderBottom:sc?"1px solid rgba(37,99,235,.1)":"1px solid transparent",transition:"all .5s ease",opacity:vis?1:0,transform:vis?"translateY(0)":"translateY(-20px)"}}>
-        <div style={{fontFamily:"'Baloo 2',sans-serif",fontWeight:800,fontSize:"1.2rem",letterSpacing:".04em",background:"linear-gradient(135deg,#60a5fa,#22d3ee)",WebkitBackgroundClip:"text",WebkitTextFillColor:"transparent"}}>Pixel<span style={{opacity:.55}}>&</span>Brush</div>
-        <div className="nav-links" style={{display:"flex",gap:"2.5rem",alignItems:"center",flexWrap:"wrap"}}>
-          {["Services","Pricing","Portfolio","Process","Contact"].map(l=>(
-            <a key={l} href={`#${l.toLowerCase()}`} style={{color:"#8a93ab",textDecoration:"none",fontSize:".8rem",letterSpacing:".1em",textTransform:"uppercase",fontWeight:600,transition:"color .3s"}} onMouseEnter={e=>e.target.style.color="#e8edf7"} onMouseLeave={e=>e.target.style.color="#8a93ab"}>{l}</a>
-          ))}
+      <nav style={{
+        position:"fixed",top:0,left:0,right:0,zIndex:1000,
+        padding: scrolled ? ".8rem 0" : "1.4rem 0",
+        transition:"all .35s ease",
+      }}>
+        <div className="container px-4 px-lg-5">
+          <div style={{
+            background: scrolled ? "rgba(11, 17, 30, 0.85)" : "rgba(15, 23, 42, 0.4)",
+            backdropFilter: "blur(20px)",
+            WebkitBackdropFilter: "blur(20px)",
+            border: "1px solid rgba(255, 255, 255, 0.08)",
+            borderRadius: "16px",
+            padding: ".7rem 1.4rem",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+            boxShadow: scrolled ? "0 10px 30px rgba(0,0,0,0.35)" : "none",
+            transition: "all .3s ease",
+          }}>
+            {/* Brand Logo */}
+            <a href="/" style={{display:"flex",alignItems:"center",gap:".75rem"}}>
+              <div style={{
+                width:36,height:36,borderRadius:"10px",
+                background:"linear-gradient(135deg,#2563EB,#38BDF8)",
+                display:"flex",alignItems:"center",justifyContent:"center",
+                color:"#FFFFFF",fontWeight:800,fontSize:".95rem",
+                boxShadow:"0 4px 14px rgba(37,99,235,0.4)"
+              }}>PB</div>
+              <span style={{fontFamily:"'Plus Jakarta Sans',sans-serif",fontWeight:800,fontSize:"1.15rem",color:"#FFFFFF",letterSpacing:"-0.02em"}}>
+                Pixel <span style={{color:"#38BDF8"}}>&amp;</span> Brush
+              </span>
+            </a>
+
+            {/* Desktop Links */}
+            <div className="desktop-nav d-flex align-items-center gap-4">
+              {["Services", "Work", "Pricing", "Process", "FAQ", "Contact"].map((item) => (
+                <a
+                  key={item}
+                  href={`#${item.toLowerCase() === "work" ? "portfolio" : item.toLowerCase()}`}
+                  style={{color:"#94A3B8",fontSize:".88rem",fontWeight:500,letterSpacing:"-0.01em"}}
+                  onMouseEnter={e=>e.target.style.color="#FFFFFF"}
+                  onMouseLeave={e=>e.target.style.color="#94A3B8"}
+                >
+                  {item}
+                </a>
+              ))}
+            </div>
+
+            {/* Action Buttons */}
+            <div className="desktop-nav d-flex align-items-center gap-2">
+              <a
+                href="/login"
+                style={{
+                  padding:".6rem 1.1rem",borderRadius:"8px",
+                  color:"#94A3B8",fontSize:".86rem",fontWeight:600,
+                  border:"1px solid rgba(255,255,255,0.06)",
+                  background:"rgba(255,255,255,0.02)",
+                  transition:"all .2s ease"
+                }}
+                onMouseEnter={e=>{e.target.style.color="#FFFFFF";e.target.style.borderColor="rgba(255,255,255,0.15)";}}
+                onMouseLeave={e=>{e.target.style.color="#94A3B8";e.target.style.borderColor="rgba(255,255,255,0.06)";}}
+              >
+                Client Portal
+              </a>
+              <Button primary href="#contact">
+                Start a Project
+              </Button>
+            </div>
+
+            {/* Mobile Toggle Button */}
+            <button
+              className="mobile-menu-btn d-none align-items-center justify-content-center"
+              onClick={() => setMenuOpen(true)}
+              aria-label="Open Navigation Menu"
+              style={{
+                width:40,height:40,borderRadius:"10px",
+                background:"rgba(255,255,255,0.05)",
+                border:"1px solid rgba(255,255,255,0.1)",
+                color:"#FFFFFF",fontSize:"1.2rem",cursor:"pointer"
+              }}
+            >
+              <i className="bi bi-list"></i>
+            </button>
+          </div>
         </div>
-        <div className="nav-btns" style={{display:"flex",gap:"1rem"}}>
-          <Btn href="/login">Client Login</Btn>
-          <Btn primary href="#contact">Get Started</Btn>
-        </div>
-        <button className="hamburger" onClick={()=>setOpen(o=>!o)} aria-label="Toggle navigation" style={{display:"none",flexDirection:"column",gap:5,background:"none",border:"none",cursor:"pointer",padding:"6px",zIndex:810}}>
-          {[0,1,2].map(i=>(<span key={i} style={{display:"block",width:24,height:2,background:"#60a5fa",borderRadius:2,transition:"all .3s",transform:open?(i===0?"rotate(45deg) translate(5px,5px)":i===1?"scaleX(0)":"rotate(-45deg) translate(5px,-5px)"):"none",opacity:open&&i===1?0:1}}/>))}
-        </button>
       </nav>
-      <div className={`mobile-overlay${open?" open":""}`} onClick={close}/>
-      <div className={`mobile-drawer${open?" open":""}`}>
-        <div style={{fontFamily:"'Baloo 2',sans-serif",fontWeight:800,fontSize:"1.2rem",background:"linear-gradient(135deg,#60a5fa,#22d3ee)",WebkitBackgroundClip:"text",WebkitTextFillColor:"transparent",marginBottom:"1.2rem"}}>Pixel&Brush</div>
-        {["Services","Pricing","Portfolio","Process","Contact"].map(l=>(
-          <a key={l} href={`#${l.toLowerCase()}`} onClick={close} style={{color:"#8a93ab",textDecoration:"none",fontSize:".98rem",letterSpacing:".05em",fontWeight:600,padding:".85rem 0",borderBottom:"1px solid rgba(37,99,235,.07)",display:"block",transition:"color .3s"}} onMouseEnter={e=>e.target.style.color="#e8edf7"} onMouseLeave={e=>e.target.style.color="#8a93ab"}>{l}</a>
+
+      {/* Mobile Drawer Navigation */}
+      <div className={`mobile-overlay ${menuOpen ? "open" : ""}`} onClick={() => setMenuOpen(false)}/>
+      <div className={`mobile-drawer ${menuOpen ? "open" : ""}`}>
+        <div style={{display:"flex",alignItems:"center",justifyContent:"space-between",marginBottom:"1.5rem"}}>
+          <span style={{fontFamily:"'Plus Jakarta Sans',sans-serif",fontWeight:800,fontSize:"1.2rem",color:"#FFFFFF"}}>Pixel &amp; Brush</span>
+          <button onClick={() => setMenuOpen(false)} style={{background:"none",border:"none",color:"#94A3B8",fontSize:"1.4rem",cursor:"pointer"}}><i className="bi bi-x-lg"></i></button>
+        </div>
+        {["Services", "Pricing", "Portfolio", "Process", "Contact"].map((item) => (
+          <a
+            key={item}
+            href={`#${item.toLowerCase()}`}
+            onClick={() => setMenuOpen(false)}
+            style={{padding:".75rem 0",color:"#94A3B8",fontSize:"1.05rem",fontWeight:500,borderBottom:"1px solid rgba(255,255,255,0.05)"}}
+          >
+            {item}
+          </a>
         ))}
-        <div style={{marginTop:"1.6rem",display:"flex",flexDirection:"column",gap:".9rem"}}>
-          <a href="/login" onClick={close} style={{textAlign:"center",padding:".88rem",border:"1px solid rgba(37,99,235,.35)",borderRadius:6,color:"#e8edf7",textDecoration:"none",fontFamily:"'Baloo 2',sans-serif",fontWeight:700,fontSize:".9rem"}}>Client Login</a>
-          <a href="#contact" onClick={close} style={{textAlign:"center",padding:".88rem",background:"linear-gradient(135deg,#1e3a8a,#2563eb)",borderRadius:6,color:"#fff",textDecoration:"none",fontFamily:"'Baloo 2',sans-serif",fontWeight:700,fontSize:".9rem",boxShadow:"0 0 20px rgba(37,99,235,.35)"}}>Get Started →</a>
+        <div style={{marginTop:"2rem",display:"flex",flexDirection:"column",gap:".8rem"}}>
+          <a href="/login" onClick={() => setMenuOpen(false)} style={{textAlign:"center",padding:".85rem",borderRadius:"10px",border:"1px solid rgba(255,255,255,0.12)",color:"#FFFFFF",fontWeight:600}}>
+            Client Portal
+          </a>
+          <Button primary href="#contact" onClick={() => setMenuOpen(false)}>
+            Start a Project →
+          </Button>
         </div>
       </div>
     </>
   );
 };
 
-/* ── Section Label ───────────────────────────────────────────────────────── */
-const Label = ({text}) => (
-  <p style={{color:"#2563eb",fontSize:".7rem",letterSpacing:".22em",textTransform:"uppercase",marginBottom:".65rem",fontFamily:"'Baloo 2',sans-serif",fontWeight:700}}>{text}</p>
-);
-
 /* ══════════════════════════════════════════════════════════════════════════ */
-/* ── APP ─────────────────────────────────────────────────────────────────── */
+/* ── MAIN APPLICATION COMPONENT ──────────────────────────────────────────── */
 /* ══════════════════════════════════════════════════════════════════════════ */
 export default function App() {
-  const [loading,setLoading]=useState(true);
-  const [navVis,setNavVis]=useState(false);
-  const [heroVis,setHeroVis]=useState(false);
-  const [openFaq,setOpenFaq]=useState(null);
-  const done=useCallback(()=>{setLoading(false);setTimeout(()=>{setNavVis(true);setHeroVis(true);},80);},[]);
-  useReveal();
+  const [openFaq, setOpenFaq] = useState(null);
 
-  const [name,setName]=useState("");
-  const [email,setEmail]=useState("");
-  const [service,setService]=useState("Web Development");
-  const [message,setMessage]=useState("");
-  const [formStatus,setFormStatus]=useState("idle");
-  const [formError,setFormError]=useState("");
-  const [honeypot,setHoneypot]=useState("");
+  /* Form State */
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [service, setService] = useState("Web Development & Architecture");
+  const [message, setMessage] = useState("");
+  const [formStatus, setFormStatus] = useState("idle");
+  const [formError, setFormError] = useState("");
+  const [honeypot, setHoneypot] = useState("");
 
-  /* ── data ── */
-  const services=[
-    {iconClass:"bi bi-laptop",title:"Web Development",desc:"Custom websites engineered for performance, conversion, and lasting impressions. Mobile-first, SEO-ready, and built to scale.",features:["Responsive design","SEO optimisation","CMS integration","Speed & performance"],delay:0},
-    {iconClass:"bi bi-phone",title:"Social Media Management",desc:"Data-driven content strategy and community management that compounds your brand's digital presence month over month.",features:["Content calendar","Caption writing","Analytics reporting","Audience growth"],delay:.12},
-    {iconClass:"bi bi-palette",title:"Graphic Design",desc:"Visual identities and marketing assets that communicate authority and make your brand completely unforgettable.",features:["Logo & brand identity","Social media graphics","Marketing materials","Brand guidelines"],delay:.24},
+  /* Reveal Observer */
+  useEffect(() => {
+    const els = document.querySelectorAll(".rv");
+    const obs = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.classList.add("vis");
+        }
+      });
+    }, { threshold: 0.12 });
+    els.forEach(el => obs.observe(el));
+    return () => obs.disconnect();
+  }, []);
+
+  /* Data Collections */
+  const services = [
+    {
+      icon: "bi-laptop",
+      title: "Web Engineering & Architecture",
+      desc: "High-performance websites and custom web applications built for speed, SEO domination, and seamless conversion. Zero bloated templates.",
+      deliverables: ["Custom Full-Stack Development", "Technical SEO Architecture", "Supabase & API Integration", "Core Web Vitals 95+ Guarantee"]
+    },
+    {
+      icon: "bi-palette-fill",
+      title: "Brand Identity & UI/UX Design",
+      desc: "Distinct visual identities, design systems, and conversion-optimized interfaces that position your brand at the absolute pinnacle of your industry.",
+      deliverables: ["Logo & Brand Guidelines", "Interactive Figma Prototypes", "Marketing Collateral & Assets", "Design System Systems"]
+    },
+    {
+      icon: "bi-graph-up-arrow",
+      title: "Growth & Social Media Strategy",
+      desc: "Data-driven creative strategy and social media management engineered to compound brand authority and generate consistent qualified leads.",
+      deliverables: ["Monthly Content Calendars", "High-Converting Copywriting", "Audience Growth Campaigns", "ROI & Analytics Reporting"]
+    },
   ];
 
-  const pricingPlans=[
-    {name:"Starter",price:"£299",desc:"Perfect for small businesses launching their online presence for the first time.",features:["5-page website","Mobile responsive","Basic SEO setup","Contact form","1 revision round"],cta:"Get Started →",delay:0},
-    {name:"Growth",price:"£699",desc:"For businesses ready to grow and make a real impression online.",features:["10-page website","Advanced SEO","CMS integration","Social media setup","Analytics dashboard","3 revision rounds","30-day support"],highlight:true,cta:"Most Popular →",delay:.1},
-    {name:"Premium",price:"£1,299",desc:"Complete digital transformation for established brands.",features:["Unlimited pages","E-commerce ready","Full brand identity","3 months social media","Priority support","Monthly reporting","Custom integrations"],cta:"Let's Talk →",delay:.2},
+  const portfolio = [
+    {
+      img: "/projects/KA.png",
+      title: "Kashish Makeup Studio",
+      category: "Web Engineering · Online Booking",
+      desc: "Full bespoke studio website with an interactive service catalogue and automated appointment booking system.",
+      badge: "Web Development"
+    },
+    {
+      img: "/projects/vijaya.jpg",
+      title: "Vijaya Pharma",
+      category: "Brand Identity · Full Transformation",
+      desc: "Comprehensive pharmaceutical visual identity, regulatory-compliant website, and multi-channel marketing assets.",
+      badge: "Full Package"
+    },
+    {
+      img: "/projects/kangaroo.jpg",
+      title: "Kangaroo Education Foundation",
+      category: "Social Growth · Digital Strategy",
+      desc: "Targeted digital transformation delivering 300% qualified student enquiry growth within 60 days.",
+      badge: "Social Strategy"
+    },
   ];
 
-  const portfolio=[
-    {img:"/projects/KA.png",title:"Kashish Makeup Studio",desc:"Full website overhaul with online booking and services menu.",tag:"Web Dev",delay:0},
-    {img:"/projects/vijaya.jpg",title:"Vijaya Pharma",desc:"Brand identity, website, and social media management.",tag:"Full Package",delay:.12},
-    {img:"/projects/kangaroo.jpg",title:"Kangaroo Education Foundation",desc:"Social strategy — 300% follower growth in 60 days.",tag:"Social Media",delay:.24},
+  const pricingPlans = [
+    {
+      name: "Starter Launch",
+      price: "£299",
+      period: "Fixed Investment",
+      desc: "Ideal for early-stage companies and professionals seeking a high-converting digital footprint.",
+      features: [
+        "Custom 5-Page Responsive Website",
+        "Technical SEO & Speed Optimization",
+        "Integrated Secure Contact Pipeline",
+        "Mobile-First Experience",
+        "30-Day Post-Launch Support"
+      ],
+      highlight: false,
+      cta: "Select Starter"
+    },
+    {
+      name: "Growth Scaler",
+      price: "£699",
+      period: "Most Popular",
+      desc: "The complete package for established businesses ready to outrank and outperform competitors.",
+      features: [
+        "Up to 10 Bespoke Web Pages",
+        "CMS Integration & Dynamic Content",
+        "Full Brand Identity Polish",
+        "Dedicated Client Portal Access",
+        "Advanced Analytics & Tracking",
+        "Priority 60-Day Aftercare"
+      ],
+      highlight: true,
+      cta: "Claim Growth Package"
+    },
+    {
+      name: "Enterprise Transformation",
+      price: "£1,299",
+      period: "Full Scale",
+      desc: "Comprehensive digital domination combining custom web engineering, full branding, and growth management.",
+      features: [
+        "Unlimited Custom Pages & Flows",
+        "E-Commerce or Web Application Engine",
+        "Complete Brand Identity Suite",
+        "3 Months Managed Social Strategy",
+        "Dedicated Engineering Lead",
+        "24/7 Priority SLA Support"
+      ],
+      highlight: false,
+      cta: "Schedule Consultation"
+    }
   ];
 
-  const testimonials=[
-    {quote:"Pixel & Brush completely transformed our online presence. The new website is stunning and our bookings have doubled since launch. Professional, fast, and genuinely passionate about their work.",name:"Kashish Sentury",role:"Owner",company:"Kashish Makeup Studio",delay:0},
-    {quote:"Working with Anil was seamless from start to finish. The brand identity perfectly captures our values, and the website has received incredible feedback from our clients and partners.",name:"Aditya Acharya",role:"Director",company:"Vijaya Pharma",delay:.12},
-    {quote:"Our social media was completely stagnant before Pixel & Brush took over. In just 60 days we had 300% more followers and actual enquiries coming through — the results speak for themselves.",name:"Dipesh Aryal",role:"Founder",company:"Kangaroo Education",delay:.24},
+  const testimonials = [
+    {
+      quote: "Pixel & Brush completely elevated our studio's market position. The new platform is breathtaking and our client bookings doubled in the very first month.",
+      name: "Kashish Sentury",
+      role: "Founder & Creative Director",
+      company: "Kashish Makeup Studio",
+    },
+    {
+      quote: "Working with Anil was effortless. The strategic brand identity captures our exact clinical standards, and the website has earned immense praise from our partners.",
+      name: "Aditya Acharya",
+      role: "Managing Director",
+      company: "Vijaya Pharma",
+    },
+    {
+      quote: "Our social presence and organic reach expanded by over 300% in two months. The quality of execution and attention to detail is world-class.",
+      name: "Dipesh Aryal",
+      role: "Managing Director",
+      company: "Kangaroo Education",
+    }
   ];
 
-  const steps=[
-    {n:"01",title:"Discovery Call",desc:"We learn about your business, goals, and vision. No jargon — just an honest conversation about what you need."},
-    {n:"02",title:"Proposal & Scope",desc:"Clear, itemised proposal with fixed price, timeline, and deliverables. No hidden costs, no nasty surprises."},
-    {n:"03",title:"Design & Build",desc:"We build with regular updates and check-ins. Your feedback shapes every single decision we make."},
-    {n:"04",title:"Launch & Support",desc:"Your project goes live. 30 days of free aftercare support included with every single project we deliver."},
+  const steps = [
+    {
+      num: "01",
+      title: "Strategic Discovery",
+      desc: "We analyze your business objectives, target audience, and competitors to formulate an uncompromising project blueprint."
+    },
+    {
+      num: "02",
+      title: "Architecture & Design",
+      desc: "Every pixel and user journey is prototyped in Figma with continuous stakeholder feedback and precision craft."
+    },
+    {
+      num: "03",
+      title: "Senior Engineering",
+      desc: "Clean, performant code built with modern frameworks, rock-solid security, and lightning-fast load times."
+    },
+    {
+      num: "04",
+      title: "Launch & Growth",
+      desc: "Zero-downtime deployment, technical validation, and 30 days of included executive aftercare support."
+    }
   ];
 
-  const aboutFeatures=[
-    {iconClass:"bi bi-lightning-charge-fill",title:"Fast Turnaround",desc:"Most projects delivered in 2–4 weeks without compromising on quality."},
-    {iconClass:"bi bi-cash-stack",title:"Fixed Pricing",desc:"No hourly billing. Know exactly what you pay before we start."},
-    {iconClass:"bi bi-bullseye",title:"Results-Focused",desc:"Every decision we make is tied to your business goals and growth."},
-    {iconClass:"bi bi-shield-check",title:"Full Ownership",desc:"You own everything — code, designs, accounts. Always."},
-    {iconClass:"bi bi-headset",title:"Direct Access",desc:"Work directly with the person building your project. No account managers."},
-    {iconClass:"bi bi-globe-americas",title:"UK-Based",desc:"Based in the United Kingdom, serving clients across the globe."},
+  const faqList = [
+    {
+      q: "What is your typical project delivery timeline?",
+      a: "Standard bespoke websites are delivered within 2 to 4 weeks. Larger web applications and comprehensive brand packages typically take 4 to 6 weeks. You receive a guaranteed fixed delivery timeline during our discovery consultation."
+    },
+    {
+      q: "Do I own all code, assets, and intellectual property?",
+      a: "100% yes. Upon project completion, full ownership of all source code, design assets, and database accounts is permanently transferred to you."
+    },
+    {
+      q: "How does communication work during development?",
+      a: "You receive direct access to your dedicated Client Portal where you can review live milestone progress, exchange messages, upload assets, and approve project stages in real-time."
+    },
+    {
+      q: "Do you work with international clients outside the United Kingdom?",
+      a: "Yes. While our headquarters are in the UK, over 40% of our portfolio clients are located across North America, Europe, and Asia. All communication and project handovers are seamlessly coordinated remotely."
+    },
+    {
+      q: "What ongoing support is provided after launch?",
+      a: "Every project includes 30 days of complimentary technical aftercare to ensure smooth operation. We also offer ongoing retainer support for continuous updates, SEO monitoring, and content maintenance."
+    }
   ];
 
-  const faqItems=[
-    {q:"How long does a website project take?",a:"Most websites are delivered within 2–4 weeks depending on complexity. E-commerce and custom web apps typically take 4–8 weeks. We'll give you a clear timeline during the proposal stage."},
-    {q:"What do I need to get started?",a:"Just book a discovery call! We'll discuss your goals, gather all the information we need, and handle everything from there. You don't need to prepare anything in advance."},
-    {q:"Do you offer ongoing support after launch?",a:"Yes — all projects include 30 days of free aftercare support. We also offer flexible monthly retainer packages for ongoing updates, content changes, and continued support."},
-    {q:"What's included in the Full Package?",a:"The Full Package combines web development, graphic design, and social media management into one seamless service. You get a complete digital presence built and managed by one focused team."},
-    {q:"Do you work with businesses outside the UK?",a:"Absolutely. While we're based in the UK, we work with clients globally. All communication and delivery is handled remotely with no extra charge for international clients."},
-    {q:"Can I see examples of your work first?",a:"Of course! Check out our Portfolio section for recent case studies, or get in touch and we'll share additional examples relevant to your industry."},
-  ];
-
-  /* ── form ── */
-  const sendMessage=async()=>{
+  /* ── Form Submission Handler ── */
+  const handleContactSubmit = async (e) => {
+    e.preventDefault();
     setFormError("");
 
-    // 1. Honeypot check (anti-bot)
-    if(honeypot) {
+    // Honeypot anti-spam check
+    if (honeypot) {
       setFormStatus("success");
       return;
     }
 
-    // 2. Client-side rate limiting (30s cooldown)
+    // Rate limit cooldown (30s)
     const lastSent = parseInt(localStorage.getItem("pb_contact_cooldown") || "0", 10);
     const now = Date.now();
-    if(now - lastSent < 30000) {
-      const waitSec = Math.ceil((30000 - (now - lastSent)) / 1000);
-      setFormError(`Please wait ${waitSec}s before sending another message.`);
+    if (now - lastSent < 30000) {
+      const remaining = Math.ceil((30000 - (now - lastSent)) / 1000);
+      setFormError(`Please wait ${remaining} seconds before submitting another enquiry.`);
       return;
     }
 
@@ -714,122 +672,321 @@ export default function App() {
     const cleanEmail = email.trim().slice(0, 254);
     const cleanMessage = message.trim().slice(0, 3000);
 
-    if(!cleanName || !cleanEmail || !cleanMessage){
-      setFormError("Please fill in all required fields.");
+    if (!cleanName || !cleanEmail || !cleanMessage) {
+      setFormError("Please fill out all required fields.");
       return;
     }
 
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if(!emailRegex.test(cleanEmail)) {
+    if (!emailRegex.test(cleanEmail)) {
       setFormError("Please enter a valid email address.");
       return;
     }
 
-    const validServices = ["Web Development", "Social Media Management", "Graphic Design", "Full Package"];
-    const cleanService = validServices.includes(service) ? service : "Web Development";
-
     setFormStatus("sending");
 
     try {
-      const {error}=await supabase.from("messages").insert([{
+      const { error } = await supabase.from("messages").insert([{
         sender_name: cleanName,
         sender_email: cleanEmail,
-        service_needed: cleanService,
+        service_needed: service,
         message: cleanMessage
       }]);
 
-      if(error){
-        setFormError("Failed to send message. Please try again later or email us directly.");
+      if (error) {
+        setFormError("Unable to submit message. Please email us directly at anilpte232@gmail.com.");
         setFormStatus("error");
         return;
       }
 
       localStorage.setItem("pb_contact_cooldown", Date.now().toString());
       setFormStatus("success");
-      setName("");setEmail("");setService("Web Development");setMessage("");
-      setTimeout(()=>setFormStatus("idle"),6000);
-    } catch(err) {
+      setName("");
+      setEmail("");
+      setMessage("");
+      setTimeout(() => setFormStatus("idle"), 7000);
+    } catch (err) {
       setFormError("An unexpected error occurred. Please try again later.");
       setFormStatus("error");
     }
   };
 
   return (
-    <div style={{background:"#060912",minHeight:"100vh",overflowX:"hidden",position:"relative"}}>
+    <div style={{minHeight:"100vh",position:"relative",background:"#070A11",overflowX:"hidden"}}>
       <G/>
-      <HexMesh/>
+      <StudioAura/>
       <Cursor/>
       <ScrollProgress/>
       <BackToTop/>
       <WhatsApp/>
-      {loading&&<Loader onDone={done}/>}
-      <Nav vis={navVis}/>
+      <Navigation/>
 
-      {/* ═══════════════════ HERO ═══════════════════ */}
-      <section style={{minHeight:"100vh",display:"flex",alignItems:"center",padding:"8rem 0 5rem",position:"relative",overflow:"hidden",zIndex:1}}>
-        <div style={{position:"absolute",top:"50%",left:"50%",transform:"translate(-50%,-50%)",fontFamily:"'Baloo 2',sans-serif",fontWeight:800,fontSize:"clamp(5rem,17vw,15rem)",color:"rgba(37,99,235,.04)",whiteSpace:"nowrap",pointerEvents:"none",userSelect:"none",letterSpacing:"-.02em",zIndex:0}}>DIGITAL</div>
-        
-        <div className="container px-4 px-lg-5 position-relative" style={{zIndex:2}}>
+      {/* ═══════════════════════════════════════════════════════════════════════ */}
+      {/* ── HERO SECTION ────────────────────────────────────────────────────── */}
+      {/* ═══════════════════════════════════════════════════════════════════════ */}
+      <section style={{padding:"9.5rem 0 6rem",position:"relative",zIndex:1}}>
+        <div className="container px-4 px-lg-5">
           <div className="row align-items-center justify-content-between g-5">
+            {/* Left Content */}
             <div className="col-12 col-lg-7">
-              <div style={{display:"inline-flex",alignItems:"center",gap:".5rem",background:"rgba(37,99,235,.09)",border:"1px solid rgba(37,99,235,.24)",padding:".38rem 1rem",borderRadius:100,marginBottom:"1.8rem",opacity:heroVis?1:0,transform:heroVis?"none":"translateY(14px)",transition:"all .8s .1s cubic-bezier(.22,1,.36,1)"}}>
-                <span style={{width:7,height:7,background:"#22d3ee",borderRadius:"50%",animation:"blink 1.5s ease infinite",flexShrink:0}}/>
-                <span style={{color:"#60a5fa",fontSize:".7rem",letterSpacing:".14em",textTransform:"uppercase",fontWeight:600}}>Available for new projects</span>
+              {/* Trust Badge */}
+              <div style={{
+                display:"inline-flex",alignItems:"center",gap:".6rem",
+                background:"rgba(59,130,246,0.08)",border:"1px solid rgba(59,130,246,0.22)",
+                padding:".4rem 1rem",borderRadius:"100px",marginBottom:"1.8rem"
+              }}>
+                <span style={{width:8,height:8,background:"#38BDF8",borderRadius:"50%",animation:"pulseDot 2s ease infinite"}}/>
+                <span style={{color:"#93C5FD",fontSize:".78rem",fontWeight:700,letterSpacing:".06em",textTransform:"uppercase"}}>
+                  UK Digital Studio · Accepting Q4 Client Work
+                </span>
               </div>
-              <div style={{opacity:heroVis?1:0,transform:heroVis?"none":"translateY(26px)",transition:"all .9s .22s cubic-bezier(.22,1,.36,1)"}}>
-                <SplitHeading text="We Craft" delay={0}/>
-                <SplitHeading text="Digital World" delay={0.15} shimmer={true}/>
-              </div>
-              <p style={{fontFamily:"'Outfit',sans-serif",fontWeight:300,fontSize:"clamp(1.1rem,2.2vw,1.4rem)",color:"#9aa6c4",lineHeight:1.65,maxWidth:480,margin:"1.6rem 0 2.4rem",opacity:heroVis?1:0,transform:heroVis?"none":"translateY(14px)",transition:"all .85s .42s cubic-bezier(.22,1,.36,1)"}}>
-                Web development, graphic design &amp; social media management — for businesses ready to own their digital space.
+
+              {/* Main Headline */}
+              <h1 style={{
+                fontSize:"clamp(2.6rem, 4.8vw, 4.2rem)",
+                lineHeight:1.08,
+                marginBottom:"1.4rem",
+                letterSpacing:"-0.03em"
+              }}>
+                We Engineer <span className="grad-text">High-Impact</span> Digital Experiences &amp; Brands.
+              </h1>
+
+              {/* Sub-headline */}
+              <p style={{
+                color:"#94A3B8",
+                fontSize:"clamp(1.05rem, 1.8vw, 1.25rem)",
+                lineHeight:1.68,
+                maxWidth:560,
+                marginBottom:"2.4rem",
+                fontWeight:400
+              }}>
+                Pixel &amp; Brush is a boutique UK digital studio. We build bespoke websites, elevated brand identities, and high-growth social media systems for ambitious businesses worldwide.
               </p>
-              <div style={{display:"flex",flexWrap:"wrap",gap:"1rem",opacity:heroVis?1:0,transform:heroVis?"none":"translateY(14px)",transition:"all .8s .58s cubic-bezier(.22,1,.36,1)"}}>
-                <Btn primary href="#contact">Start a Project →</Btn>
-                <Btn href="#portfolio">View Our Work</Btn>
+
+              {/* CTAs */}
+              <div className="d-flex flex-wrap gap-3 align-items-center mb-5">
+                <Button primary href="#contact" style={{padding:"1rem 2.2rem",fontSize:"1rem"}}>
+                  Start Your Project <i className="bi bi-arrow-right"></i>
+                </Button>
+                <Button outline href="#portfolio" style={{padding:"1rem 2rem",fontSize:"1rem"}}>
+                  Explore Selected Work <i className="bi bi-arrow-up-right"></i>
+                </Button>
               </div>
-              <div className="row g-4 mt-4 pt-3 border-top" style={{borderColor:"rgba(37,99,235,.1) !important",opacity:heroVis?1:0,transition:"opacity 1s .78s ease"}}>
-                {[{n:15,s:"+",l:"Projects Delivered"},{n:100,s:"%",l:"Client Satisfaction"},{n:3,s:"x",l:"Avg Engagement Boost"}].map((st,i)=>(
-                  <div key={i} className="col-4">
-                    <div style={{fontFamily:"'Baloo 2',sans-serif",fontWeight:800,fontSize:"clamp(1.6rem,3vw,2.4rem)",background:"linear-gradient(135deg,#60a5fa,#22d3ee)",WebkitBackgroundClip:"text",WebkitTextFillColor:"transparent"}}><Ctr end={st.n} suffix={st.s}/></div>
-                    <div style={{color:"#6f7a96",fontSize:".68rem",letterSpacing:".1em",textTransform:"uppercase",marginTop:".18rem"}}>{st.l}</div>
+
+              {/* Metrics Row */}
+              <div className="row g-4 pt-4 border-top" style={{borderColor:"rgba(255,255,255,0.08) !important"}}>
+                <div className="col-4">
+                  <div style={{fontFamily:"'Plus Jakarta Sans',sans-serif",fontWeight:800,fontSize:"clamp(1.8rem,3vw,2.4rem)",color:"#FFFFFF"}}>
+                    <Metric end={15} suffix="+"/>
                   </div>
-                ))}
+                  <div style={{color:"#64748B",fontSize:".75rem",fontWeight:600,textTransform:"uppercase",letterSpacing:".05em",marginTop:".2rem"}}>
+                    Delivered Projects
+                  </div>
+                </div>
+                <div className="col-4">
+                  <div style={{fontFamily:"'Plus Jakarta Sans',sans-serif",fontWeight:800,fontSize:"clamp(1.8rem,3vw,2.4rem)",color:"#FFFFFF"}}>
+                    <Metric end={100} suffix="%"/>
+                  </div>
+                  <div style={{color:"#64748B",fontSize:".75rem",fontWeight:600,textTransform:"uppercase",letterSpacing:".05em",marginTop:".2rem"}}>
+                    On-Time Delivery
+                  </div>
+                </div>
+                <div className="col-4">
+                  <div style={{fontFamily:"'Plus Jakarta Sans',sans-serif",fontWeight:800,fontSize:"clamp(1.8rem,3vw,2.4rem)",color:"#FFFFFF"}}>
+                    <Metric end={3} suffix=".2x"/>
+                  </div>
+                  <div style={{color:"#64748B",fontSize:".75rem",fontWeight:600,textTransform:"uppercase",letterSpacing:".05em",marginTop:".2rem"}}>
+                    Avg Client ROI
+                  </div>
+                </div>
               </div>
             </div>
-            <div className="col-12 col-lg-5 text-center" style={{opacity:heroVis?1:0,transform:heroVis?"none":"translateX(28px) scale(.94)",transition:"all 1s .65s cubic-bezier(.22,1,.36,1)"}}>
-              <PhotoCutout/>
+
+            {/* Right Column / Architectural Portrait Showcase */}
+            <div className="col-12 col-lg-5 text-center">
+              <div style={{position:"relative",maxWidth:380,margin:"0 auto"}}>
+                {/* Floating Architectural Badge 1 */}
+                <div style={{
+                  position:"absolute",top:"8%",left:"-12%",zIndex:4,
+                  background:"rgba(15,23,42,0.85)",border:"1px solid rgba(255,255,255,0.12)",
+                  padding:".65rem 1rem",borderRadius:"12px",backdropFilter:"blur(16px)",
+                  boxShadow:"0 12px 30px rgba(0,0,0,0.4)",textAlign:"left",animation:"floatSlow 6s ease-in-out infinite"
+                }}>
+                  <div style={{color:"#38BDF8",fontSize:".72rem",fontWeight:700,textTransform:"uppercase",letterSpacing:".08em"}}>Direct Senior Access</div>
+                  <div style={{color:"#FFFFFF",fontSize:".9rem",fontWeight:700}}>No Junior Hand-offs</div>
+                </div>
+
+                {/* Floating Architectural Badge 2 */}
+                <div style={{
+                  position:"absolute",bottom:"12%",right:"-10%",zIndex:4,
+                  background:"rgba(15,23,42,0.85)",border:"1px solid rgba(255,255,255,0.12)",
+                  padding:".65rem 1rem",borderRadius:"12px",backdropFilter:"blur(16px)",
+                  boxShadow:"0 12px 30px rgba(0,0,0,0.4)",textAlign:"left",animation:"floatSlow 5s ease-in-out 1s infinite"
+                }}>
+                  <div style={{color:"#4ADE80",fontSize:".72rem",fontWeight:700,textTransform:"uppercase",letterSpacing:".08em"}}>Guaranteed SLA</div>
+                  <div style={{color:"#FFFFFF",fontSize:".9rem",fontWeight:700}}>30-Day Aftercare Included</div>
+                </div>
+
+                {/* Frame & Cutout */}
+                <div style={{
+                  position:"relative",
+                  borderRadius:"28px",
+                  overflow:"hidden",
+                  background:"linear-gradient(180deg, rgba(30,58,138,0.25) 0%, rgba(15,23,42,0.8) 100%)",
+                  border:"1px solid rgba(255,255,255,0.12)",
+                  aspectRatio:"4/5",
+                  boxShadow:"0 25px 60px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.1)"
+                }}>
+                  <img
+                    src="/me.png"
+                    alt="Anil - Founder & Principal Designer"
+                    style={{
+                      width:"100%",height:"100%",
+                      objectFit:"cover",objectPosition:"center top",
+                      filter:"drop-shadow(0 15px 25px rgba(0,0,0,0.6))"
+                    }}
+                  />
+                  <div style={{
+                    position:"absolute",bottom:0,left:0,right:0,
+                    background:"linear-gradient(to top, #070A11 15%, transparent 100%)",
+                    padding:"2rem 1.5rem .8rem"
+                  }}>
+                    <div style={{fontWeight:800,fontSize:"1.1rem",color:"#FFFFFF"}}>Anil Pandey</div>
+                    <div style={{color:"#94A3B8",fontSize:".8rem",fontWeight:500}}>Lead Engineer &amp; Creative Strategist</div>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
-        </div>
-
-        <div style={{position:"absolute",bottom:"2.5rem",left:"50%",transform:"translateX(-50%)",display:"flex",flexDirection:"column",alignItems:"center",gap:".5rem",opacity:.28,zIndex:1}}>
-          <span style={{fontSize:".62rem",letterSpacing:".18em",textTransform:"uppercase",color:"#6f7a96",fontFamily:"'Baloo 2',sans-serif",fontWeight:600}}>Scroll</span>
-          <div style={{width:1,height:42,background:"linear-gradient(#2563eb,transparent)",animation:"floatY 2s ease-in-out infinite"}}/>
         </div>
       </section>
 
-      <Ticker/>
+      {/* ═══════════════════════════════════════════════════════════════════════ */}
+      {/* ── CLIENT TICKER MARQUEE ────────────────────────────────────────────── */}
+      {/* ═══════════════════════════════════════════════════════════════════════ */}
+      <div style={{
+        overflow:"hidden",
+        borderTop:"1px solid rgba(255,255,255,0.06)",
+        borderBottom:"1px solid rgba(255,255,255,0.06)",
+        padding:"1.1rem 0",
+        background:"rgba(15,23,42,0.4)",
+        position:"relative",zIndex:1
+      }}>
+        <div style={{display:"flex",gap:"3rem",whiteSpace:"nowrap",animation:"ticker 35s linear infinite"}}>
+          {[...Array(2)].map((_, idx) => (
+            <div key={idx} className="d-flex gap-5 align-items-center">
+              {["Full-Stack Web Engineering", "Bespoke Brand Identity", "Conversion Rate Optimization", "UI/UX Architecture", "Scalable Cloud Systems", "High-Growth Social Strategy"].map((text, i) => (
+                <div key={i} className="d-flex align-items-center gap-3">
+                  <span style={{color:"#38BDF8",fontSize:".75rem"}}>✦</span>
+                  <span style={{color:"#94A3B8",fontSize:".86rem",fontWeight:600,letterSpacing:".04em",textTransform:"uppercase"}}>
+                    {text}
+                  </span>
+                </div>
+              ))}
+            </div>
+          ))}
+        </div>
+      </div>
 
-      {/* ═══════════════════ ABOUT ═══════════════════ */}
-      <section style={{padding:"7rem 0",position:"relative",zIndex:1}}>
+      {/* ═══════════════════════════════════════════════════════════════════════ */}
+      {/* ── SERVICES / EXPERTISE ─────────────────────────────────────────────── */}
+      {/* ═══════════════════════════════════════════════════════════════════════ */}
+      <section id="services" style={{padding:"8rem 0",position:"relative",zIndex:1}}>
         <div className="container px-4 px-lg-5">
-          <div className="rv text-center mx-auto mb-5" data-dir="up" style={{maxWidth:640}}>
-            <Label text="Why Pixel & Brush"/>
-            <h2 style={{fontFamily:"'Baloo 2',sans-serif",fontWeight:800,fontSize:"clamp(2.2rem,4vw,3.4rem)",letterSpacing:"-.02em",lineHeight:1.08,marginBottom:"1.1rem"}}>
-              A Studio That Cares About<br/>
-              <span style={{background:"linear-gradient(135deg,#60a5fa,#22d3ee)",WebkitBackgroundClip:"text",WebkitTextFillColor:"transparent"}}>Your Growth</span>
-            </h2>
-            <p style={{color:"#8a93ab",lineHeight:1.76,fontFamily:"'Outfit',sans-serif",fontSize:"1rem"}}>We're a small, focused digital studio based in the UK. Senior-level work at every stage — no junior hand-offs, no bloated overhead.</p>
-          </div>
-          
-          <div className="row g-3 g-md-4 justify-content-center">
-            {aboutFeatures.map((f,i)=>(
-              <div key={i} className="col-12 col-md-6 col-lg-4">
-                <div className="h-100 rv" data-delay={i*.07} style={{background:"rgba(8,4,20,.7)",border:"1px solid rgba(37,99,235,.09)",borderRadius:16,padding:"1.6rem",display:"flex",gap:"1.1rem",alignItems:"flex-start",transition:"border-color .3s,background .3s,transform .3s"}} onMouseEnter={e=>{e.currentTarget.style.borderColor="rgba(37,99,235,.35)";e.currentTarget.style.background="rgba(16,8,36,.9)";e.currentTarget.style.transform="translateY(-4px)";}} onMouseLeave={e=>{e.currentTarget.style.borderColor="rgba(37,99,235,.09)";e.currentTarget.style.background="rgba(8,4,20,.7)";e.currentTarget.style.transform="none";}}>
-                  <div style={{fontSize:"1.6rem",color:"#60a5fa",flexShrink:0}}><i className={f.iconClass}></i></div>
+          <SectionHeader
+            badge="Our Capabilities"
+            title="Engineered for Scalability &amp; Revenue"
+            subtitle="We replace disjointed freelancers with a unified, senior-led digital agency delivering excellence at every step."
+          />
+
+          <div className="row g-4">
+            {services.map((svc, i) => (
+              <div key={i} className="col-12 col-lg-4">
+                <div className="glass-card p-4 p-xl-5 h-100 d-flex flex-column justify-content-between">
                   <div>
-                    <div style={{fontFamily:"'Baloo 2',sans-serif",fontWeight:700,fontSize:"1rem",marginBottom:".32rem"}}>{f.title}</div>
-                    <div style={{color:"#8a93ab",fontSize:".83rem",lineHeight:1.6}}>{f.desc}</div>
+                    <div style={{
+                      width:52,height:52,borderRadius:"12px",
+                      background:"rgba(59,130,246,0.12)",border:"1px solid rgba(59,130,246,0.25)",
+                      display:"flex",alignItems:"center",justifyContent:"center",
+                      color:"#38BDF8",fontSize:"1.4rem",marginBottom:"1.5rem"
+                    }}>
+                      <i className={`bi ${svc.icon}`}></i>
+                    </div>
+                    <h3 style={{fontSize:"1.35rem",marginBottom:".9rem"}}>{svc.title}</h3>
+                    <p style={{color:"#94A3B8",fontSize:".92rem",lineHeight:1.68,marginBottom:"1.8rem"}}>
+                      {svc.desc}
+                    </p>
+                    <div style={{borderTop:"1px solid rgba(255,255,255,0.06)",paddingTop:"1.4rem",marginBottom:"2rem"}}>
+                      <div style={{color:"#64748B",fontSize:".75rem",fontWeight:700,textTransform:"uppercase",letterSpacing:".08em",marginBottom:".8rem"}}>
+                        Key Deliverables
+                      </div>
+                      <ul style={{listStyle:"none",padding:0,margin:0,display:"flex",flexDirection:"column",gap:".55rem"}}>
+                        {svc.deliverables.map((item, idx) => (
+                          <li key={idx} style={{display:"flex",alignItems:"center",gap:".6rem",fontSize:".88rem",color:"#CBD5E1"}}>
+                            <i className="bi bi-check2 text-primary"></i> {item}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  </div>
+                  <Button outline href="#contact" className="w-100">
+                    Enquire for {svc.title.split(" ")[0]} →
+                  </Button>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ═══════════════════════════════════════════════════════════════════════ */}
+      {/* ── SELECTED WORK / CASE STUDIES ─────────────────────────────────────── */}
+      {/* ═══════════════════════════════════════════════════════════════════════ */}
+      <section id="portfolio" style={{padding:"8rem 0",background:"rgba(11,17,30,0.5)",position:"relative",zIndex:1}}>
+        <div className="container px-4 px-lg-5">
+          <SectionHeader
+            badge="Selected Works"
+            title="Proven Results for Real Businesses"
+            subtitle="Explore how we have designed, built, and accelerated high-impact brands across diverse industries."
+          />
+
+          <div className="row g-4">
+            {portfolio.map((item, i) => (
+              <div key={i} className="col-12 col-md-6 col-lg-4">
+                <div className="glass-card h-100 overflow-hidden d-flex flex-column">
+                  <div style={{position:"relative",height:220,overflow:"hidden",background:"#0F172A"}}>
+                    <img
+                      src={item.img}
+                      alt={item.title}
+                      style={{
+                        width:"100%",height:"100%",objectFit:"cover",
+                        transition:"transform .5s cubic-bezier(.16,1,.3,1)"
+                      }}
+                      onMouseEnter={e=>e.currentTarget.style.transform="scale(1.06)"}
+                      onMouseLeave={e=>e.currentTarget.style.transform="scale(1)"}
+                    />
+                    <div style={{
+                      position:"absolute",top:"1rem",right:"1rem",
+                      background:"rgba(7,10,17,0.85)",border:"1px solid rgba(255,255,255,0.12)",
+                      padding:".25rem .75rem",borderRadius:"100px",fontSize:".75rem",fontWeight:600,color:"#38BDF8",
+                      backdropFilter:"blur(8px)"
+                    }}>
+                      {item.badge}
+                    </div>
+                  </div>
+                  <div className="p-4 d-flex flex-column justify-content-between flex-grow-1">
+                    <div>
+                      <div style={{color:"#64748B",fontSize:".75rem",fontWeight:700,textTransform:"uppercase",letterSpacing:".06em",marginBottom:".4rem"}}>
+                        {item.category}
+                      </div>
+                      <h3 style={{fontSize:"1.2rem",marginBottom:".6rem"}}>{item.title}</h3>
+                      <p style={{color:"#94A3B8",fontSize:".88rem",lineHeight:1.6,marginBottom:"1.4rem"}}>
+                        {item.desc}
+                      </p>
+                    </div>
+                    <a href="#contact" style={{display:"inline-flex",alignItems:"center",gap:".4rem",color:"#60A5FA",fontSize:".86rem",fontWeight:600}}>
+                      Request Case Study Blueprint <i className="bi bi-arrow-right"></i>
+                    </a>
                   </div>
                 </div>
               </div>
@@ -838,274 +995,458 @@ export default function App() {
         </div>
       </section>
 
-      {/* ═══════════════════ SERVICES ═══════════════════ */}
-      <section id="services" style={{padding:"8rem 0",position:"relative",zIndex:1,background:"rgba(4,3,12,.5)"}}>
+      {/* ═══════════════════════════════════════════════════════════════════════ */}
+      {/* ── CLIENT TESTIMONIALS ──────────────────────────────────────────────── */}
+      {/* ═══════════════════════════════════════════════════════════════════════ */}
+      <section style={{padding:"8rem 0",position:"relative",zIndex:1}}>
         <div className="container px-4 px-lg-5">
-          <div className="rv mb-5" data-dir="left">
-            <Label text="What We Do"/>
-            <h2 style={{fontFamily:"'Baloo 2',sans-serif",fontWeight:800,fontSize:"clamp(2.4rem,4.5vw,3.8rem)",letterSpacing:"-.02em",marginBottom:"1.2rem",lineHeight:1.08}}>Services Built for<br/><span style={{background:"linear-gradient(135deg,#60a5fa,#22d3ee)",WebkitBackgroundClip:"text",WebkitTextFillColor:"transparent"}}>Modern Businesses</span></h2>
-            <p style={{color:"#8a93ab",maxWidth:460,lineHeight:1.74,fontFamily:"'Outfit',sans-serif",fontSize:"1rem"}}>Everything your brand needs to dominate the digital space — under one focused roof.</p>
-          </div>
-          <div className="row g-4">
-            {services.map((s,i)=>(
-              <div key={i} className="col-12 col-md-6 col-lg-4">
-                <SvcCard {...s}/>
+          <SectionHeader
+            center
+            badge="Client Feedback"
+            title="Trusted by Visionary Founders"
+            subtitle="Here is what founders and business leaders say about working with Pixel &amp; Brush."
+          />
+
+          <div className="row g-4 align-items-stretch">
+            {testimonials.map((t, i) => (
+              <div key={i} className="col-12 col-lg-4">
+                <div className="glass-card p-4 p-xl-5 h-100 d-flex flex-column justify-content-between">
+                  <div>
+                    <div className="d-flex gap-1 mb-3" style={{color:"#F59E0B",fontSize:".95rem"}}>
+                      {[...Array(5)].map((_, star) => (
+                        <i key={star} className="bi bi-star-fill"></i>
+                      ))}
+                    </div>
+                    <p style={{color:"#CBD5E1",fontSize:".98rem",lineHeight:1.75,fontStyle:"italic",marginBottom:"2rem"}}>
+                      "{t.quote}"
+                    </p>
+                  </div>
+                  <div className="d-flex align-items-center gap-3 pt-3 border-top" style={{borderColor:"rgba(255,255,255,0.08) !important"}}>
+                    <div style={{
+                      width:44,height:44,borderRadius:"50%",
+                      background:"linear-gradient(135deg,#2563EB,#38BDF8)",
+                      display:"flex",alignItems:"center",justifyContent:"center",
+                      color:"#FFFFFF",fontWeight:800,fontSize:"1rem",flexShrink:0
+                    }}>
+                      {t.name.charAt(0)}
+                    </div>
+                    <div>
+                      <div style={{color:"#FFFFFF",fontWeight:700,fontSize:".95rem"}}>{t.name}</div>
+                      <div style={{color:"#64748B",fontSize:".8rem",fontWeight:500}}>{t.role} · {t.company}</div>
+                    </div>
+                  </div>
+                </div>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* ═══════════════════ PRICING ═══════════════════ */}
+      {/* ═══════════════════════════════════════════════════════════════════════ */}
+      {/* ── THE BLUEPRINT / PROCESS ──────────────────────────────────────────── */}
+      {/* ═══════════════════════════════════════════════════════════════════════ */}
+      <section id="process" style={{padding:"8rem 0",background:"rgba(11,17,30,0.5)",position:"relative",zIndex:1}}>
+        <div className="container px-4 px-lg-5">
+          <SectionHeader
+            badge="The Process"
+            title="Predictable, Seamless, Transparent"
+            subtitle="From initial discovery to launch, our streamlined 4-step framework guarantees execution on time and within budget."
+          />
+
+          <div className="row g-4">
+            {steps.map((s, i) => (
+              <div key={i} className="col-12 col-sm-6 col-lg-3">
+                <div className="glass-card p-4 h-100">
+                  <div style={{
+                    fontFamily:"'Plus Jakarta Sans',sans-serif",
+                    fontWeight:800,fontSize:"2.2rem",color:"#38BDF8",
+                    opacity:0.85,marginBottom:"1rem"
+                  }}>
+                    {s.num}
+                  </div>
+                  <h3 style={{fontSize:"1.15rem",marginBottom:".6rem"}}>{s.title}</h3>
+                  <p style={{color:"#94A3B8",fontSize:".88rem",lineHeight:1.65,margin:0}}>
+                    {s.desc}
+                  </p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ═══════════════════════════════════════════════════════════════════════ */}
+      {/* ── TRANSPARENT PRICING ──────────────────────────────────────────────── */}
+      {/* ═══════════════════════════════════════════════════════════════════════ */}
       <section id="pricing" style={{padding:"8rem 0",position:"relative",zIndex:1}}>
         <div className="container px-4 px-lg-5">
-          <div className="rv text-center mb-5" data-dir="up">
-            <Label text="Transparent Pricing"/>
-            <h2 style={{fontFamily:"'Baloo 2',sans-serif",fontWeight:800,fontSize:"clamp(2.4rem,4.5vw,3.8rem)",letterSpacing:"-.02em",lineHeight:1.08,marginBottom:"1rem"}}>
-              Clear Packages,{" "}
-              <span style={{background:"linear-gradient(135deg,#60a5fa,#22d3ee)",WebkitBackgroundClip:"text",WebkitTextFillColor:"transparent"}}>No Hidden Costs</span>
-            </h2>
-            <p style={{color:"#8a93ab",lineHeight:1.74,fontFamily:"'Outfit',sans-serif",fontSize:"1rem",maxWidth:480,margin:"0 auto"}}>Fixed-price packages so you always know exactly what you're getting. All projects include free 30-day aftercare.</p>
-          </div>
-          
+          <SectionHeader
+            center
+            badge="Transparent Packages"
+            title="Clear Investments, Zero Hidden Fees"
+            subtitle="Choose the right package for your stage of growth. Every tier includes free 30-day post-launch technical support."
+          />
+
           <div className="row g-4 justify-content-center align-items-stretch">
-            {pricingPlans.map((p,i)=>(
+            {pricingPlans.map((plan, i) => (
               <div key={i} className="col-12 col-md-6 col-lg-4">
-                <PricingCard {...p}/>
-              </div>
-            ))}
-          </div>
-          
-          <div className="rv text-center mt-5">
-            <p style={{color:"#6f7a96",fontSize:".86rem"}}>Need something custom? <a href="#contact" style={{color:"#60a5fa",textDecoration:"none",fontFamily:"'Baloo 2',sans-serif",fontWeight:700}}>Let's talk →</a></p>
-          </div>
-        </div>
-      </section>
-
-      {/* ═══════════════════ PORTFOLIO ═══════════════════ */}
-      <section id="portfolio" style={{padding:"8rem 0",background:"rgba(5,3,14,.6)",position:"relative",zIndex:1}}>
-        <div className="container px-4 px-lg-5">
-          <div className="rv mb-5" data-dir="right">
-            <Label text="Our Work"/>
-            <h2 style={{fontFamily:"'Baloo 2',sans-serif",fontWeight:800,fontSize:"clamp(2.4rem,4.5vw,3.8rem)",letterSpacing:"-.02em",marginBottom:"1.2rem",lineHeight:1.08}}>Recent Projects</h2>
-            <p style={{color:"#8a93ab",maxWidth:460,lineHeight:1.74,fontFamily:"'Outfit',sans-serif",fontSize:"1rem"}}>A curated selection of websites, brands, and campaigns we have delivered.</p>
-          </div>
-          <div className="row g-4">
-            {portfolio.map((p,i)=>(
-              <div key={i} className="col-12 col-md-6 col-lg-4">
-                <PortCard {...p}/>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ═══════════════════ TESTIMONIALS ═══════════════════ */}
-      <section style={{padding:"8rem 0",position:"relative",zIndex:1}}>
-        <div className="container px-4 px-lg-5">
-          <div className="rv text-center mb-5" data-dir="up">
-            <Label text="Client Stories"/>
-            <h2 style={{fontFamily:"'Baloo 2',sans-serif",fontWeight:800,fontSize:"clamp(2.4rem,4.5vw,3.8rem)",letterSpacing:"-.02em",lineHeight:1.08,marginBottom:"1rem"}}>
-              What Our Clients{" "}<span style={{background:"linear-gradient(135deg,#60a5fa,#22d3ee)",WebkitBackgroundClip:"text",WebkitTextFillColor:"transparent"}}>Say</span>
-            </h2>
-            <p style={{color:"#8a93ab",lineHeight:1.74,fontFamily:"'Outfit',sans-serif",fontSize:"1rem",maxWidth:460,margin:"0 auto"}}>Real feedback from real businesses we've helped grow.</p>
-          </div>
-          <div className="row g-4 align-items-stretch">
-            {testimonials.map((t,i)=>(
-              <div key={i} className="col-12 col-md-4">
-                <TestiCard {...t}/>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ═══════════════════ PROCESS ═══════════════════ */}
-      <section id="process" style={{padding:"8rem 0",background:"rgba(4,2,12,.7)",position:"relative",zIndex:1}}>
-        <div className="container px-4 px-lg-5">
-          <div className="rv mb-5" data-dir="left">
-            <Label text="How It Works"/>
-            <h2 style={{fontFamily:"'Baloo 2',sans-serif",fontWeight:800,fontSize:"clamp(2.4rem,4.5vw,3.8rem)",letterSpacing:"-.02em",marginBottom:"1.2rem",lineHeight:1.08}}>Simple. <span style={{background:"linear-gradient(135deg,#60a5fa,#22d3ee)",WebkitBackgroundClip:"text",WebkitTextFillColor:"transparent"}}>Transparent.</span> Fast.</h2>
-            <p style={{color:"#8a93ab",maxWidth:460,lineHeight:1.74,fontFamily:"'Outfit',sans-serif",fontSize:"1rem"}}>From first contact to final launch — a clear process with no surprises and no hidden fees.</p>
-          </div>
-          <div className="row g-4 position-relative">
-            {steps.map((s,i)=>(
-              <div key={i} className="col-12 col-sm-6 col-lg-3">
-                <div className="h-100 rv" data-delay={i*.1} style={{padding:"0 .5rem",position:"relative",zIndex:1}} onMouseEnter={e=>{const el=e.currentTarget.querySelector(".sn");if(el)el.style.boxShadow="0 0 28px rgba(37,99,235,.7),0 0 0 4px rgba(37,99,235,.15)";}} onMouseLeave={e=>{const el=e.currentTarget.querySelector(".sn");if(el)el.style.boxShadow="none";}}>
-                  <div className="sn" style={{width:54,height:54,borderRadius:"50%",background:"linear-gradient(135deg,rgba(30,58,138,.9),rgba(34,211,238,.35))",border:"1.5px solid rgba(37,99,235,.45)",display:"flex",alignItems:"center",justifyContent:"center",fontFamily:"'Baloo 2',sans-serif",fontWeight:800,fontSize:"1rem",color:"#22d3ee",marginBottom:"1.8rem",transition:"box-shadow .3s"}}>{s.n}</div>
-                  <div style={{fontFamily:"'Baloo 2',sans-serif",fontWeight:700,fontSize:".68rem",color:"#22d3ee",letterSpacing:".18em",textTransform:"uppercase",marginBottom:".6rem"}}>Step {s.n}</div>
-                  <h3 style={{fontFamily:"'Baloo 2',sans-serif",fontWeight:800,fontSize:"1.15rem",letterSpacing:"-.01em",marginBottom:".5rem"}}>{s.title}</h3>
-                  <p style={{color:"#8a93ab",fontSize:".86rem",lineHeight:1.68}}>{s.desc}</p>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ═══════════════════ FAQ ═══════════════════ */}
-      <section style={{padding:"8rem 0",position:"relative",zIndex:1}}>
-        <div className="container px-4 px-lg-5">
-          <div className="row g-5 align-items-start">
-            <div className="col-12 col-lg-5">
-              <div className="rv" data-dir="left">
-                <Label text="Got Questions?"/>
-                <h2 style={{fontFamily:"'Baloo 2',sans-serif",fontWeight:800,fontSize:"clamp(2.2rem,4vw,3.4rem)",letterSpacing:"-.02em",lineHeight:1.08,marginBottom:"1.1rem"}}>
-                  Frequently<br/><span style={{background:"linear-gradient(135deg,#60a5fa,#22d3ee)",WebkitBackgroundClip:"text",WebkitTextFillColor:"transparent"}}>Asked Questions</span>
-                </h2>
-                <p style={{color:"#8a93ab",lineHeight:1.74,fontFamily:"'Outfit',sans-serif",fontSize:"1rem",marginBottom:"1.5rem"}}>
-                  Can't find your answer?{" "}
-                  <a href="#contact" style={{color:"#60a5fa",textDecoration:"none",fontFamily:"'Baloo 2',sans-serif",fontWeight:700}}>Get in touch →</a>
-                </p>
-                <div style={{marginTop:"2rem",background:"rgba(37,99,235,.07)",border:"1px solid rgba(37,99,235,.18)",borderRadius:14,padding:"1.3rem 1.5rem",display:"flex",gap:"1rem",alignItems:"center"}}>
-                  <span style={{fontSize:"1.6rem",color:"#22d3ee"}}><i className="bi bi-chat-dots-fill"></i></span>
-                  <div>
-                    <div style={{fontFamily:"'Baloo 2',sans-serif",fontWeight:700,fontSize:".9rem",marginBottom:".2rem"}}>Still have questions?</div>
-                    <div style={{color:"#8a93ab",fontSize:".82rem"}}>We respond within 2 hours on weekdays.</div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className="col-12 col-lg-7">
-              <div className="rv" data-dir="right" data-delay=".1">
-                {faqItems.map((item,i)=>(
-                  <FaqItem key={i} {...item} isOpen={openFaq===i} toggle={()=>setOpenFaq(openFaq===i?null:i)}/>
-                ))}
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* ═══════════════════ CTA ═══════════════════ */}
-      <section style={{padding:"7rem 0",position:"relative",zIndex:1,overflow:"hidden"}}>
-        <div style={{position:"absolute",inset:0,background:"radial-gradient(ellipse 80% 60% at 50% 50%,rgba(37,99,235,.06),transparent)",pointerEvents:"none"}}/>
-        <div className="container px-4 px-lg-5">
-          <div className="rv sc mx-auto text-center" style={{maxWidth:780,background:"rgba(8,6,24,.94)",border:"1px solid rgba(37,99,235,.2)",borderRadius:24,padding:"4.5rem clamp(2rem,6vw,5rem)",backdropFilter:"blur(24px)",animation:"ctaGlow 5s ease-in-out infinite",position:"relative",overflow:"hidden"}}>
-            <div style={{position:"absolute",top:0,left:0,right:0,height:2,background:"linear-gradient(90deg,transparent,#2563eb,#22d3ee,transparent)"}}/>
-            <div style={{position:"absolute",bottom:0,left:0,right:0,height:1,background:"linear-gradient(90deg,transparent,rgba(37,99,235,.3),rgba(34,211,238,.3),transparent)"}}/>
-            <div style={{position:"absolute",top:"-50%",left:"50%",transform:"translateX(-50%)",width:"60%",height:"100%",background:"radial-gradient(ellipse,rgba(37,99,235,.09),transparent 70%)",pointerEvents:"none"}}/>
-            <h2 style={{position:"relative",fontFamily:"'Baloo 2',sans-serif",fontWeight:800,fontSize:"clamp(2rem,4.5vw,3.4rem)",letterSpacing:"-.02em",marginBottom:"1rem",lineHeight:1.08}}>Ready to Stand Out<br/><span style={{background:"linear-gradient(135deg,#60a5fa,#22d3ee)",WebkitBackgroundClip:"text",WebkitTextFillColor:"transparent"}}>From the Competition?</span></h2>
-            <p style={{position:"relative",color:"#8a93ab",marginBottom:"2.4rem",fontFamily:"'Outfit',sans-serif",fontSize:"1.05rem",lineHeight:1.72,maxWidth:480,margin:"0 auto 2.4rem"}}>First consultation is completely free. No commitment required.</p>
-            <div style={{display:"flex",gap:"1rem",justifyContent:"center",flexWrap:"wrap",position:"relative"}}>
-              <Btn primary href="#contact">Book a Free Call →</Btn>
-              <Btn href="#portfolio">See Our Work</Btn>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* ═══════════════════ CONTACT ═══════════════════ */}
-      <section id="contact" style={{padding:"8rem 0",position:"relative",zIndex:1}}>
-        <div className="container px-4 px-lg-5">
-          <div className="row g-5 align-items-start">
-            <div className="col-12 col-lg-5">
-              <div className="rv" data-dir="left">
-                <Label text="Get In Touch"/>
-                <h2 style={{fontFamily:"'Baloo 2',sans-serif",fontWeight:800,fontSize:"clamp(2.2rem,4.5vw,3.5rem)",letterSpacing:"-.02em",marginBottom:"1rem",lineHeight:1.05}}>Let's Build<br/><span style={{background:"linear-gradient(135deg,#60a5fa,#22d3ee)",WebkitBackgroundClip:"text",WebkitTextFillColor:"transparent"}}>Something Great</span></h2>
-                <p style={{color:"#8a93ab",lineHeight:1.75,marginBottom:"2rem",maxWidth:360,fontFamily:"'Outfit',sans-serif",fontSize:".95rem"}}>Tell us about your project and we will get back to you within 24 hours.</p>
-              </div>
-              <div className="rv" data-dir="left" data-delay=".1">
-                {[
-                  {iconClass:"bi bi-envelope-fill",label:"anilpte232@gmail.com",href:"mailto:anilpte232@gmail.com"},
-                  {iconClass:"bi bi-linkedin",label:"linkedin.com/in/Anil pandey",href:"https://linkedin.com"},
-                  {iconClass:"bi bi-geo-alt-fill",label:"United Kingdom",href:null}
-                ].map((c,i)=>(
-                  <div key={i} style={{display:"flex",alignItems:"center",gap:"1rem",marginBottom:"1.2rem"}}>
-                    <div style={{width:44,height:44,background:"rgba(37,99,235,.09)",border:"1px solid rgba(37,99,235,.18)",borderRadius:9,display:"flex",alignItems:"center",justifyContent:"center",fontSize:"1.1rem",color:"#60a5fa",flexShrink:0}}>
-                      <i className={c.iconClass}></i>
+                <div
+                  className="glass-card p-4 p-xl-5 h-100 d-flex flex-column justify-content-between position-relative"
+                  style={plan.highlight ? {
+                    borderColor:"rgba(59,130,246,0.5)",
+                    background:"linear-gradient(180deg, rgba(30,58,138,0.2) 0%, rgba(15,23,42,0.85) 100%)",
+                    boxShadow:"0 20px 50px rgba(37,99,235,0.2)"
+                  } : {}}
+                >
+                  {plan.highlight && (
+                    <div style={{
+                      position:"absolute",top:-12,left:"50%",transform:"translateX(-50%)",
+                      background:"linear-gradient(135deg,#2563EB,#38BDF8)",
+                      padding:".3rem 1.1rem",borderRadius:"100px",fontSize:".75rem",fontWeight:700,
+                      color:"#FFFFFF",letterSpacing:".08em",textTransform:"uppercase",boxShadow:"0 4px 15px rgba(37,99,235,0.4)"
+                    }}>
+                      ⭐ Most Popular
                     </div>
-                    {c.href?<a href={c.href} style={{color:"#8a93ab",fontSize:".86rem",textDecoration:"none",transition:"color .3s"}} onMouseEnter={e=>e.target.style.color="#60a5fa"} onMouseLeave={e=>e.target.style.color="#8a93ab"}>{c.label}</a>:<span style={{color:"#8a93ab",fontSize:".86rem"}}>{c.label}</span>}
+                  )}
+                  <div>
+                    <div style={{color:"#60A5FA",fontSize:".8rem",fontWeight:700,letterSpacing:".08em",textTransform:"uppercase",marginBottom:".5rem"}}>
+                      {plan.name}
+                    </div>
+                    <div className="d-flex align-items-baseline gap-2 mb-2">
+                      <span style={{fontFamily:"'Plus Jakarta Sans',sans-serif",fontWeight:800,fontSize:"3rem",color:"#FFFFFF"}}>
+                        {plan.price}
+                      </span>
+                      <span style={{color:"#64748B",fontSize:".85rem",fontWeight:500}}>
+                        / {plan.period}
+                      </span>
+                    </div>
+                    <p style={{color:"#94A3B8",fontSize:".88rem",lineHeight:1.6,marginBottom:"1.8rem"}}>
+                      {plan.desc}
+                    </p>
+                    <div style={{borderTop:"1px solid rgba(255,255,255,0.06)",paddingTop:"1.4rem",marginBottom:"2rem"}}>
+                      <ul style={{listStyle:"none",padding:0,margin:0,display:"flex",flexDirection:"column",gap:".65rem"}}>
+                        {plan.features.map((feat, idx) => (
+                          <li key={idx} style={{display:"flex",alignItems:"center",gap:".6rem",fontSize:".88rem",color:"#CBD5E1"}}>
+                            <i className="bi bi-check-circle-fill text-primary" style={{fontSize:".95rem"}}></i>
+                            {feat}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  </div>
+                  <Button primary={plan.highlight} outline={!plan.highlight} href="#contact" className="w-100">
+                    {plan.cta}
+                  </Button>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ═══════════════════════════════════════════════════════════════════════ */}
+      {/* ── FAQ ACCORDION ────────────────────────────────────────────────────── */}
+      {/* ═══════════════════════════════════════════════════════════════════════ */}
+      <section id="faq" style={{padding:"8rem 0",background:"rgba(11,17,30,0.5)",position:"relative",zIndex:1}}>
+        <div className="container px-4 px-lg-5">
+          <div className="row g-5 align-items-start">
+            <div className="col-12 col-lg-5">
+              <SectionHeader
+                badge="Knowledge Base"
+                title="Frequently Asked Questions"
+                subtitle="Everything you need to know about our billing, deliverables, communication, and engineering workflow."
+              />
+              <div className="glass-card p-4 d-flex align-items-center gap-3">
+                <div style={{width:44,height:44,borderRadius:"10px",background:"rgba(59,130,246,0.15)",display:"flex",alignItems:"center",justifyContent:"center",color:"#38BDF8",fontSize:"1.3rem"}}>
+                  <i className="bi bi-headset"></i>
+                </div>
+                <div>
+                  <div style={{fontWeight:700,color:"#FFFFFF",fontSize:".95rem"}}>Have a unique question?</div>
+                  <div style={{color:"#94A3B8",fontSize:".84rem"}}>We respond to enquiries within 2 hours.</div>
+                </div>
+              </div>
+            </div>
+
+            <div className="col-12 col-lg-7">
+              <div className="d-flex flex-column gap-3">
+                {faqList.map((faq, i) => (
+                  <div key={i} className="glass-card overflow-hidden" style={{transition:"all .25s ease"}}>
+                    <button
+                      onClick={() => setOpenFaq(openFaq === i ? null : i)}
+                      style={{
+                        width:"100%",textAlign:"left",background:"none",border:"none",
+                        padding:"1.3rem 1.5rem",color:"#FFFFFF",cursor:"pointer",
+                        display:"flex",alignItems:"center",justifyContent:"space-between",gap:"1rem"
+                      }}
+                    >
+                      <span style={{fontWeight:700,fontSize:"1rem",fontFamily:"'Plus Jakarta Sans',sans-serif"}}>{faq.q}</span>
+                      <i className={`bi bi-chevron-${openFaq === i ? "up text-primary" : "down text-muted"}`}></i>
+                    </button>
+                    {openFaq === i && (
+                      <div style={{padding:"0 1.5rem 1.4rem",color:"#94A3B8",fontSize:".92rem",lineHeight:1.7}}>
+                        {faq.a}
+                      </div>
+                    )}
                   </div>
                 ))}
               </div>
             </div>
-            
-            <div className="col-12 col-lg-7">
-              <div className="rv" data-dir="right" data-delay=".15">
-                <div style={{background:"rgba(8,4,20,.88)",border:"1px solid rgba(37,99,235,.1)",borderRadius:18,padding:"2.6rem",display:"flex",flexDirection:"column",gap:"1.2rem"}}>
-                  {formStatus==="success"&&(<div style={{background:"rgba(16,185,129,.1)",border:"1px solid rgba(16,185,129,.28)",borderRadius:10,padding:"1rem 1.2rem",color:"#6ee7b7",fontFamily:"'Baloo 2',sans-serif",fontWeight:600,fontSize:".9rem",display:"flex",gap:".6rem",alignItems:"center"}}><i className="bi bi-check-circle-fill"></i> Message sent! We'll be in touch within 24 hours.</div>)}
-                  {formError&&(<div style={{background:"rgba(239,68,68,.1)",border:"1px solid rgba(239,68,68,.28)",borderRadius:10,padding:"1rem 1.2rem",color:"#f87171",fontFamily:"'Baloo 2',sans-serif",fontWeight:600,fontSize:".9rem",display:"flex",gap:".6rem",alignItems:"center"}}><i className="bi bi-exclamation-triangle-fill"></i> {formError}</div>)}
+          </div>
+        </div>
+      </section>
 
-                  {/* Honeypot Bot Trap */}
+      {/* ═══════════════════════════════════════════════════════════════════════ */}
+      {/* ── CONTACT & CONSULTATION FLOW ──────────────────────────────────────── */}
+      {/* ═══════════════════════════════════════════════════════════════════════ */}
+      <section id="contact" style={{padding:"9rem 0",position:"relative",zIndex:1}}>
+        <div className="container px-4 px-lg-5">
+          <div className="row g-5 align-items-start">
+            {/* Contact Details */}
+            <div className="col-12 col-lg-5">
+              <SectionHeader
+                badge="Start a Conversation"
+                title="Let's Build Something Exceptional"
+                subtitle="Book a consultation or submit your project requirements below. We review every enquiry and reply within 24 hours."
+              />
+
+              <div className="d-flex flex-column gap-3 mt-4">
+                {[
+                  {icon:"bi-envelope-fill",label:"Direct Email",value:"anilpte232@gmail.com",href:"mailto:anilpte232@gmail.com"},
+                  {icon:"bi-linkedin",label:"LinkedIn Professional",value:"linkedin.com/in/Anil pandey",href:"https://linkedin.com"},
+                  {icon:"bi-geo-alt-fill",label:"Operating Headquarters",value:"London & United Kingdom (Global Remote)",href:null}
+                ].map((item, i) => (
+                  <div key={i} className="glass-card p-3 d-flex align-items-center gap-3">
+                    <div style={{
+                      width:42,height:42,borderRadius:"10px",
+                      background:"rgba(59,130,246,0.1)",border:"1px solid rgba(59,130,246,0.2)",
+                      display:"flex",alignItems:"center",justifyContent:"center",
+                      color:"#38BDF8",fontSize:"1.1rem"
+                    }}>
+                      <i className={`bi ${item.icon}`}></i>
+                    </div>
+                    <div>
+                      <div style={{color:"#64748B",fontSize:".75rem",fontWeight:600,textTransform:"uppercase",letterSpacing:".05em"}}>{item.label}</div>
+                      {item.href ? (
+                        <a href={item.href} style={{color:"#E2E8F0",fontSize:".9rem",fontWeight:600}} onMouseEnter={e=>e.target.style.color="#60A5FA"} onMouseLeave={e=>e.target.style.color="#E2E8F0"}>
+                          {item.value}
+                        </a>
+                      ) : (
+                        <span style={{color:"#E2E8F0",fontSize:".9rem",fontWeight:600}}>{item.value}</span>
+                      )}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Contact Form */}
+            <div className="col-12 col-lg-7">
+              <div className="glass-card p-4 p-xl-5">
+                <h3 style={{fontSize:"1.4rem",marginBottom:"1.5rem"}}>Project Enquiry Form</h3>
+
+                {formStatus === "success" && (
+                  <div style={{
+                    background:"rgba(34,197,94,0.15)",border:"1px solid rgba(34,197,94,0.3)",
+                    borderRadius:"10px",padding:"1rem 1.2rem",color:"#86EFAC",marginBottom:"1.5rem",
+                    display:"flex",alignItems:"center",gap:".75rem",fontSize:".92rem",fontWeight:600
+                  }}>
+                    <i className="bi bi-check-circle-fill text-success fs-5"></i>
+                    Thank you! Your enquiry has been received. We will be in touch within 24 hours.
+                  </div>
+                )}
+
+                {formError && (
+                  <div style={{
+                    background:"rgba(239,68,68,0.15)",border:"1px solid rgba(239,68,68,0.3)",
+                    borderRadius:"10px",padding:"1rem 1.2rem",color:"#FCA5A5",marginBottom:"1.5rem",
+                    display:"flex",alignItems:"center",gap:".75rem",fontSize:".92rem",fontWeight:600
+                  }}>
+                    <i className="bi bi-exclamation-triangle-fill text-danger fs-5"></i>
+                    {formError}
+                  </div>
+                )}
+
+                <form onSubmit={handleContactSubmit}>
+                  {/* Invisible Honeypot */}
                   <div style={{display:"none"}} aria-hidden="true">
                     <input type="text" name="company_website_hp" value={honeypot} onChange={e=>setHoneypot(e.target.value)} tabIndex="-1" autoComplete="off"/>
                   </div>
 
-                  <div className="row g-3">
+                  <div className="row g-3 mb-3">
                     <div className="col-12 col-sm-6">
-                      <label style={{fontSize:".68rem",color:"#6f7a96",letterSpacing:".1em",textTransform:"uppercase",fontFamily:"'Baloo 2',sans-serif",fontWeight:600,marginBottom:".38rem",display:"block"}}>Your Name</label>
-                      <input type="text" maxLength={100} placeholder="John Smith" value={name} onChange={e=>setName(e.target.value)} className="form-control pb-form-control"/>
+                      <label style={{fontSize:".8rem",color:"#94A3B8",fontWeight:600,marginBottom:".4rem",display:"block"}}>Your Full Name *</label>
+                      <input
+                        type="text"
+                        maxLength={100}
+                        required
+                        placeholder="e.g. Alexander Vance"
+                        value={name}
+                        onChange={e=>setName(e.target.value)}
+                        className="form-control pro-input"
+                      />
                     </div>
                     <div className="col-12 col-sm-6">
-                      <label style={{fontSize:".68rem",color:"#6f7a96",letterSpacing:".1em",textTransform:"uppercase",fontFamily:"'Baloo 2',sans-serif",fontWeight:600,marginBottom:".38rem",display:"block"}}>Email Address</label>
-                      <input type="email" maxLength={254} placeholder="john@company.com" value={email} onChange={e=>setEmail(e.target.value)} className="form-control pb-form-control"/>
+                      <label style={{fontSize:".8rem",color:"#94A3B8",fontWeight:600,marginBottom:".4rem",display:"block"}}>Business Email Address *</label>
+                      <input
+                        type="email"
+                        maxLength={254}
+                        required
+                        placeholder="alexander@company.com"
+                        value={email}
+                        onChange={e=>setEmail(e.target.value)}
+                        className="form-control pro-input"
+                      />
                     </div>
                   </div>
 
-                  <div>
-                    <label style={{fontSize:".68rem",color:"#6f7a96",letterSpacing:".1em",textTransform:"uppercase",fontFamily:"'Baloo 2',sans-serif",fontWeight:600,marginBottom:".38rem",display:"block"}}>Service Needed</label>
-                    <select value={service} onChange={e=>setService(e.target.value)} className="form-select pb-form-control">
-                      <option value="Web Development">Web Development</option>
-                      <option value="Social Media Management">Social Media Management</option>
-                      <option value="Graphic Design">Graphic Design</option>
-                      <option value="Full Package">Full Package</option>
+                  <div className="mb-3">
+                    <label style={{fontSize:".8rem",color:"#94A3B8",fontWeight:600,marginBottom:".4rem",display:"block"}}>Primary Service of Interest</label>
+                    <select
+                      value={service}
+                      onChange={e=>setService(e.target.value)}
+                      className="form-select pro-input"
+                    >
+                      <option value="Web Engineering & Architecture">Web Engineering &amp; Architecture</option>
+                      <option value="Brand Identity & UI/UX Design">Brand Identity &amp; UI/UX Design</option>
+                      <option value="Growth & Social Media Strategy">Growth &amp; Social Media Strategy</option>
+                      <option value="Full Enterprise Transformation">Full Enterprise Transformation (All Services)</option>
                     </select>
                   </div>
 
-                  <div>
-                    <label style={{fontSize:".68rem",color:"#6f7a96",letterSpacing:".1em",textTransform:"uppercase",fontFamily:"'Baloo 2',sans-serif",fontWeight:600,marginBottom:".38rem",display:"block"}}>About Your Project</label>
-                    <textarea maxLength={3000} placeholder="Brief description of what you need..." rows={4} value={message} onChange={e=>setMessage(e.target.value)} className="form-control pb-form-control" style={{resize:"vertical"}}/>
+                  <div className="mb-4">
+                    <label style={{fontSize:".8rem",color:"#94A3B8",fontWeight:600,marginBottom:".4rem",display:"block"}}>Project Scope &amp; Vision *</label>
+                    <textarea
+                      maxLength={3000}
+                      required
+                      placeholder="Briefly describe your goals, timeline, and current challenges..."
+                      rows={4}
+                      value={message}
+                      onChange={e=>setMessage(e.target.value)}
+                      className="form-control pro-input"
+                      style={{resize:"vertical"}}
+                    />
                   </div>
 
-                  <Btn primary onClick={sendMessage} disabled={formStatus==="sending"} className="w-100">{formStatus==="sending"?"Sending…":"Send Message →"}</Btn>
-                </div>
+                  <Button primary disabled={formStatus==="sending"} className="w-100" style={{padding:"1rem",fontSize:"1rem"}}>
+                    {formStatus === "sending" ? (
+                      <>
+                        <span className="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+                        Transmitting Enquiry...
+                      </>
+                    ) : (
+                      <>
+                        Submit Project Consultation Request <i className="bi bi-arrow-right ms-2"></i>
+                      </>
+                    )}
+                  </Button>
+                </form>
               </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* ═══════════════════ FOOTER ═══════════════════ */}
-      <footer style={{padding:"3.5rem 0 2rem",borderTop:"1px solid rgba(37,99,235,.1)",position:"relative",zIndex:1,background:"rgba(4,3,12,.85)"}}>
+      {/* ═══════════════════════════════════════════════════════════════════════ */}
+      {/* ── FOOTER ───────────────────────────────────────────────────────────── */}
+      {/* ═══════════════════════════════════════════════════════════════════════ */}
+      <footer style={{
+        background:"rgba(7,10,17,0.95)",
+        borderTop:"1px solid rgba(255,255,255,0.08)",
+        padding:"5rem 0 2.5rem",
+        position:"relative",zIndex:1
+      }}>
         <div className="container px-4 px-lg-5">
           <div className="row g-4 mb-5">
-            <div className="col-12 col-sm-6 col-lg-3">
-              <div style={{fontFamily:"'Baloo 2',sans-serif",fontWeight:800,fontSize:"1.3rem",background:"linear-gradient(135deg,#60a5fa,#22d3ee)",WebkitBackgroundClip:"text",WebkitTextFillColor:"transparent",letterSpacing:".04em",marginBottom:".7rem"}}>Pixel & Brush</div>
-              <p style={{color:"#6f7a96",fontSize:".83rem",lineHeight:1.7,maxWidth:240,marginBottom:"1.3rem"}}>Digital creative studio based in the UK — helping brands own their space online.</p>
-              <div style={{display:"flex",gap:".7rem"}}>
-                {[{icon:"bi bi-linkedin",href:"https://linkedin.com",title:"LinkedIn"},{icon:"bi bi-instagram",href:"https://instagram.com",title:"Instagram"}].map(s=>(
-                  <a key={s.title} href={s.href} target="_blank" rel="noopener noreferrer" title={s.title} style={{width:36,height:36,background:"rgba(37,99,235,.1)",border:"1px solid rgba(37,99,235,.2)",borderRadius:8,display:"flex",alignItems:"center",justifyContent:"center",color:"#8a93ab",fontSize:".95rem",textDecoration:"none",transition:"all .3s"}} onMouseEnter={e=>{e.currentTarget.style.background="rgba(37,99,235,.25)";e.currentTarget.style.color="#60a5fa";e.currentTarget.style.borderColor="rgba(37,99,235,.5)";}} onMouseLeave={e=>{e.currentTarget.style.background="rgba(37,99,235,.1)";e.currentTarget.style.color="#8a93ab";e.currentTarget.style.borderColor="rgba(37,99,235,.2)";}}>
-                    <i className={s.icon}></i>
+            <div className="col-12 col-lg-4">
+              <a href="/" style={{display:"flex",alignItems:"center",gap:".75rem",marginBottom:"1.2rem"}}>
+                <div style={{
+                  width:34,height:34,borderRadius:"8px",
+                  background:"linear-gradient(135deg,#2563EB,#38BDF8)",
+                  display:"flex",alignItems:"center",justifyContent:"center",
+                  color:"#FFFFFF",fontWeight:800,fontSize:".9rem"
+                }}>PB</div>
+                <span style={{fontFamily:"'Plus Jakarta Sans',sans-serif",fontWeight:800,fontSize:"1.15rem",color:"#FFFFFF"}}>
+                  Pixel &amp; Brush
+                </span>
+              </a>
+              <p style={{color:"#94A3B8",fontSize:".88rem",lineHeight:1.7,maxWidth:320,marginBottom:"1.5rem"}}>
+                Boutique UK digital studio delivering award-winning websites, brand identities, and growth engineering for ambitious modern brands.
+              </p>
+              <div className="d-flex gap-2">
+                {[
+                  {icon:"bi-linkedin",href:"https://linkedin.com",title:"LinkedIn"},
+                  {icon:"bi-instagram",href:"https://instagram.com",title:"Instagram"},
+                  {icon:"bi-github",href:"https://github.com",title:"GitHub"}
+                ].map((s, idx) => (
+                  <a
+                    key={idx}
+                    href={s.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    title={s.title}
+                    style={{
+                      width:38,height:38,borderRadius:"10px",
+                      background:"rgba(255,255,255,0.04)",border:"1px solid rgba(255,255,255,0.08)",
+                      display:"flex",alignItems:"center",justifyContent:"center",
+                      color:"#94A3B8",fontSize:"1rem",transition:"all .25s ease"
+                    }}
+                    onMouseEnter={e=>{e.currentTarget.style.background="rgba(59,130,246,0.15)";e.currentTarget.style.borderColor="rgba(59,130,246,0.4)";e.currentTarget.style.color="#38BDF8";}}
+                    onMouseLeave={e=>{e.currentTarget.style.background="rgba(255,255,255,0.04)";e.currentTarget.style.borderColor="rgba(255,255,255,0.08)";e.currentTarget.style.color="#94A3B8";}}
+                  >
+                    <i className={`bi ${s.icon}`}></i>
                   </a>
                 ))}
               </div>
             </div>
-            
-            <div className="col-12 col-sm-6 col-lg-3">
-              <div style={{fontFamily:"'Baloo 2',sans-serif",fontWeight:700,fontSize:".7rem",color:"#2563eb",letterSpacing:".18em",textTransform:"uppercase",marginBottom:"1.1rem"}}>Services</div>
-              {["Web Development","Social Media","Graphic Design","Full Package"].map(l=>(<a key={l} href="#services" style={{display:"block",color:"#8a93ab",fontSize:".84rem",marginBottom:".55rem",textDecoration:"none",transition:"color .3s"}} onMouseEnter={e=>e.target.style.color="#e8edf7"} onMouseLeave={e=>e.target.style.color="#8a93ab"}>{l}</a>))}
+
+            <div className="col-6 col-lg-2 offset-lg-1">
+              <div style={{color:"#FFFFFF",fontWeight:700,fontSize:".88rem",marginBottom:"1.2rem",fontFamily:"'Plus Jakarta Sans',sans-serif"}}>Capabilities</div>
+              <ul style={{listStyle:"none",padding:0,margin:0,display:"flex",flexDirection:"column",gap:".7rem"}}>
+                {["Web Engineering", "Brand Identity", "UI/UX Architecture", "Growth Strategy", "Client Portal"].map((item, idx) => (
+                  <li key={idx}>
+                    <a href="#services" style={{color:"#94A3B8",fontSize:".85rem"}} onMouseEnter={e=>e.target.style.color="#FFFFFF"} onMouseLeave={e=>e.target.style.color="#94A3B8"}>{item}</a>
+                  </li>
+                ))}
+              </ul>
             </div>
-            
-            <div className="col-12 col-sm-6 col-lg-3">
-              <div style={{fontFamily:"'Baloo 2',sans-serif",fontWeight:700,fontSize:".7rem",color:"#2563eb",letterSpacing:".18em",textTransform:"uppercase",marginBottom:"1.1rem"}}>Company</div>
-              {[["Portfolio","#portfolio"],["Pricing","#pricing"],["Process","#process"],["Contact","#contact"],["Client Login","/login"]].map(([l,h])=>(<a key={l} href={h} style={{display:"block",color:"#8a93ab",fontSize:".84rem",marginBottom:".55rem",textDecoration:"none",transition:"color .3s"}} onMouseEnter={e=>e.target.style.color="#e8edf7"} onMouseLeave={e=>e.target.style.color="#8a93ab"}>{l}</a>))}
+
+            <div className="col-6 col-lg-2">
+              <div style={{color:"#FFFFFF",fontWeight:700,fontSize:".88rem",marginBottom:"1.2rem",fontFamily:"'Plus Jakarta Sans',sans-serif"}}>Navigation</div>
+              <ul style={{listStyle:"none",padding:0,margin:0,display:"flex",flexDirection:"column",gap:".7rem"}}>
+                {[
+                  ["Selected Work", "#portfolio"],
+                  ["Pricing & Packages", "#pricing"],
+                  ["Agency Process", "#process"],
+                  ["Client Sign In", "/login"],
+                  ["Start a Project", "#contact"]
+                ].map(([label, href], idx) => (
+                  <li key={idx}>
+                    <a href={href} style={{color:"#94A3B8",fontSize:".85rem"}} onMouseEnter={e=>e.target.style.color="#FFFFFF"} onMouseLeave={e=>e.target.style.color="#94A3B8"}>{label}</a>
+                  </li>
+                ))}
+              </ul>
             </div>
-            
-            <div className="col-12 col-sm-6 col-lg-3">
-              <div style={{fontFamily:"'Baloo 2',sans-serif",fontWeight:700,fontSize:".7rem",color:"#2563eb",letterSpacing:".18em",textTransform:"uppercase",marginBottom:"1.1rem"}}>Contact</div>
-              <a href="mailto:anilpte232@gmail.com" style={{display:"block",color:"#8a93ab",fontSize:".84rem",marginBottom:".55rem",textDecoration:"none",transition:"color .3s"}} onMouseEnter={e=>e.target.style.color="#e8edf7"} onMouseLeave={e=>e.target.style.color="#8a93ab"}>anilpte232@gmail.com</a>
-              <p style={{color:"#8a93ab",fontSize:".84rem",marginBottom:"1.2rem"}}>United Kingdom</p>
-              <a href="#contact" style={{display:"inline-flex",alignItems:"center",gap:".4rem",color:"#60a5fa",fontSize:".84rem",textDecoration:"none",fontFamily:"'Baloo 2',sans-serif",fontWeight:700,transition:"opacity .3s"}} onMouseEnter={e=>e.currentTarget.style.opacity=".7"} onMouseLeave={e=>e.currentTarget.style.opacity="1"}>Start a project →</a>
+
+            <div className="col-12 col-lg-3">
+              <div style={{color:"#FFFFFF",fontWeight:700,fontSize:".88rem",marginBottom:"1.2rem",fontFamily:"'Plus Jakarta Sans',sans-serif"}}>Direct Studio Contact</div>
+              <div style={{color:"#94A3B8",fontSize:".86rem",lineHeight:1.6,marginBottom:".8rem"}}>
+                Available for worldwide remote contracts &amp; UK client consultations.
+              </div>
+              <a href="mailto:anilpte232@gmail.com" style={{color:"#38BDF8",fontSize:".88rem",fontWeight:600,display:"block",marginBottom:"1rem"}}>
+                anilpte232@gmail.com
+              </a>
+              <Button outline href="#contact" className="w-100" style={{padding:".65rem 1rem",fontSize:".85rem"}}>
+                Book 15-Min Discovery →
+              </Button>
             </div>
           </div>
-          
-          <div className="row pt-3 border-top align-items-center" style={{borderColor:"rgba(37,99,235,.07) !important"}}>
-            <div className="col-12 col-md-6 text-center text-md-start mb-2 mb-md-0">
-              <p style={{color:"#3a4260",fontSize:".76rem",fontFamily:"'Baloo 2',sans-serif",margin:0}}>© 2025 Pixel &amp; Brush. All rights reserved. United Kingdom.</p>
+
+          <div className="pt-4 border-top d-flex flex-wrap justify-content-between align-items-center gap-3" style={{borderColor:"rgba(255,255,255,0.06) !important"}}>
+            <div style={{color:"#64748B",fontSize:".82rem"}}>
+              © {new Date().getFullYear()} Pixel &amp; Brush Digital Studio. All rights reserved. Registered in the United Kingdom.
             </div>
-            <div className="col-12 col-md-6 text-center text-md-end">
-              <p style={{color:"#3a4260",fontSize:".72rem",fontFamily:"'Baloo 2',sans-serif",letterSpacing:".08em",margin:0}}>CRAFTED WITH ❤ IN THE UK</p>
+            <div style={{color:"#64748B",fontSize:".78rem",letterSpacing:".05em",textTransform:"uppercase"}}>
+              BUILT WITH PRECISION IN THE UK 🇬🇧
             </div>
           </div>
         </div>
