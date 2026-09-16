@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import { supabase } from "./supabaseClient";
 
-/* ── Global CSS & Kinetic Styling ─────────────────────────────────────────── */
+/* ── Global Styles & Sunset Ember Theme ───────────────────────────────────── */
 const GlobalStyles = () => (
   <style>{`
     @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@500;600;700;800&family=Syne:wght@700;800;900&display=swap');
@@ -9,8 +9,8 @@ const GlobalStyles = () => (
     *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
     html { scroll-behavior: smooth; }
     body {
-      background: #05070E;
-      color: #E2E8F0;
+      background: #08070B;
+      color: #F1F5F9;
       font-family: 'Outfit', -apple-system, BlinkMacSystemFont, sans-serif;
       overflow-x: hidden;
       cursor: none;
@@ -18,9 +18,9 @@ const GlobalStyles = () => (
     }
 
     ::-webkit-scrollbar { width: 5px; }
-    ::-webkit-scrollbar-track { background: #05070E; }
-    ::-webkit-scrollbar-thumb { background: #1E293B; border-radius: 4px; }
-    ::-webkit-scrollbar-thumb:hover { background: #6366F1; }
+    ::-webkit-scrollbar-track { background: #08070B; }
+    ::-webkit-scrollbar-thumb { background: #271E36; border-radius: 4px; }
+    ::-webkit-scrollbar-thumb:hover { background: #F97316; }
 
     a { text-decoration: none; color: inherit; transition: all .25s ease; }
     a:hover { color: inherit; }
@@ -34,36 +34,35 @@ const GlobalStyles = () => (
     /* Keyframes */
     @keyframes floatY { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-12px)} }
     @keyframes floatSlow { 0%,100%{transform:translateY(0) rotate(0deg)} 50%{transform:translateY(-8px) rotate(1deg)} }
-    @keyframes pulseGlow { 0%,100%{opacity:.5;transform:scale(1)} 50%{opacity:.85;transform:scale(1.06)} }
+    @keyframes emberPulse { 0%,100%{opacity:.5;transform:scale(1)} 50%{opacity:.85;transform:scale(1.06)} }
     @keyframes liveDot { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:.3;transform:scale(.75)} }
     @keyframes ticker { from{transform:translateX(0)} to{transform:translateX(-50%)} }
     @keyframes gradientShift { 0%{background-position:0% 50%} 50%{background-position:100% 50%} 100%{background-position:0% 50%} }
-    @keyframes shine { 0%{left:-100%} 100%{left:200%} }
     @keyframes whatsappPulse { 0%,100%{transform:scale(1);box-shadow:0 10px 25px rgba(37,211,102,0.35)} 50%{transform:scale(1.08);box-shadow:0 18px 35px rgba(37,211,102,0.55)} }
-    @keyframes borderGlow { 0%,100%{border-color:rgba(99,102,241,0.25)} 50%{border-color:rgba(56,189,248,0.5)} }
+    @keyframes emberGlow { 0%,100%{border-color:rgba(249,115,22,0.25)} 50%{border-color:rgba(245,158,11,0.55)} }
 
-    /* Modern Gradients & Typography */
+    /* Sunset Ember Typography & Gradients */
     .glow-headline {
-      background: linear-gradient(135deg, #FFFFFF 15%, #93C5FD 45%, #A78BFA 75%, #38BDF8 100%);
+      background: linear-gradient(135deg, #FFFFFF 15%, #FED7AA 45%, #F97316 75%, #F59E0B 100%);
       background-size: 200% auto;
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       animation: gradientShift 6s ease infinite;
     }
-    .accent-cyan {
-      background: linear-gradient(135deg, #38BDF8 0%, #818CF8 100%);
+    .accent-coral {
+      background: linear-gradient(135deg, #F97316 0%, #F59E0B 100%);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
     }
-    .accent-violet {
-      background: linear-gradient(135deg, #C084FC 0%, #F472B6 100%);
+    .accent-gold {
+      background: linear-gradient(135deg, #FBBF24 0%, #EA580C 100%);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
     }
 
     /* Bento Card Architecture */
     .bento-card {
-      background: rgba(13, 19, 36, 0.7);
+      background: rgba(18, 14, 26, 0.72);
       border: 1px solid rgba(255, 255, 255, 0.08);
       border-radius: 24px;
       backdrop-filter: blur(24px);
@@ -76,18 +75,18 @@ const GlobalStyles = () => (
       content: "";
       position: absolute;
       top: 0; left: 0; right: 0; height: 1px;
-      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.15), transparent);
+      background: linear-gradient(90deg, transparent, rgba(249, 115, 22, 0.25), transparent);
     }
     .bento-card:hover {
-      background: rgba(18, 26, 48, 0.85);
-      border-color: rgba(99, 102, 241, 0.4);
+      background: rgba(26, 20, 38, 0.88);
+      border-color: rgba(249, 115, 22, 0.45);
       transform: translateY(-6px);
-      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5), 0 0 30px rgba(99, 102, 241, 0.15);
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.6), 0 0 30px rgba(249, 115, 22, 0.15);
     }
 
     .bento-card-glow {
-      border: 1px solid rgba(99, 102, 241, 0.35);
-      background: radial-gradient(circle at 50% 0%, rgba(99, 102, 241, 0.15) 0%, rgba(13, 19, 36, 0.8) 75%);
+      border: 1px solid rgba(249, 115, 22, 0.4);
+      background: radial-gradient(circle at 50% 0%, rgba(249, 115, 22, 0.15) 0%, rgba(18, 14, 26, 0.85) 75%);
     }
 
     /* Pill Badges */
@@ -101,14 +100,14 @@ const GlobalStyles = () => (
       border-radius: 100px;
       font-size: .78rem;
       font-weight: 600;
-      color: #94A3B8;
+      color: #CBD5E1;
       backdrop-filter: blur(10px);
       transition: all .25s ease;
     }
     .pill-badge:hover {
-      background: rgba(99, 102, 241, 0.12);
-      border-color: rgba(99, 102, 241, 0.3);
-      color: #E2E8F0;
+      background: rgba(249, 115, 22, 0.12);
+      border-color: rgba(249, 115, 22, 0.35);
+      color: #FED7AA;
     }
 
     /* Filter Tabs */
@@ -128,15 +127,15 @@ const GlobalStyles = () => (
       background: rgba(255, 255, 255, 0.08);
     }
     .filter-tab.active {
-      background: linear-gradient(135deg, #4F46E5, #06B6D4);
+      background: linear-gradient(135deg, #EA580C, #F59E0B);
       border-color: transparent;
       color: #FFFFFF;
-      box-shadow: 0 4px 20px rgba(79, 70, 229, 0.4);
+      box-shadow: 0 4px 20px rgba(234, 88, 12, 0.45);
     }
 
     /* Form Inputs */
     .cyber-input {
-      background: rgba(9, 14, 28, 0.85) !important;
+      background: rgba(13, 10, 20, 0.88) !important;
       border: 1px solid rgba(255, 255, 255, 0.1) !important;
       color: #FFFFFF !important;
       border-radius: 14px !important;
@@ -146,26 +145,26 @@ const GlobalStyles = () => (
       transition: all .25s ease !important;
     }
     .cyber-input:focus {
-      border-color: #6366F1 !important;
-      background: rgba(13, 20, 40, 0.98) !important;
-      box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.25) !important;
+      border-color: #F97316 !important;
+      background: rgba(20, 15, 30, 0.98) !important;
+      box-shadow: 0 0 0 3px rgba(249, 115, 22, 0.25) !important;
       color: #FFFFFF !important;
     }
     .cyber-input::placeholder {
-      color: #64748B !important;
+      color: #71717A !important;
     }
 
     /* Mobile Drawer */
     .mobile-drawer {
       position: fixed; top: 0; right: 0; bottom: 0; width: 310px;
-      background: rgba(5, 8, 16, 0.98); border-left: 1px solid rgba(255, 255, 255, 0.08);
+      background: rgba(8, 7, 12, 0.98); border-left: 1px solid rgba(255, 255, 255, 0.08);
       backdrop-filter: blur(32px); z-index: 1050;
       padding: 5rem 2rem 2rem; display: flex; flex-direction: column; gap: 1rem;
       transform: translateX(100%); transition: transform .35s cubic-bezier(.16, 1, .3, 1);
     }
     .mobile-drawer.open { transform: translateX(0); }
     .mobile-overlay {
-      position: fixed; inset: 0; z-index: 1040; background: rgba(0, 0, 0, .7);
+      position: fixed; inset: 0; z-index: 1040; background: rgba(0, 0, 0, .75);
       opacity: 0; pointer-events: none; transition: opacity .3s;
     }
     .mobile-overlay.open { opacity: 1; pointer-events: all; }
@@ -180,7 +179,7 @@ const GlobalStyles = () => (
   `}</style>
 );
 
-/* ── Custom Interactive Glow Cursor ───────────────────────────────────────── */
+/* ── Custom Interactive Sunset Glow Cursor ────────────────────────────────── */
 const CustomCursor = () => {
   const dot = useRef(null);
   const ring = useRef(null);
@@ -196,14 +195,14 @@ const CustomCursor = () => {
     const handleEnter = () => {
       if (ring.current) {
         ring.current.style.transform = "scale(2)";
-        ring.current.style.borderColor = "rgba(56, 189, 248, 0.8)";
-        ring.current.style.background = "rgba(56, 189, 248, 0.08)";
+        ring.current.style.borderColor = "rgba(249, 115, 22, 0.85)";
+        ring.current.style.background = "rgba(249, 115, 22, 0.08)";
       }
     };
     const handleLeave = () => {
       if (ring.current) {
         ring.current.style.transform = "scale(1)";
-        ring.current.style.borderColor = "rgba(99, 102, 241, 0.4)";
+        ring.current.style.borderColor = "rgba(249, 115, 22, 0.4)";
         ring.current.style.background = "transparent";
       }
     };
@@ -237,8 +236,8 @@ const CustomCursor = () => {
 
   return (
     <>
-      <div ref={dot} style={{ position: "fixed", width: 8, height: 8, background: "#38BDF8", borderRadius: "50%", pointerEvents: "none", zIndex: 9999, transition: "opacity .2s" }} />
-      <div ref={ring} style={{ position: "fixed", width: 36, height: 36, border: "1.5px solid rgba(99,102,241,0.4)", borderRadius: "50%", pointerEvents: "none", zIndex: 9998, transition: "transform .25s ease, border-color .25s ease, background .25s ease" }} />
+      <div ref={dot} style={{ position: "fixed", width: 8, height: 8, background: "#F97316", borderRadius: "50%", pointerEvents: "none", zIndex: 9999, transition: "opacity .2s", boxShadow: "0 0 10px #F97316" }} />
+      <div ref={ring} style={{ position: "fixed", width: 36, height: 36, border: "1.5px solid rgba(249,115,22,0.4)", borderRadius: "50%", pointerEvents: "none", zIndex: 9998, transition: "transform .25s ease, border-color .25s ease, background .25s ease" }} />
     </>
   );
 };
@@ -264,8 +263,8 @@ const ScrollProgressBar = () => {
         height: 3,
         zIndex: 9997,
         width: `${progress}%`,
-        background: "linear-gradient(90deg, #4F46E5, #06B6D4, #F43F5E)",
-        boxShadow: "0 0 12px rgba(6,182,212,0.6)",
+        background: "linear-gradient(90deg, #EA580C, #F59E0B, #EF4444)",
+        boxShadow: "0 0 12px rgba(249,115,22,0.6)",
         pointerEvents: "none",
         transition: "width .05s linear",
       }}
@@ -295,9 +294,9 @@ const BackToTop = () => {
         width: 48,
         height: 48,
         borderRadius: "14px",
-        background: "rgba(13, 19, 36, 0.85)",
+        background: "rgba(18, 14, 26, 0.85)",
         border: "1px solid rgba(255, 255, 255, 0.12)",
-        color: "#E2E8F0",
+        color: "#F1F5F9",
         fontSize: "1.2rem",
         cursor: "pointer",
         backdropFilter: "blur(16px)",
@@ -308,14 +307,14 @@ const BackToTop = () => {
         transition: "all .3s ease",
       }}
       onMouseEnter={(e) => {
-        e.currentTarget.style.borderColor = "#38BDF8";
+        e.currentTarget.style.borderColor = "#F97316";
         e.currentTarget.style.transform = "translateY(-4px)";
-        e.currentTarget.style.color = "#38BDF8";
+        e.currentTarget.style.color = "#F97316";
       }}
       onMouseLeave={(e) => {
         e.currentTarget.style.borderColor = "rgba(255, 255, 255, 0.12)";
         e.currentTarget.style.transform = "none";
-        e.currentTarget.style.color = "#E2E8F0";
+        e.currentTarget.style.color = "#F1F5F9";
       }}
     >
       <i className="bi bi-arrow-up"></i>
@@ -353,15 +352,15 @@ const WhatsAppButton = () => (
   </a>
 );
 
-/* ── Futuristic Ambient Aura Background ──────────────────────────────────── */
+/* ── Sunset Ember Ambient Aura Background ────────────────────────────────── */
 const AmbientStudioAura = () => (
   <div style={{ position: "fixed", inset: 0, zIndex: 0, pointerEvents: "none", overflow: "hidden" }}>
-    {/* Electric Violet Radial Mesh */}
-    <div style={{ position: "absolute", top: "-10%", left: "20%", width: "70vw", height: "60vw", background: "radial-gradient(ellipse, rgba(99, 102, 241, 0.12) 0%, rgba(6, 182, 212, 0.04) 50%, transparent 70%)", filter: "blur(90px)", animation: "pulseGlow 10s ease-in-out infinite" }} />
-    {/* Cyber Cyan Accent */}
-    <div style={{ position: "absolute", top: "45%", right: "-15%", width: "55vw", height: "55vw", background: "radial-gradient(circle, rgba(6, 182, 212, 0.09) 0%, rgba(99, 102, 241, 0.02) 60%, transparent 75%)", filter: "blur(100px)", animation: "pulseGlow 12s ease-in-out infinite 2s" }} />
-    {/* Subtle Dot Grid */}
-    <div style={{ position: "absolute", inset: 0, backgroundImage: "radial-gradient(rgba(255, 255, 255, 0.06) 1px, transparent 1px)", backgroundSize: "36px 36px", opacity: 0.5 }} />
+    {/* Sunset Flame Radial Mesh */}
+    <div style={{ position: "absolute", top: "-10%", left: "20%", width: "70vw", height: "60vw", background: "radial-gradient(ellipse, rgba(249, 115, 22, 0.12) 0%, rgba(245, 158, 11, 0.04) 50%, transparent 70%)", filter: "blur(90px)", animation: "emberPulse 10s ease-in-out infinite" }} />
+    {/* Coral Red Accent */}
+    <div style={{ position: "absolute", top: "45%", right: "-15%", width: "55vw", height: "55vw", background: "radial-gradient(circle, rgba(239, 68, 68, 0.08) 0%, rgba(249, 115, 22, 0.02) 60%, transparent 75%)", filter: "blur(100px)", animation: "emberPulse 12s ease-in-out infinite 2s" }} />
+    {/* Subtle Warm Dot Grid */}
+    <div style={{ position: "absolute", inset: 0, backgroundImage: "radial-gradient(rgba(249, 115, 22, 0.07) 1px, transparent 1px)", backgroundSize: "36px 36px", opacity: 0.6 }} />
   </div>
 );
 
@@ -392,9 +391,9 @@ const ActionButton = ({ children, primary, outline, href, onClick, disabled, cla
         opacity: disabled ? 0.6 : 1,
         ...(primary
           ? {
-              background: "linear-gradient(135deg, #4F46E5 0%, #06B6D4 100%)",
+              background: "linear-gradient(135deg, #EA580C 0%, #F59E0B 100%)",
               color: "#FFFFFF",
-              boxShadow: "0 10px 25px rgba(79, 70, 229, 0.4)",
+              boxShadow: "0 10px 25px rgba(234, 88, 12, 0.4)",
             }
           : outline
           ? {
@@ -405,7 +404,7 @@ const ActionButton = ({ children, primary, outline, href, onClick, disabled, cla
             }
           : {
               background: "rgba(255, 255, 255, 0.06)",
-              color: "#E2E8F0",
+              color: "#F1F5F9",
               border: "1px solid rgba(255, 255, 255, 0.08)",
             }),
         ...style,
@@ -413,11 +412,11 @@ const ActionButton = ({ children, primary, outline, href, onClick, disabled, cla
       onMouseEnter={(e) => {
         if (!disabled) {
           if (primary) {
-            e.currentTarget.style.boxShadow = "0 15px 35px rgba(6, 182, 212, 0.5)";
+            e.currentTarget.style.boxShadow = "0 15px 35px rgba(249, 115, 22, 0.55)";
             e.currentTarget.style.transform = "translateY(-3px) scale(1.02)";
           } else {
-            e.currentTarget.style.borderColor = "rgba(99, 102, 241, 0.5)";
-            e.currentTarget.style.background = "rgba(255, 255, 255, 0.09)";
+            e.currentTarget.style.borderColor = "rgba(249, 115, 22, 0.5)";
+            e.currentTarget.style.background = "rgba(249, 115, 22, 0.08)";
             e.currentTarget.style.transform = "translateY(-3px)";
           }
         }
@@ -425,7 +424,7 @@ const ActionButton = ({ children, primary, outline, href, onClick, disabled, cla
       onMouseLeave={(e) => {
         if (!disabled) {
           if (primary) {
-            e.currentTarget.style.boxShadow = "0 10px 25px rgba(79, 70, 229, 0.4)";
+            e.currentTarget.style.boxShadow = "0 10px 25px rgba(234, 88, 12, 0.4)";
             e.currentTarget.style.transform = "none";
           } else {
             e.currentTarget.style.borderColor = outline ? "rgba(255, 255, 255, 0.12)" : "rgba(255, 255, 255, 0.08)";
@@ -481,22 +480,22 @@ const SectionHeading = ({ tag, title, subtitle, center = false }) => (
         display: "inline-flex",
         alignItems: "center",
         gap: ".5rem",
-        background: "rgba(99, 102, 241, 0.1)",
-        border: "1px solid rgba(99, 102, 241, 0.25)",
+        background: "rgba(249, 115, 22, 0.1)",
+        border: "1px solid rgba(249, 115, 22, 0.28)",
         padding: ".35rem .95rem",
         borderRadius: "100px",
         marginBottom: "1.2rem",
       }}
     >
-      <span style={{ width: 6, height: 6, background: "#38BDF8", borderRadius: "50%" }} />
-      <span style={{ color: "#818CF8", fontSize: ".76rem", fontWeight: 700, letterSpacing: ".08em", textTransform: "uppercase" }}>
+      <span style={{ width: 6, height: 6, background: "#F59E0B", borderRadius: "50%" }} />
+      <span style={{ color: "#FB923C", fontSize: ".76rem", fontWeight: 700, letterSpacing: ".08em", textTransform: "uppercase" }}>
         {tag}
       </span>
     </div>
     <h2 style={{ fontSize: "clamp(2.2rem, 3.8vw, 3.2rem)", lineHeight: 1.12, marginBottom: "1rem" }}>
       {title}
     </h2>
-    {subtitle && <p style={{ color: "#94A3B8", fontSize: "1.05rem", lineHeight: 1.7, margin: 0 }}>{subtitle}</p>}
+    {subtitle && <p style={{ color: "#A1A1AA", fontSize: "1.05rem", lineHeight: 1.7, margin: 0 }}>{subtitle}</p>}
   </div>
 );
 
@@ -527,7 +526,7 @@ const HeaderNavigation = () => {
         <div className="container px-4 px-lg-5">
           <div
             style={{
-              background: isScrolled ? "rgba(9, 14, 28, 0.88)" : "rgba(13, 19, 36, 0.45)",
+              background: isScrolled ? "rgba(14, 11, 20, 0.9)" : "rgba(18, 14, 26, 0.5)",
               backdropFilter: "blur(24px)",
               WebkitBackdropFilter: "blur(24px)",
               border: "1px solid rgba(255, 255, 255, 0.08)",
@@ -536,7 +535,7 @@ const HeaderNavigation = () => {
               display: "flex",
               alignItems: "center",
               justifyContent: "space-between",
-              boxShadow: isScrolled ? "0 15px 35px rgba(0,0,0,0.4)" : "none",
+              boxShadow: isScrolled ? "0 15px 35px rgba(0,0,0,0.45)" : "none",
               transition: "all .3s ease",
             }}
           >
@@ -547,7 +546,7 @@ const HeaderNavigation = () => {
                   width: 38,
                   height: 38,
                   borderRadius: "12px",
-                  background: "linear-gradient(135deg, #4F46E5, #06B6D4)",
+                  background: "linear-gradient(135deg, #EA580C, #F59E0B)",
                   display: "flex",
                   alignItems: "center",
                   justifyContent: "center",
@@ -555,13 +554,13 @@ const HeaderNavigation = () => {
                   fontWeight: 900,
                   fontSize: "1rem",
                   fontFamily: "'Syne', sans-serif",
-                  boxShadow: "0 6px 18px rgba(79, 70, 229, 0.45)",
+                  boxShadow: "0 6px 18px rgba(234, 88, 12, 0.45)",
                 }}
               >
                 PB
               </div>
               <span style={{ fontFamily: "'Syne', sans-serif", fontWeight: 800, fontSize: "1.2rem", color: "#FFFFFF", letterSpacing: "-0.02em" }}>
-                PIXEL <span style={{ color: "#38BDF8" }}>&amp;</span> BRUSH
+                PIXEL <span style={{ color: "#F97316" }}>&amp;</span> BRUSH
               </span>
             </a>
 
@@ -577,9 +576,9 @@ const HeaderNavigation = () => {
                 <a
                   key={item.label}
                   href={item.href}
-                  style={{ color: "#94A3B8", fontSize: ".9rem", fontWeight: 600, letterSpacing: "-0.01em" }}
-                  onMouseEnter={(e) => (e.target.style.color = "#38BDF8")}
-                  onMouseLeave={(e) => (e.target.style.color = "#94A3B8")}
+                  style={{ color: "#A1A1AA", fontSize: ".9rem", fontWeight: 600, letterSpacing: "-0.01em" }}
+                  onMouseEnter={(e) => (e.target.style.color = "#F97316")}
+                  onMouseLeave={(e) => (e.target.style.color = "#A1A1AA")}
                 >
                   {item.label}
                 </a>
@@ -593,7 +592,7 @@ const HeaderNavigation = () => {
                 style={{
                   padding: ".65rem 1.2rem",
                   borderRadius: "12px",
-                  color: "#CBD5E1",
+                  color: "#D4D4D8",
                   fontSize: ".88rem",
                   fontWeight: 600,
                   border: "1px solid rgba(255,255,255,0.08)",
@@ -602,11 +601,11 @@ const HeaderNavigation = () => {
                 }}
                 onMouseEnter={(e) => {
                   e.target.style.color = "#FFFFFF";
-                  e.target.style.borderColor = "rgba(99,102,241,0.4)";
-                  e.target.style.background = "rgba(99,102,241,0.08)";
+                  e.target.style.borderColor = "rgba(249,115,22,0.4)";
+                  e.target.style.background = "rgba(249,115,22,0.08)";
                 }}
                 onMouseLeave={(e) => {
-                  e.target.style.color = "#CBD5E1";
+                  e.target.style.color = "#D4D4D8";
                   e.target.style.borderColor = "rgba(255,255,255,0.08)";
                   e.target.style.background = "rgba(255,255,255,0.02)";
                 }}
@@ -649,7 +648,7 @@ const HeaderNavigation = () => {
           </span>
           <button
             onClick={() => setIsMobileOpen(false)}
-            style={{ background: "none", border: "none", color: "#94A3B8", fontSize: "1.4rem", cursor: "pointer" }}
+            style={{ background: "none", border: "none", color: "#A1A1AA", fontSize: "1.4rem", cursor: "pointer" }}
           >
             <i className="bi bi-x-lg"></i>
           </button>
@@ -666,7 +665,7 @@ const HeaderNavigation = () => {
             key={item.label}
             href={item.href}
             onClick={() => setIsMobileOpen(false)}
-            style={{ padding: ".85rem 0", color: "#CBD5E1", fontSize: "1.1rem", fontWeight: 600, borderBottom: "1px solid rgba(255,255,255,0.05)" }}
+            style={{ padding: ".85rem 0", color: "#D4D4D8", fontSize: "1.1rem", fontWeight: 600, borderBottom: "1px solid rgba(255,255,255,0.05)" }}
           >
             {item.label}
           </a>
@@ -697,7 +696,7 @@ const HeaderNavigation = () => {
 
 /* ══════════════════════════════════════════════════════════════════════════ */
 /* ── MAIN PORTFOLIO COMPONENT ────────────────────────────────────────────── */
-/* ══════════════════════════════════════════════════════════════════════════ */
+/* ═══════════════════════════════════════════════════════════════════════ */
 export default function App() {
   const [activeFilter, setActiveFilter] = useState("all");
   const [openFaqIndex, setOpenFaqIndex] = useState(null);
@@ -705,30 +704,12 @@ export default function App() {
   /* Contact Form States */
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
-  const [service, setService] = useState("Web Engineering & Next-Gen Apps");
+  const [service, setService] = useState("Next-Gen Web Architecture");
   const [budget, setBudget] = useState("£500 - £1,500");
   const [message, setMessage] = useState("");
   const [formStatus, setFormStatus] = useState("idle");
   const [formError, setFormError] = useState("");
   const [honeypot, setHoneypot] = useState("");
-
-  /* Reveal Observer */
-  useEffect(() => {
-    const targets = document.querySelectorAll(".rv-item");
-    const obs = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((e) => {
-          if (e.isIntersecting) {
-            e.target.style.opacity = "1";
-            e.target.style.transform = "none";
-          }
-        });
-      },
-      { threshold: 0.1 }
-    );
-    targets.forEach((t) => obs.observe(t));
-    return () => obs.disconnect();
-  }, []);
 
   /* Data: Services & Capabilities */
   const capabilities = [
@@ -737,7 +718,7 @@ export default function App() {
       tag: "Engineering",
       title: "Next-Gen Web Architecture",
       desc: "Blazing fast React, Next.js, and Supabase cloud applications with 99+ Lighthouse scores and bulletproof conversion funnels.",
-      features: ["Custom React & Next.js Full-Stack", "Automated Supabase Cloud Backends", "Sub-Second Load Time Optimization", "Headless CMS & API Architecture"],
+      features: ["Custom React & Next.js Full-Stack", "Automated Supabase Cloud Backends", "Sub-Second Speed Optimization", "Headless CMS & API Architecture"],
       highlight: true,
     },
     {
@@ -861,7 +842,7 @@ export default function App() {
       role: "Founder & Creative Director",
       company: "Kashish Makeup Studio",
       avatar: "K",
-      gradient: "linear-gradient(135deg, #EC4899, #8B5CF6)",
+      gradient: "linear-gradient(135deg, #F97316, #EF4444)",
     },
     {
       quote:
@@ -870,7 +851,7 @@ export default function App() {
       role: "Managing Director",
       company: "Vijaya Pharma",
       avatar: "A",
-      gradient: "linear-gradient(135deg, #3B82F6, #06B6D4)",
+      gradient: "linear-gradient(135deg, #F59E0B, #EA580C)",
     },
     {
       quote:
@@ -879,7 +860,7 @@ export default function App() {
       role: "Managing Director",
       company: "Kangaroo Education",
       avatar: "D",
-      gradient: "linear-gradient(135deg, #10B981, #3B82F6)",
+      gradient: "linear-gradient(135deg, #EF4444, #F97316)",
     },
   ];
 
@@ -973,7 +954,7 @@ export default function App() {
   };
 
   return (
-    <div style={{ minHeight: "100vh", position: "relative", background: "#05070E", overflowX: "hidden" }}>
+    <div style={{ minHeight: "100vh", position: "relative", background: "#08070B", overflowX: "hidden" }}>
       <GlobalStyles />
       <AmbientStudioAura />
       <CustomCursor />
@@ -983,7 +964,7 @@ export default function App() {
       <HeaderNavigation />
 
       {/* ═══════════════════════════════════════════════════════════════════════ */}
-      {/* ── HERO BENTO & KINETIC SHOWCASE ────────────────────────────────────── */}
+      {/* ── HERO BENTO & SUNSET EMBER SHOWCASE ───────────────────────────────── */}
       {/* ═══════════════════════════════════════════════════════════════════════ */}
       <section style={{ padding: "9.5rem 0 5.5rem", position: "relative", zIndex: 1 }}>
         <div className="container px-4 px-lg-5">
@@ -996,12 +977,12 @@ export default function App() {
                   display: "inline-flex",
                   alignItems: "center",
                   gap: ".65rem",
-                  background: "rgba(99, 102, 241, 0.1)",
-                  border: "1px solid rgba(99, 102, 241, 0.28)",
+                  background: "rgba(249, 115, 22, 0.1)",
+                  border: "1px solid rgba(249, 115, 22, 0.3)",
                   padding: ".45rem 1.1rem",
                   borderRadius: "100px",
                   marginBottom: "1.8rem",
-                  boxShadow: "0 0 20px rgba(99, 102, 241, 0.15)",
+                  boxShadow: "0 0 20px rgba(249, 115, 22, 0.15)",
                 }}
               >
                 <span
@@ -1014,7 +995,7 @@ export default function App() {
                     animation: "liveDot 2s ease infinite",
                   }}
                 />
-                <span style={{ color: "#A5B4FC", fontSize: ".8rem", fontWeight: 700, letterSpacing: ".06em", textTransform: "uppercase" }}>
+                <span style={{ color: "#FED7AA", fontSize: ".8rem", fontWeight: 700, letterSpacing: ".06em", textTransform: "uppercase" }}>
                   UK Creative Tech Studio · Available for New Projects
                 </span>
               </div>
@@ -1034,7 +1015,7 @@ export default function App() {
               {/* High-Impact Subtitle */}
               <p
                 style={{
-                  color: "#94A3B8",
+                  color: "#A1A1AA",
                   fontSize: "clamp(1.05rem, 1.8vw, 1.25rem)",
                   lineHeight: 1.68,
                   maxWidth: 580,
@@ -1061,23 +1042,23 @@ export default function App() {
                   <div style={{ fontFamily: "'Syne', sans-serif", fontWeight: 900, fontSize: "clamp(1.9rem, 3.2vw, 2.6rem)", color: "#FFFFFF" }}>
                     <MetricCounter end={15} suffix="+" />
                   </div>
-                  <div style={{ color: "#64748B", fontSize: ".76rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: ".06em", marginTop: ".2rem" }}>
+                  <div style={{ color: "#71717A", fontSize: ".76rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: ".06em", marginTop: ".2rem" }}>
                     Shipped Works
                   </div>
                 </div>
                 <div className="col-4">
-                  <div style={{ fontFamily: "'Syne', sans-serif", fontWeight: 900, fontSize: "clamp(1.9rem, 3.2vw, 2.6rem)", color: "#38BDF8" }}>
+                  <div style={{ fontFamily: "'Syne', sans-serif", fontWeight: 900, fontSize: "clamp(1.9rem, 3.2vw, 2.6rem)", color: "#F97316" }}>
                     <MetricCounter end={100} suffix="%" />
                   </div>
-                  <div style={{ color: "#64748B", fontSize: ".76rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: ".06em", marginTop: ".2rem" }}>
+                  <div style={{ color: "#71717A", fontSize: ".76rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: ".06em", marginTop: ".2rem" }}>
                     On-Time Launch
                   </div>
                 </div>
                 <div className="col-4">
-                  <div style={{ fontFamily: "'Syne', sans-serif", fontWeight: 900, fontSize: "clamp(1.9rem, 3.2vw, 2.6rem)", color: "#A855F7" }}>
+                  <div style={{ fontFamily: "'Syne', sans-serif", fontWeight: 900, fontSize: "clamp(1.9rem, 3.2vw, 2.6rem)", color: "#FBBF24" }}>
                     <MetricCounter end={3} suffix=".2x" />
                   </div>
-                  <div style={{ color: "#64748B", fontSize: ".76rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: ".06em", marginTop: ".2rem" }}>
+                  <div style={{ color: "#71717A", fontSize: ".76rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: ".06em", marginTop: ".2rem" }}>
                     Client Growth
                   </div>
                 </div>
@@ -1094,8 +1075,8 @@ export default function App() {
                     top: "6%",
                     left: "-8%",
                     zIndex: 5,
-                    background: "rgba(13, 19, 36, 0.88)",
-                    border: "1px solid rgba(99, 102, 241, 0.35)",
+                    background: "rgba(18, 14, 26, 0.88)",
+                    border: "1px solid rgba(249, 115, 22, 0.35)",
                     padding: ".7rem 1.1rem",
                     borderRadius: "16px",
                     backdropFilter: "blur(20px)",
@@ -1106,7 +1087,7 @@ export default function App() {
                 >
                   <div style={{ display: "flex", alignItems: "center", gap: ".5rem", marginBottom: ".2rem" }}>
                     <span style={{ width: 8, height: 8, background: "#10B981", borderRadius: "50%" }}></span>
-                    <span style={{ color: "#38BDF8", fontSize: ".74rem", fontWeight: 800, textTransform: "uppercase", letterSpacing: ".08em" }}>
+                    <span style={{ color: "#FB923C", fontSize: ".74rem", fontWeight: 800, textTransform: "uppercase", letterSpacing: ".08em" }}>
                       Direct Senior Lead
                     </span>
                   </div>
@@ -1120,8 +1101,8 @@ export default function App() {
                     bottom: "10%",
                     right: "-8%",
                     zIndex: 5,
-                    background: "rgba(13, 19, 36, 0.88)",
-                    border: "1px solid rgba(6, 182, 212, 0.35)",
+                    background: "rgba(18, 14, 26, 0.88)",
+                    border: "1px solid rgba(245, 158, 11, 0.35)",
                     padding: ".7rem 1.1rem",
                     borderRadius: "16px",
                     backdropFilter: "blur(20px)",
@@ -1142,7 +1123,7 @@ export default function App() {
                     position: "relative",
                     borderRadius: "32px",
                     overflow: "hidden",
-                    background: "linear-gradient(180deg, rgba(79, 70, 229, 0.25) 0%, rgba(13, 19, 36, 0.95) 100%)",
+                    background: "linear-gradient(180deg, rgba(234, 88, 12, 0.25) 0%, rgba(18, 14, 26, 0.95) 100%)",
                     border: "1px solid rgba(255, 255, 255, 0.12)",
                     aspectRatio: "4/5",
                     boxShadow: "0 30px 70px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255, 255, 255, 0.15)",
@@ -1165,14 +1146,14 @@ export default function App() {
                       bottom: 0,
                       left: 0,
                       right: 0,
-                      background: "linear-gradient(to top, #05070E 25%, transparent 100%)",
+                      background: "linear-gradient(to top, #08070B 25%, transparent 100%)",
                       padding: "2.5rem 1.8rem 1.2rem",
                     }}
                   >
                     <div style={{ fontFamily: "'Syne', sans-serif", fontWeight: 800, fontSize: "1.3rem", color: "#FFFFFF" }}>
                       Anil Pandey
                     </div>
-                    <div style={{ color: "#94A3B8", fontSize: ".86rem", fontWeight: 500, marginTop: ".1rem" }}>
+                    <div style={{ color: "#A1A1AA", fontSize: ".86rem", fontWeight: 500, marginTop: ".1rem" }}>
                       Lead Technologist &amp; Brand Strategist
                     </div>
                   </div>
@@ -1192,7 +1173,7 @@ export default function App() {
           borderTop: "1px solid rgba(255, 255, 255, 0.06)",
           borderBottom: "1px solid rgba(255, 255, 255, 0.06)",
           padding: "1.2rem 0",
-          background: "rgba(13, 19, 36, 0.4)",
+          background: "rgba(18, 14, 26, 0.4)",
           position: "relative",
           zIndex: 1,
         }}
@@ -1211,8 +1192,8 @@ export default function App() {
                 "ZERO-BLOAT SPEED",
               ].map((text, i) => (
                 <div key={i} className="d-flex align-items-center gap-3">
-                  <span style={{ color: "#38BDF8", fontSize: ".85rem" }}>✦</span>
-                  <span style={{ color: "#CBD5E1", fontSize: ".9rem", fontWeight: 700, letterSpacing: ".06em", textTransform: "uppercase" }}>
+                  <span style={{ color: "#F97316", fontSize: ".85rem" }}>✦</span>
+                  <span style={{ color: "#D4D4D8", fontSize: ".9rem", fontWeight: 700, letterSpacing: ".06em", textTransform: "uppercase" }}>
                     {text}
                   </span>
                 </div>
@@ -1248,12 +1229,12 @@ export default function App() {
                           width: 56,
                           height: 56,
                           borderRadius: "16px",
-                          background: svc.highlight ? "rgba(79, 70, 229, 0.2)" : "rgba(255, 255, 255, 0.05)",
-                          border: `1px solid ${svc.highlight ? "rgba(99, 102, 241, 0.4)" : "rgba(255, 255, 255, 0.1)"}`,
+                          background: svc.highlight ? "rgba(234, 88, 12, 0.2)" : "rgba(255, 255, 255, 0.05)",
+                          border: `1px solid ${svc.highlight ? "rgba(249, 115, 22, 0.4)" : "rgba(255, 255, 255, 0.1)"}`,
                           display: "flex",
                           alignItems: "center",
                           justifyContent: "center",
-                          color: svc.highlight ? "#38BDF8" : "#A5B4FC",
+                          color: svc.highlight ? "#F97316" : "#FED7AA",
                           fontSize: "1.5rem",
                         }}
                       >
@@ -1263,18 +1244,18 @@ export default function App() {
                     </div>
 
                     <h3 style={{ fontSize: "1.45rem", marginBottom: ".9rem" }}>{svc.title}</h3>
-                    <p style={{ color: "#94A3B8", fontSize: ".95rem", lineHeight: 1.68, marginBottom: "2rem" }}>
+                    <p style={{ color: "#A1A1AA", fontSize: ".95rem", lineHeight: 1.68, marginBottom: "2rem" }}>
                       {svc.desc}
                     </p>
 
                     <div style={{ borderTop: "1px solid rgba(255, 255, 255, 0.06)", paddingTop: "1.5rem", marginBottom: "2rem" }}>
-                      <div style={{ color: "#64748B", fontSize: ".76rem", fontWeight: 800, textTransform: "uppercase", letterSpacing: ".08em", marginBottom: "1rem" }}>
+                      <div style={{ color: "#71717A", fontSize: ".76rem", fontWeight: 800, textTransform: "uppercase", letterSpacing: ".08em", marginBottom: "1rem" }}>
                         Deliverables &amp; Tech
                       </div>
                       <ul style={{ listStyle: "none", padding: 0, margin: 0, display: "flex", flexDirection: "column", gap: ".65rem" }}>
                         {svc.features.map((item, idx) => (
-                          <li key={idx} style={{ display: "flex", alignItems: "center", gap: ".65rem", fontSize: ".9rem", color: "#CBD5E1" }}>
-                            <i className="bi bi-check2-circle text-info"></i> {item}
+                          <li key={idx} style={{ display: "flex", alignItems: "center", gap: ".65rem", fontSize: ".9rem", color: "#E4E4E7" }}>
+                            <i className="bi bi-check2-circle text-warning"></i> {item}
                           </li>
                         ))}
                       </ul>
@@ -1294,7 +1275,7 @@ export default function App() {
       {/* ═══════════════════════════════════════════════════════════════════════ */}
       {/* ── SELECTED WORK / INTERACTIVE PORTFOLIO ────────────────────────────── */}
       {/* ═══════════════════════════════════════════════════════════════════════ */}
-      <section id="portfolio" style={{ padding: "8rem 0", background: "rgba(9, 14, 28, 0.5)", position: "relative", zIndex: 1 }}>
+      <section id="portfolio" style={{ padding: "8rem 0", background: "rgba(14, 11, 20, 0.5)", position: "relative", zIndex: 1 }}>
         <div className="container px-4 px-lg-5">
           <div className="d-flex flex-column flex-md-row justify-content-between align-items-md-end gap-4 mb-5">
             <SectionHeading
@@ -1327,7 +1308,7 @@ export default function App() {
               <div key={item.id} className="col-12 col-md-6 col-lg-4">
                 <div className="bento-card h-100 overflow-hidden d-flex flex-column">
                   {/* Image Preview Container */}
-                  <div style={{ position: "relative", height: 240, overflow: "hidden", background: "#0D1324" }}>
+                  <div style={{ position: "relative", height: 240, overflow: "hidden", background: "#120E1A" }}>
                     <img
                       src={item.img}
                       alt={item.title}
@@ -1345,13 +1326,13 @@ export default function App() {
                         position: "absolute",
                         top: "1rem",
                         right: "1rem",
-                        background: "rgba(5, 7, 14, 0.85)",
+                        background: "rgba(8, 7, 12, 0.88)",
                         border: "1px solid rgba(255, 255, 255, 0.12)",
                         padding: ".3rem .85rem",
                         borderRadius: "100px",
                         fontSize: ".75rem",
                         fontWeight: 700,
-                        color: "#38BDF8",
+                        color: "#FBBF24",
                         backdropFilter: "blur(12px)",
                       }}
                     >
@@ -1362,11 +1343,11 @@ export default function App() {
                   {/* Card Content */}
                   <div className="p-4 p-xl-4 d-flex flex-column justify-content-between flex-grow-1">
                     <div>
-                      <div style={{ color: "#64748B", fontSize: ".76rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: ".06em", marginBottom: ".4rem" }}>
+                      <div style={{ color: "#71717A", fontSize: ".76rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: ".06em", marginBottom: ".4rem" }}>
                         {item.categoryLabel}
                       </div>
                       <h3 style={{ fontSize: "1.3rem", marginBottom: ".6rem" }}>{item.title}</h3>
-                      <p style={{ color: "#94A3B8", fontSize: ".9rem", lineHeight: 1.6, marginBottom: "1.4rem" }}>
+                      <p style={{ color: "#A1A1AA", fontSize: ".9rem", lineHeight: 1.6, marginBottom: "1.4rem" }}>
                         {item.desc}
                       </p>
                       <div className="d-flex flex-wrap gap-2 mb-4">
@@ -1384,7 +1365,7 @@ export default function App() {
                         display: "inline-flex",
                         alignItems: "center",
                         gap: ".45rem",
-                        color: "#818CF8",
+                        color: "#FB923C",
                         fontSize: ".9rem",
                         fontWeight: 700,
                       }}
@@ -1422,7 +1403,7 @@ export default function App() {
                         <i key={star} className="bi bi-star-fill"></i>
                       ))}
                     </div>
-                    <p style={{ color: "#E2E8F0", fontSize: "1rem", lineHeight: 1.75, fontStyle: "italic", marginBottom: "2.2rem" }}>
+                    <p style={{ color: "#F1F5F9", fontSize: "1rem", lineHeight: 1.75, fontStyle: "italic", marginBottom: "2.2rem" }}>
                       "{t.quote}"
                     </p>
                   </div>
@@ -1449,7 +1430,7 @@ export default function App() {
                     </div>
                     <div>
                       <div style={{ color: "#FFFFFF", fontWeight: 800, fontSize: "1rem" }}>{t.name}</div>
-                      <div style={{ color: "#64748B", fontSize: ".82rem", fontWeight: 600 }}>
+                      <div style={{ color: "#71717A", fontSize: ".82rem", fontWeight: 600 }}>
                         {t.role} · {t.company}
                       </div>
                     </div>
@@ -1464,7 +1445,7 @@ export default function App() {
       {/* ═══════════════════════════════════════════════════════════════════════ */}
       {/* ── TRANSPARENT INVESTMENT & SPRINTS ─────────────────────────────────── */}
       {/* ═══════════════════════════════════════════════════════════════════════ */}
-      <section id="pricing" style={{ padding: "8.5rem 0", background: "rgba(9, 14, 28, 0.5)", position: "relative", zIndex: 1 }}>
+      <section id="pricing" style={{ padding: "8.5rem 0", background: "rgba(14, 11, 20, 0.5)", position: "relative", zIndex: 1 }}>
         <div className="container px-4 px-lg-5">
           <SectionHeading
             center
@@ -1483,8 +1464,8 @@ export default function App() {
                   style={
                     plan.highlight
                       ? {
-                          borderColor: "rgba(99, 102, 241, 0.6)",
-                          boxShadow: "0 25px 60px rgba(79, 70, 229, 0.25)",
+                          borderColor: "rgba(249, 115, 22, 0.6)",
+                          boxShadow: "0 25px 60px rgba(234, 88, 12, 0.25)",
                         }
                       : {}
                   }
@@ -1496,7 +1477,7 @@ export default function App() {
                         top: -12,
                         left: "50%",
                         transform: "translateX(-50%)",
-                        background: "linear-gradient(135deg, #4F46E5, #06B6D4)",
+                        background: "linear-gradient(135deg, #EA580C, #F59E0B)",
                         padding: ".35rem 1.2rem",
                         borderRadius: "100px",
                         fontSize: ".75rem",
@@ -1504,7 +1485,7 @@ export default function App() {
                         color: "#FFFFFF",
                         letterSpacing: ".08em",
                         textTransform: "uppercase",
-                        boxShadow: "0 6px 20px rgba(79, 70, 229, 0.5)",
+                        boxShadow: "0 6px 20px rgba(234, 88, 12, 0.5)",
                       }}
                     >
                       ⚡ Most Requested
@@ -1512,7 +1493,7 @@ export default function App() {
                   )}
 
                   <div>
-                    <div style={{ color: "#818CF8", fontSize: ".8rem", fontWeight: 800, letterSpacing: ".08em", textTransform: "uppercase", marginBottom: ".4rem" }}>
+                    <div style={{ color: "#FB923C", fontSize: ".8rem", fontWeight: 800, letterSpacing: ".08em", textTransform: "uppercase", marginBottom: ".4rem" }}>
                       {plan.tag}
                     </div>
                     <h3 style={{ fontSize: "1.6rem", marginBottom: "1rem" }}>{plan.name}</h3>
@@ -1521,18 +1502,18 @@ export default function App() {
                       <span style={{ fontFamily: "'Syne', sans-serif", fontWeight: 900, fontSize: "3.2rem", color: "#FFFFFF" }}>
                         {plan.price}
                       </span>
-                      <span style={{ color: "#64748B", fontSize: ".86rem", fontWeight: 600 }}>/ {plan.timeline}</span>
+                      <span style={{ color: "#71717A", fontSize: ".86rem", fontWeight: 600 }}>/ {plan.timeline}</span>
                     </div>
 
-                    <p style={{ color: "#94A3B8", fontSize: ".9rem", lineHeight: 1.6, marginBottom: "2rem" }}>
+                    <p style={{ color: "#A1A1AA", fontSize: ".9rem", lineHeight: 1.6, marginBottom: "2rem" }}>
                       {plan.desc}
                     </p>
 
                     <div style={{ borderTop: "1px solid rgba(255, 255, 255, 0.06)", paddingTop: "1.5rem", marginBottom: "2.2rem" }}>
                       <ul style={{ listStyle: "none", padding: 0, margin: 0, display: "flex", flexDirection: "column", gap: ".75rem" }}>
                         {plan.features.map((feat, idx) => (
-                          <li key={idx} style={{ display: "flex", alignItems: "center", gap: ".65rem", fontSize: ".9rem", color: "#CBD5E1" }}>
-                            <i className="bi bi-check-circle-fill text-info" style={{ fontSize: ".95rem" }}></i>
+                          <li key={idx} style={{ display: "flex", alignItems: "center", gap: ".65rem", fontSize: ".9rem", color: "#E4E4E7" }}>
+                            <i className="bi bi-check-circle-fill text-warning" style={{ fontSize: ".95rem" }}></i>
                             {feat}
                           </li>
                         ))}
@@ -1577,12 +1558,12 @@ export default function App() {
                     width: 50,
                     height: 50,
                     borderRadius: "14px",
-                    background: "rgba(99, 102, 241, 0.15)",
-                    border: "1px solid rgba(99, 102, 241, 0.3)",
+                    background: "rgba(249, 115, 22, 0.15)",
+                    border: "1px solid rgba(249, 115, 22, 0.3)",
                     display: "flex",
                     alignItems: "center",
                     justifyContent: "center",
-                    color: "#38BDF8",
+                    color: "#F97316",
                     fontSize: "1.4rem",
                     flexShrink: 0,
                   }}
@@ -1591,7 +1572,7 @@ export default function App() {
                 </div>
                 <div>
                   <div style={{ fontWeight: 800, color: "#FFFFFF", fontSize: "1rem" }}>Have a bespoke requirement?</div>
-                  <div style={{ color: "#94A3B8", fontSize: ".86rem" }}>We respond to consultations within 2 hours.</div>
+                  <div style={{ color: "#A1A1AA", fontSize: ".86rem" }}>We respond to consultations within 2 hours.</div>
                 </div>
               </div>
             </div>
@@ -1617,10 +1598,10 @@ export default function App() {
                       }}
                     >
                       <span style={{ fontWeight: 700, fontSize: "1.05rem", fontFamily: "'Outfit', sans-serif" }}>{faq.q}</span>
-                      <i className={`bi bi-chevron-${openFaqIndex === i ? "up text-info" : "down text-muted"}`}></i>
+                      <i className={`bi bi-chevron-${openFaqIndex === i ? "up text-warning" : "down text-muted"}`}></i>
                     </button>
                     {openFaqIndex === i && (
-                      <div style={{ padding: "0 1.6rem 1.5rem", color: "#94A3B8", fontSize: ".95rem", lineHeight: 1.7 }}>
+                      <div style={{ padding: "0 1.6rem 1.5rem", color: "#A1A1AA", fontSize: ".95rem", lineHeight: 1.7 }}>
                         {faq.a}
                       </div>
                     )}
@@ -1635,7 +1616,7 @@ export default function App() {
       {/* ═══════════════════════════════════════════════════════════════════════ */}
       {/* ── HIGH-CONVERTING CONTACT TERMINAL ─────────────────────────────────── */}
       {/* ═══════════════════════════════════════════════════════════════════════ */}
-      <section id="contact" style={{ padding: "9rem 0", background: "rgba(9, 14, 28, 0.5)", position: "relative", zIndex: 1 }}>
+      <section id="contact" style={{ padding: "9rem 0", background: "rgba(14, 11, 20, 0.5)", position: "relative", zIndex: 1 }}>
         <div className="container px-4 px-lg-5">
           <div className="row g-5 align-items-start">
             {/* Contact Details Column */}
@@ -1658,12 +1639,12 @@ export default function App() {
                         width: 44,
                         height: 44,
                         borderRadius: "12px",
-                        background: "rgba(99, 102, 241, 0.12)",
-                        border: "1px solid rgba(99, 102, 241, 0.25)",
+                        background: "rgba(249, 115, 22, 0.12)",
+                        border: "1px solid rgba(249, 115, 22, 0.25)",
                         display: "flex",
                         alignItems: "center",
                         justifyContent: "center",
-                        color: "#38BDF8",
+                        color: "#F97316",
                         fontSize: "1.2rem",
                         flexShrink: 0,
                       }}
@@ -1671,14 +1652,14 @@ export default function App() {
                       <i className={`bi ${item.icon}`}></i>
                     </div>
                     <div>
-                      <div style={{ color: "#64748B", fontSize: ".75rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: ".06em" }}>
+                      <div style={{ color: "#71717A", fontSize: ".75rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: ".06em" }}>
                         {item.label}
                       </div>
                       {item.href ? (
                         <a
                           href={item.href}
                           style={{ color: "#FFFFFF", fontSize: ".92rem", fontWeight: 700 }}
-                          onMouseEnter={(e) => (e.target.style.color = "#38BDF8")}
+                          onMouseEnter={(e) => (e.target.style.color = "#F97316")}
                           onMouseLeave={(e) => (e.target.style.color = "#FFFFFF")}
                         >
                           {item.value}
@@ -1754,7 +1735,7 @@ export default function App() {
 
                   <div className="row g-3 mb-3">
                     <div className="col-12 col-sm-6">
-                      <label style={{ fontSize: ".82rem", color: "#94A3B8", fontWeight: 700, marginBottom: ".4rem", display: "block" }}>
+                      <label style={{ fontSize: ".82rem", color: "#A1A1AA", fontWeight: 700, marginBottom: ".4rem", display: "block" }}>
                         Your Full Name *
                       </label>
                       <input
@@ -1768,7 +1749,7 @@ export default function App() {
                       />
                     </div>
                     <div className="col-12 col-sm-6">
-                      <label style={{ fontSize: ".82rem", color: "#94A3B8", fontWeight: 700, marginBottom: ".4rem", display: "block" }}>
+                      <label style={{ fontSize: ".82rem", color: "#A1A1AA", fontWeight: 700, marginBottom: ".4rem", display: "block" }}>
                         Business Email Address *
                       </label>
                       <input
@@ -1785,11 +1766,11 @@ export default function App() {
 
                   <div className="row g-3 mb-3">
                     <div className="col-12 col-sm-6">
-                      <label style={{ fontSize: ".82rem", color: "#94A3B8", fontWeight: 700, marginBottom: ".4rem", display: "block" }}>
+                      <label style={{ fontSize: ".82rem", color: "#A1A1AA", fontWeight: 700, marginBottom: ".4rem", display: "block" }}>
                         Service Tier Needed
                       </label>
                       <select value={service} onChange={(e) => setService(e.target.value)} className="form-select cyber-input">
-                        <option value="Web Engineering & Next-Gen Apps">Next-Gen Web Architecture</option>
+                        <option value="Next-Gen Web Architecture">Next-Gen Web Architecture</option>
                         <option value="Luxury Brand & UI/UX Systems">Luxury Brand &amp; UI/UX Systems</option>
                         <option value="Social Growth & Viral Strategy">Social Growth &amp; Viral Strategy</option>
                         <option value="Sprint Launch (£299)">Sprint Launch (£299)</option>
@@ -1798,7 +1779,7 @@ export default function App() {
                       </select>
                     </div>
                     <div className="col-12 col-sm-6">
-                      <label style={{ fontSize: ".82rem", color: "#94A3B8", fontWeight: 700, marginBottom: ".4rem", display: "block" }}>
+                      <label style={{ fontSize: ".82rem", color: "#A1A1AA", fontWeight: 700, marginBottom: ".4rem", display: "block" }}>
                         Estimated Budget
                       </label>
                       <select value={budget} onChange={(e) => setBudget(e.target.value)} className="form-select cyber-input">
@@ -1811,7 +1792,7 @@ export default function App() {
                   </div>
 
                   <div className="mb-4">
-                    <label style={{ fontSize: ".82rem", color: "#94A3B8", fontWeight: 700, marginBottom: ".4rem", display: "block" }}>
+                    <label style={{ fontSize: ".82rem", color: "#A1A1AA", fontWeight: 700, marginBottom: ".4rem", display: "block" }}>
                       Project Goals &amp; Overview *
                     </label>
                     <textarea
@@ -1850,7 +1831,7 @@ export default function App() {
       {/* ═══════════════════════════════════════════════════════════════════════ */}
       <footer
         style={{
-          background: "rgba(5, 7, 14, 0.98)",
+          background: "rgba(6, 5, 9, 0.98)",
           borderTop: "1px solid rgba(255, 255, 255, 0.08)",
           padding: "5rem 0 2.5rem",
           position: "relative",
@@ -1866,7 +1847,7 @@ export default function App() {
                     width: 36,
                     height: 36,
                     borderRadius: "10px",
-                    background: "linear-gradient(135deg, #4F46E5, #06B6D4)",
+                    background: "linear-gradient(135deg, #EA580C, #F59E0B)",
                     display: "flex",
                     alignItems: "center",
                     justifyContent: "center",
@@ -1882,7 +1863,7 @@ export default function App() {
                   PIXEL &amp; BRUSH
                 </span>
               </a>
-              <p style={{ color: "#94A3B8", fontSize: ".9rem", lineHeight: 1.7, maxWidth: 320, marginBottom: "1.5rem" }}>
+              <p style={{ color: "#A1A1AA", fontSize: ".9rem", lineHeight: 1.7, maxWidth: 320, marginBottom: "1.5rem" }}>
                 Award-winning digital studio engineering high-velocity websites, luxury brand identities, and compounding growth systems.
               </p>
               <div className="d-flex gap-2">
@@ -1906,19 +1887,19 @@ export default function App() {
                       display: "flex",
                       alignItems: "center",
                       justifyContent: "center",
-                      color: "#94A3B8",
+                      color: "#A1A1AA",
                       fontSize: "1.1rem",
                       transition: "all .25s ease",
                     }}
                     onMouseEnter={(e) => {
-                      e.currentTarget.style.background = "rgba(99, 102, 241, 0.2)";
-                      e.currentTarget.style.borderColor = "rgba(99, 102, 241, 0.5)";
-                      e.currentTarget.style.color = "#38BDF8";
+                      e.currentTarget.style.background = "rgba(249, 115, 22, 0.2)";
+                      e.currentTarget.style.borderColor = "rgba(249, 115, 22, 0.5)";
+                      e.currentTarget.style.color = "#F97316";
                     }}
                     onMouseLeave={(e) => {
                       e.currentTarget.style.background = "rgba(255, 255, 255, 0.04)";
                       e.currentTarget.style.borderColor = "rgba(255, 255, 255, 0.08)";
-                      e.currentTarget.style.color = "#94A3B8";
+                      e.currentTarget.style.color = "#A1A1AA";
                     }}
                   >
                     <i className={`bi ${s.icon}`}></i>
@@ -1936,9 +1917,9 @@ export default function App() {
                   <li key={idx}>
                     <a
                       href="#services"
-                      style={{ color: "#94A3B8", fontSize: ".88rem" }}
+                      style={{ color: "#A1A1AA", fontSize: ".88rem" }}
                       onMouseEnter={(e) => (e.target.style.color = "#FFFFFF")}
-                      onMouseLeave={(e) => (e.target.style.color = "#94A3B8")}
+                      onMouseLeave={(e) => (e.target.style.color = "#A1A1AA")}
                     >
                       {item}
                     </a>
@@ -1962,9 +1943,9 @@ export default function App() {
                   <li key={idx}>
                     <a
                       href={href}
-                      style={{ color: "#94A3B8", fontSize: ".88rem" }}
+                      style={{ color: "#A1A1AA", fontSize: ".88rem" }}
                       onMouseEnter={(e) => (e.target.style.color = "#FFFFFF")}
-                      onMouseLeave={(e) => (e.target.style.color = "#94A3B8")}
+                      onMouseLeave={(e) => (e.target.style.color = "#A1A1AA")}
                     >
                       {label}
                     </a>
@@ -1977,10 +1958,10 @@ export default function App() {
               <div style={{ color: "#FFFFFF", fontWeight: 800, fontSize: ".9rem", marginBottom: "1.2rem", fontFamily: "'Syne', sans-serif" }}>
                 Direct Studio Access
               </div>
-              <div style={{ color: "#94A3B8", fontSize: ".88rem", lineHeight: 1.6, marginBottom: ".9rem" }}>
+              <div style={{ color: "#A1A1AA", fontSize: ".88rem", lineHeight: 1.6, marginBottom: ".9rem" }}>
                 Available for worldwide remote contracts &amp; UK client consultations.
               </div>
-              <a href="mailto:anilpte232@gmail.com" style={{ color: "#38BDF8", fontSize: ".9rem", fontWeight: 700, display: "block", marginBottom: "1.2rem" }}>
+              <a href="mailto:anilpte232@gmail.com" style={{ color: "#F97316", fontSize: ".9rem", fontWeight: 700, display: "block", marginBottom: "1.2rem" }}>
                 anilpte232@gmail.com
               </a>
               <ActionButton outline href="#contact" className="w-100" style={{ padding: ".75rem 1rem", fontSize: ".88rem" }}>
@@ -1993,10 +1974,10 @@ export default function App() {
             className="pt-4 border-top d-flex flex-wrap justify-content-between align-items-center gap-3"
             style={{ borderColor: "rgba(255, 255, 255, 0.06) !important" }}
           >
-            <div style={{ color: "#64748B", fontSize: ".85rem" }}>
+            <div style={{ color: "#71717A", fontSize: ".85rem" }}>
               © {new Date().getFullYear()} Pixel &amp; Brush Digital Studio. Crafted with precision in the United Kingdom 🇬🇧.
             </div>
-            <div style={{ color: "#64748B", fontSize: ".8rem", letterSpacing: ".06em", textTransform: "uppercase" }}>
+            <div style={{ color: "#71717A", fontSize: ".8rem", letterSpacing: ".06em", textTransform: "uppercase" }}>
               ALL RIGHTS RESERVED
             </div>
           </div>
