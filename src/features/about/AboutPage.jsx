@@ -8,7 +8,7 @@ import SectionLabel from "../../components/common/SectionLabel";
 import Footer from "../../components/layout/Footer";
 import Navbar from "../../components/layout/Navbar";
 import { CONTACT } from "../../config/constants";
-import { PAGE_META, SOCIAL } from "../../config/seo";
+import { PAGE_META } from "../../config/seo";
 import usePageMeta from "../../hooks/usePageMeta";
 import GlobalStyles from "../../styles/GlobalStyles";
 
@@ -56,15 +56,13 @@ export default function AboutPage() {
                   and understand spending patterns, and the founder of Pixel &amp; Brush.
                 </p>
                 <p style={paragraph}>
-                  Want to connect with Anil Pandey or explore my projects? View my code and documentation
-                  on{" "}
-                  <a href={SOCIAL.github} target="_blank" rel="noopener noreferrer" style={inlineLink}>GitHub</a>, send
-                  a message through the <a href="/#contact" style={inlineLink}>contact form</a>, or email me at{" "}
+                  Want to connect with Anil Pandey or discuss a project? Send a message through the{" "}
+                  <a href="/#contact" style={inlineLink}>contact form</a> or email me at{" "}
                   <a href={`mailto:${CONTACT.email}`} style={inlineLink}>{CONTACT.email}</a>.
                 </p>
 
                 <div style={{ display: "flex", flexWrap: "wrap", gap: "1rem", marginTop: "2rem" }}>
-                  <Button primary href={SOCIAL.github}>View GitHub Profile →</Button>
+                  <Button primary href="/#contact">Get in Touch →</Button>
                   <Button href={`mailto:${CONTACT.email}`}>Email Me</Button>
                 </div>
 

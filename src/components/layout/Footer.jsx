@@ -1,5 +1,4 @@
 import { CONTACT } from "../../config/constants";
-import { SOCIAL } from "../../config/seo";
 
 const Footer = () => {
   return (
@@ -12,13 +11,6 @@ const Footer = () => {
           <p style={{fontSize:".83rem",marginBottom:"1.3rem"}}>
             <a href="/about" style={{color:"#8a93ab",textDecoration:"none",transition:"color .3s"}} onMouseEnter={e=>e.currentTarget.style.color="#60a5fa"} onMouseLeave={e=>e.currentTarget.style.color="#8a93ab"}>Founded by Anil Pandey</a>
           </p>
-          <div style={{display:"flex",gap:".7rem"}}>
-            {[{icon:"bi bi-github",href:SOCIAL.github,title:"Anil Pandey on GitHub"}].map(s=>(
-              <a key={s.title} href={s.href} target="_blank" rel="noopener noreferrer" title={s.title} aria-label={s.title} style={{width:36,height:36,background:"rgba(37,99,235,.1)",border:"1px solid rgba(37,99,235,.2)",borderRadius:8,display:"flex",alignItems:"center",justifyContent:"center",color:"#8a93ab",fontSize:".95rem",textDecoration:"none",transition:"all .3s"}} onMouseEnter={e=>{e.currentTarget.style.background="rgba(37,99,235,.25)";e.currentTarget.style.color="#60a5fa";e.currentTarget.style.borderColor="rgba(37,99,235,.5)";}} onMouseLeave={e=>{e.currentTarget.style.background="rgba(37,99,235,.1)";e.currentTarget.style.color="#8a93ab";e.currentTarget.style.borderColor="rgba(37,99,235,.2)";}}>
-                <i className={s.icon} aria-hidden="true"></i>
-              </a>
-            ))}
-          </div>
         </div>
         
         <div className="col-12 col-sm-6 col-lg-3">

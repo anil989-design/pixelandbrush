@@ -72,7 +72,7 @@ const aboutPrerenderContent = `
         My core interests include Artificial Intelligence, Business Analytics, Python and Data Analysis, AI Agents and Automation, and Entrepreneurship. I am the creator of <strong>FinAI</strong>, a student finance project that applies Python data analysis and AI automation to help university students manage budgets and understand spending patterns, and the founder of Pixel &amp; Brush.
       </p>
       <p style="color:#8a93ab;line-height:1.8;font-size:1.05rem;margin-bottom:1.3rem;">
-        Want to connect with Anil Pandey or explore my projects? View my code and documentation on <a href="https://github.com/anil989-design" target="_blank" rel="noopener noreferrer" style="color:#60a5fa;text-decoration:none;">GitHub</a>, send a message through the <a href="/#contact" style="color:#60a5fa;text-decoration:none;">contact form</a>, or email me at <a href="mailto:anilpte232@gmail.com" style="color:#60a5fa;text-decoration:none;">anilpte232@gmail.com</a>.
+        Want to connect with Anil Pandey or discuss a project? Send a message through the <a href="/#contact" style="color:#60a5fa;text-decoration:none;">contact form</a> or email me at <a href="mailto:anilpte232@gmail.com" style="color:#60a5fa;text-decoration:none;">anilpte232@gmail.com</a>.
       </p>
       <div style="margin-top:2rem;">
         <img src="/anil-pandey-anil-panday.jpg" alt="Anil Pandey — Business Management with International student at Ravensbourne University London" width="768" height="1024" style="max-width:320px;border-radius:18px;display:block;" />
@@ -229,11 +229,7 @@ for (const article of articles) {
       "alumniOf": {
         "@type": "CollegeOrUniversity",
         "name": "Ravensbourne University London"
-      },
-      "sameAs": [
-        "https://github.com/anil989-design",
-        "https://github.com/anil989-design/FinAI"
-      ]
+      }
     }
   }
   </script>
@@ -261,7 +257,6 @@ for (const article of articles) {
   <main class="container">
     <nav class="nav">
       <a href="/about">← About Anil Pandey</a>
-      <a href="https://github.com/anil989-design" target="_blank" rel="noopener noreferrer">GitHub Profile</a>
     </nav>
     <h1>${article.h1}</h1>
     <div class="byline">
@@ -280,7 +275,6 @@ for (const article of articles) {
         <li><a href="/articles/who-is-anil-pandey">Who Is Anil Pandey? My Journey in Business and Technology</a></li>
         <li><a href="/articles/finai-student-finance-project">FinAI: Building an AI &amp; Analytics Approach to Student Finance in London</a></li>
         <li><a href="/articles/learning-python-and-business-analytics">Learning Python and Business Analytics as a Business Management Student in London</a></li>
-        <li><a href="https://github.com/anil989-design" target="_blank" rel="noopener noreferrer">GitHub (@anil989-design)</a></li>
       </ul>
     </div>
   </main>

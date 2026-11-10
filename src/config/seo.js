@@ -6,11 +6,9 @@
 export const SITE_URL = "https://pixelandbrush.vercel.app";
 
 /**
- * Public profiles (no social media).
+ * Public profiles (no social media or GitHub links).
  */
-export const SOCIAL = Object.freeze({
-  github: "https://github.com/anil989-design",
-});
+export const SOCIAL = Object.freeze({});
 
 export const PAGE_META = Object.freeze({
   home: {
