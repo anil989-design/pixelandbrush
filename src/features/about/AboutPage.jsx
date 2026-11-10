@@ -36,13 +36,13 @@ export default function AboutPage() {
           <div className="container px-4 px-lg-5">
             <div className="row align-items-center justify-content-between g-5">
               <div className="col-12 col-lg-7">
-                <SectionLabel text="About Anil Panday (Anil Pandey)" />
+                <SectionLabel text="About Anil Pandey" />
                 <h1 style={{ fontWeight: 800, fontSize: "clamp(2.2rem,4.5vw,3.6rem)", letterSpacing: "-.02em", lineHeight: 1.08, marginBottom: "1.8rem" }}>
-                  Anil Panday (Anil Pandey) — <span style={gradientText}>Business, AI &amp; Technology in London</span>
+                  Anil Pandey — <span style={gradientText}>Business, AI &amp; Technology in London</span>
                 </h1>
 
                 <p style={paragraph}>
-                  Hi, I'm <strong>Anil Panday</strong> (also spelled <strong>Anil Pandey</strong>), based in{" "}
+                  Hi, I'm <strong>Anil Pandey</strong> (also spelled <strong>Anil Panday</strong>), based in{" "}
                   <strong>London, United Kingdom</strong> and originally from Nepal. I am studying{" "}
                   <strong>Business Management with International</strong> at{" "}
                   <strong>Ravensbourne University London</strong>, where I focus on connecting business strategy with
@@ -56,7 +56,7 @@ export default function AboutPage() {
                   and understand spending patterns, and the founder of Pixel &amp; Brush.
                 </p>
                 <p style={paragraph}>
-                  Want to connect with Anil Panday (Anil Pandey) or explore my projects? View my code and documentation
+                  Want to connect with Anil Pandey or explore my projects? View my code and documentation
                   on{" "}
                   <a href={SOCIAL.github} target="_blank" rel="noopener noreferrer" style={inlineLink}>GitHub</a>, send
                   a message through the <a href="/#contact" style={inlineLink}>contact form</a>, or email me at{" "}
@@ -70,7 +70,7 @@ export default function AboutPage() {
 
                 <div style={{ marginTop: "3rem", paddingTop: "2rem", borderTop: "1px solid rgba(37,99,235,.18)" }}>
                   <h2 style={{ fontFamily: "'Baloo 2',sans-serif", fontWeight: 700, fontSize: "1.35rem", color: "#e8edf7", marginBottom: "1rem" }}>
-                    Articles &amp; Case Studies by Anil Pandey (Anil Panday)
+                    Articles &amp; Case Studies by Anil Pandey
                   </h2>
                   <ul style={{ listStyle: "none", padding: 0, margin: 0, display: "grid", gap: "0.75rem" }}>
                     <li>

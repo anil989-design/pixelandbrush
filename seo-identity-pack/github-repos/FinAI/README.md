@@ -1,15 +1,15 @@
 # FinAI — Student Finance & AI Business Analytics
 
-**Created by Anil Panday (Anil Pandey)**  
+**Created by Anil Pandey**  
 *Business Management with International, Ravensbourne University London | London, United Kingdom*
 
 ---
 
-<img src="./anil-pandey-headshot-square.jpg" alt="Anil Pandey (Anil Panday) — Creator of FinAI at Ravensbourne University London" width="180" align="right" />
+<img src="./anil-pandey-headshot-square.jpg" alt="Anil Pandey — Creator of FinAI at Ravensbourne University London" width="180" align="right" />
 
 ## Overview
 
-**FinAI** is an educational and practical student finance project developed by **Anil Pandey (Anil Panday)** in **London, United Kingdom**. It combines **Business Analytics**, **Python Data Analysis**, and **Artificial Intelligence (AI)** to help university students track expenses, understand cash-flow runway, and make informed budgeting decisions across the academic term.
+**FinAI** is an educational and practical student finance project developed by **Anil Pandey** in **London, United Kingdom**. It combines **Business Analytics**, **Python Data Analysis**, and **Artificial Intelligence (AI)** to help university students track expenses, understand cash-flow runway, and make informed budgeting decisions across the academic term.
 
 <br clear="right" />
 
@@ -27,7 +27,7 @@ python finai_analyzer.py
 ```text
 ==============================================================
 FinAI — Student Finance & Business Analytics Report (London)
-Prepared by: Anil Panday (Anil Pandey) — Ravensbourne University London
+Prepared by: Anil Pandey — Ravensbourne University London
 ==============================================================
 Analysis Window     : 14 days
 Total Spend         : £575.63
@@ -58,4 +58,4 @@ Weekly Category Budget vs. Actual:
 
 ## About the Author
 
-**Anil Panday (Anil Pandey)** is a **Business Management with International** student at **Ravensbourne University London** in **London, United Kingdom**, focusing on **Artificial Intelligence, Business Analytics, Python, and Entrepreneurship**.
+**Anil Pandey** is a **Business Management with International** student at **Ravensbourne University London** in **London, United Kingdom**, focusing on **Artificial Intelligence, Business Analytics, Python, and Entrepreneurship**.

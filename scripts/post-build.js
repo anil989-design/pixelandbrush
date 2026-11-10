@@ -40,8 +40,8 @@ if (!aboutHtml.includes("<!-- GOOGLE SEARCH CONSOLE VERIFICATION TAG GOES HERE -
   );
 }
 
-const aboutTitle = "About Anil Panday (Anil Pandey) | Ravensbourne University London & FinAI";
-const aboutDesc = "Meet Anil Panday (Anil Pandey), a London-based Business Management with International student at Ravensbourne University London exploring Artificial Intelligence, Python, Business Analytics, and FinAI.";
+const aboutTitle = "About Anil Pandey | Ravensbourne University London & FinAI";
+const aboutDesc = "Meet Anil Pandey, a London-based Business Management with International student at Ravensbourne University London exploring Artificial Intelligence, Python, Business Analytics, and FinAI.";
 const aboutUrl = "https://pixelandbrush.vercel.app/about";
 
 aboutHtml = aboutHtml.replace(/<title>[\s\S]*?<\/title>/i, `<title>${aboutTitle}</title>`);
@@ -61,24 +61,24 @@ if (aboutHtml.includes('<link rel="canonical"')) {
 const aboutPrerenderContent = `
   <main style="background:#060912;color:#e8edf7;padding:9rem 1.5rem 6rem;font-family:'Outfit',sans-serif;">
     <div style="max-width:1140px;margin:0 auto;">
-      <p style="color:#2563eb;font-weight:700;letter-spacing:.22em;text-transform:uppercase;font-size:0.7rem;margin-bottom:0.65rem;">About Anil Panday (Anil Pandey)</p>
+      <p style="color:#2563eb;font-weight:700;letter-spacing:.22em;text-transform:uppercase;font-size:0.7rem;margin-bottom:0.65rem;">About Anil Pandey</p>
       <h1 style="font-family:'Baloo 2',sans-serif;font-weight:800;font-size:clamp(2.2rem,4.5vw,3.6rem);letter-spacing:-.02em;line-height:1.08;margin-bottom:1.8rem;color:#e8edf7;">
-        Anil Panday (Anil Pandey) — <span style="background:linear-gradient(135deg,#60a5fa,#22d3ee);-webkit-background-clip:text;-webkit-text-fill-color:transparent;">Business, AI &amp; Technology in London</span>
+        Anil Pandey — <span style="background:linear-gradient(135deg,#60a5fa,#22d3ee);-webkit-background-clip:text;-webkit-text-fill-color:transparent;">Business, AI &amp; Technology in London</span>
       </h1>
       <p style="color:#8a93ab;line-height:1.8;font-size:1.05rem;margin-bottom:1.3rem;">
-        Hi, I'm <strong>Anil Panday</strong> (also spelled <strong>Anil Pandey</strong>), based in London, United Kingdom and originally from Nepal. I am studying <strong>Business Management with International</strong> at <strong>Ravensbourne University London</strong>, where I focus on connecting business strategy with modern technology.
+        Hi, I'm <strong>Anil Pandey</strong> (also spelled <strong>Anil Panday</strong>), based in London, United Kingdom and originally from Nepal. I am studying <strong>Business Management with International</strong> at <strong>Ravensbourne University London</strong>, where I focus on connecting business strategy with modern technology.
       </p>
       <p style="color:#8a93ab;line-height:1.8;font-size:1.05rem;margin-bottom:1.3rem;">
         My core interests include Artificial Intelligence, Business Analytics, Python and Data Analysis, AI Agents and Automation, and Entrepreneurship. I am the creator of <strong>FinAI</strong>, a student finance project that applies Python data analysis and AI automation to help university students manage budgets and understand spending patterns, and the founder of Pixel &amp; Brush.
       </p>
       <p style="color:#8a93ab;line-height:1.8;font-size:1.05rem;margin-bottom:1.3rem;">
-        Want to connect with Anil Panday (Anil Pandey) or explore my projects? View my code and documentation on <a href="https://github.com/anil989-design" target="_blank" rel="noopener noreferrer" style="color:#60a5fa;text-decoration:none;">GitHub</a>, send a message through the <a href="/#contact" style="color:#60a5fa;text-decoration:none;">contact form</a>, or email me at <a href="mailto:anilpte232@gmail.com" style="color:#60a5fa;text-decoration:none;">anilpte232@gmail.com</a>.
+        Want to connect with Anil Pandey or explore my projects? View my code and documentation on <a href="https://github.com/anil989-design" target="_blank" rel="noopener noreferrer" style="color:#60a5fa;text-decoration:none;">GitHub</a>, send a message through the <a href="/#contact" style="color:#60a5fa;text-decoration:none;">contact form</a>, or email me at <a href="mailto:anilpte232@gmail.com" style="color:#60a5fa;text-decoration:none;">anilpte232@gmail.com</a>.
       </p>
       <div style="margin-top:2rem;">
-        <img src="/anil-pandey-anil-panday.jpg" alt="Anil Panday (Anil Pandey) — Business Management with International student at Ravensbourne University London" width="768" height="1024" style="max-width:320px;border-radius:18px;display:block;" />
+        <img src="/anil-pandey-anil-panday.jpg" alt="Anil Pandey — Business Management with International student at Ravensbourne University London" width="768" height="1024" style="max-width:320px;border-radius:18px;display:block;" />
       </div>
       <div style="margin-top:3rem;padding-top:2rem;border-top:1px solid rgba(37,99,235,.18);">
-        <h2 style="font-family:'Baloo 2',sans-serif;font-weight:700;font-size:1.35rem;color:#e8edf7;margin-bottom:1rem;">Articles &amp; Case Studies by Anil Pandey (Anil Panday)</h2>
+        <h2 style="font-family:'Baloo 2',sans-serif;font-weight:700;font-size:1.35rem;color:#e8edf7;margin-bottom:1rem;">Articles &amp; Case Studies by Anil Pandey</h2>
         <ul>
           <li><a href="/articles/who-is-anil-pandey" style="color:#60a5fa;">Who Is Anil Pandey? My Journey in Business and Technology</a></li>
           <li><a href="/articles/finai-student-finance-project" style="color:#60a5fa;">FinAI: Building an AI &amp; Analytics Approach to Student Finance in London</a></li>
@@ -98,9 +98,9 @@ const homePrerenderContent = `
         We Craft Digital World
       </h1>
       <p style="font-size:clamp(1.1rem,2.2vw,1.4rem);color:#9aa6c4;line-height:1.65;max-width:480px;margin:1.6rem 0 2.4rem;">
-        Web development, graphic design &amp; digital solutions — founded by Anil Panday (Anil Pandey), Business Management with International student at Ravensbourne University London and creator of FinAI.
+        Web development, graphic design &amp; digital solutions — founded by Anil Pandey, Business Management with International student at Ravensbourne University London and creator of FinAI.
       </p>
-      <img src="/anil-pandey-anil-panday.jpg" alt="Anil Panday (Anil Pandey) — Ravensbourne University London" width="768" height="1024" style="max-width:320px;display:none;" />
+      <img src="/anil-pandey-anil-panday.jpg" alt="Anil Pandey — Ravensbourne University London" width="768" height="1024" style="max-width:320px;display:none;" />
     </div>
   </main>
 `;
@@ -119,15 +119,15 @@ fs.writeFileSync(path.join(BUILD_DIR, "about.html"), aboutHtml, "utf8");
 const articles = [
   {
     slug: "who-is-anil-pandey",
-    title: "Who Is Anil Pandey? My Journey in Business and Technology | Anil Panday, London",
+    title: "Who Is Anil Pandey? My Journey in Business and Technology | Anil Pandey, London",
     h1: "Who Is Anil Pandey? My Journey in Business and Technology",
     description:
-      "Meet Anil Pandey (Anil Panday), a Business Management with International student at Ravensbourne University London exploring AI, Python, business analytics, and FinAI in London, UK.",
+      "Meet Anil Pandey, a Business Management with International student at Ravensbourne University London exploring AI, Python, business analytics, and FinAI in London, UK.",
     bodyHtml: `
-      <p>If you search for <strong>Anil Pandey</strong> or <strong>Anil Panday</strong> on Google, you will find several people around the world who share my name—from film lyricists and academic researchers to software developers in other countries.</p>
+      <p>If you search for <strong>Anil Pandey</strong> on Google, you will find several people around the world who share my name—from film lyricists and academic researchers to software developers in other countries.</p>
       <p>I wrote this article to introduce who I am, share my academic and technical journey in <strong>London, United Kingdom</strong>, and document the projects I am building across <strong>business management, artificial intelligence, Python, and business analytics</strong>.</p>
       <h2>From Nepal to London: Studying Business Management with International</h2>
-      <p>My name is <strong>Anil Panday</strong> (also spelled <strong>Anil Pandey</strong>). I am originally from Nepal and based in <strong>London, United Kingdom</strong>, where I study <strong>Business Management with International</strong> at <strong>Ravensbourne University London</strong>.</p>
+      <p>My name is <strong>Anil Pandey</strong> (also spelled <strong>Anil Panday</strong>). I am originally from Nepal and based in <strong>London, United Kingdom</strong>, where I study <strong>Business Management with International</strong> at <strong>Ravensbourne University London</strong>.</p>
       <p>Studying international business management in London has shaped how I view modern organisations. In today's economy, business management and technology are inseparable. Whether an organisation is planning its finances, analysing market trends, or improving everyday operations, the strongest decisions combine clear management thinking with data analysis and intelligent automation.</p>
       <h2>Bridging Business Strategy, Python, and Artificial Intelligence</h2>
       <p>Alongside my university studies in <strong>Business Management with International</strong>, I spend my time learning and building with practical technology tools across four main areas:</p>
@@ -144,15 +144,15 @@ const articles = [
   },
   {
     slug: "finai-student-finance-project",
-    title: "FinAI by Anil Pandey (Anil Panday) | AI Student Finance & Business Analytics Project in London",
+    title: "FinAI by Anil Pandey | AI Student Finance & Business Analytics Project in London",
     h1: "FinAI: Building an AI & Analytics Approach to Student Finance in London",
     description:
-      "How Anil Pandey (Anil Panday), a Business Management with International student at Ravensbourne University London, is building FinAI to simplify student finance with AI and Python.",
+      "How Anil Pandey, a Business Management with International student at Ravensbourne University London, is building FinAI to simplify student finance with AI and Python.",
     bodyHtml: `
       <p>Anyone who has studied in <strong>London, United Kingdom</strong> knows that managing money as a university student is rarely simple. Income often arrives in uneven intervals while expenses happen every day across rent, TfL transport, groceries, subscriptions, and study materials.</p>
       <p>As a student studying <strong>Business Management with International</strong> at <strong>Ravensbourne University London</strong>, I asked a practical question: <em>What if we applied the same business analytics and AI automation tools that organisations use for cash-flow forecasting to everyday student finance?</em> That question led to <strong>FinAI</strong>.</p>
       <h2>What Is FinAI?</h2>
-      <p><strong>FinAI</strong> is a student finance project created by <strong>Anil Panday (Anil Pandey)</strong> combining <strong>Python data analysis</strong>, <strong>business analytics principles</strong>, and <strong>artificial intelligence</strong> to help students understand and manage their personal finances more effectively.</p>
+      <p><strong>FinAI</strong> is a student finance project created by <strong>Anil Pandey</strong> combining <strong>Python data analysis</strong>, <strong>business analytics principles</strong>, and <strong>artificial intelligence</strong> to help students understand and manage their personal finances more effectively.</p>
       <h2>1. Clear Expense Categorisation with Python</h2>
       <p>By structuring transaction data cleanly using <strong>Python</strong>, FinAI organises spending into meaningful student categories: accommodation, transport, groceries, academic essentials, and discretionary spending.</p>
       <h2>2. Business Analytics Applied to Personal Cash Flow</h2>
@@ -168,10 +168,10 @@ const articles = [
   },
   {
     slug: "learning-python-and-business-analytics",
-    title: "Learning Python and Business Analytics in London | Anil Pandey (Anil Panday)",
+    title: "Learning Python and Business Analytics in London | Anil Pandey",
     h1: "Learning Python and Business Analytics as a Business Management Student in London",
     description:
-      "Anil Pandey (Anil Panday) shares how learning Python, data analysis, and AI automation complements studying Business Management with International at Ravensbourne University London.",
+      "Anil Pandey shares how learning Python, data analysis, and AI automation complements studying Business Management with International at Ravensbourne University London.",
     bodyHtml: `
       <p>When I began studying <strong>Business Management with International</strong> at <strong>Ravensbourne University London</strong>, one reality stood out early: almost every modern business decision is also a data decision.</p>
       <p>Spreadsheets remain foundational in business management, but as soon as you want to clean larger datasets, automate recurring reports, test financial scenarios, or connect structured data to <strong>artificial intelligence (AI) agents</strong>, manual spreadsheets show their limits. That led me to start learning <strong>Python and business analytics</strong> in <strong>London, United Kingdom</strong>.</p>
@@ -198,7 +198,7 @@ for (const article of articles) {
   <meta name="google-site-verification" content="zxJ9NwoEE3Z6vaX_07ZiyXqKPhk7I0Zl0Y7QyEbEDcs" />
   <title>${article.title}</title>
   <meta name="description" content="${article.description}" />
-  <meta name="author" content="Anil Panday (Anil Pandey)" />
+  <meta name="author" content="Anil Pandey" />
   <meta name="robots" content="index, follow" />
   <link rel="canonical" href="${canonicalUrl}" />
   <meta property="og:type" content="article" />
@@ -221,9 +221,9 @@ for (const article of articles) {
     "dateModified": "2026-11-10",
     "author": {
       "@type": "Person",
-      "@id": "https://pixelandbrush.vercel.app/#anil-panday",
-      "name": "Anil Panday",
-      "alternateName": ["Anil Pandey", "anilpanday"],
+      "@id": "https://pixelandbrush.vercel.app/#anil-pandey",
+      "name": "Anil Pandey",
+      "alternateName": ["Anil Panday", "anilpandey"],
       "url": "https://pixelandbrush.vercel.app/about",
       "image": "https://pixelandbrush.vercel.app/anil-pandey-anil-panday.jpg",
       "alumniOf": {
@@ -231,7 +231,8 @@ for (const article of articles) {
         "name": "Ravensbourne University London"
       },
       "sameAs": [
-        "https://github.com/anil989-design"
+        "https://github.com/anil989-design",
+        "https://github.com/anil989-design/FinAI"
       ]
     }
   }
@@ -259,23 +260,23 @@ for (const article of articles) {
 <body>
   <main class="container">
     <nav class="nav">
-      <a href="/about">← About Anil Panday (Anil Pandey)</a>
+      <a href="/about">← About Anil Pandey</a>
       <a href="https://github.com/anil989-design" target="_blank" rel="noopener noreferrer">GitHub Profile</a>
     </nav>
     <h1>${article.h1}</h1>
     <div class="byline">
-      <img src="/anil-pandey-headshot-square.jpg" alt="Anil Pandey (Anil Panday) — Ravensbourne University London" width="64" height="64" />
+      <img src="/anil-pandey-headshot-square.jpg" alt="Anil Pandey — Ravensbourne University London" width="64" height="64" />
       <div class="byline-text">
-        <strong>Anil Panday (Anil Pandey)</strong><br />
+        <strong>Anil Pandey</strong><br />
         Business Management with International, Ravensbourne University London • London, United Kingdom
       </div>
     </div>
-    <img class="portrait" src="/anil-pandey-anil-panday.jpg" alt="Anil Pandey (Anil Panday) outside Ravensbourne University London in Greenwich Peninsula, London, UK" width="768" height="1024" />
+    <img class="portrait" src="/anil-pandey-anil-panday.jpg" alt="Anil Pandey outside Ravensbourne University London in Greenwich Peninsula, London, UK" width="768" height="1024" />
     ${article.bodyHtml}
     <div class="footer-links">
-      <p><strong>More by Anil Panday (Anil Pandey):</strong></p>
+      <p><strong>More by Anil Pandey:</strong></p>
       <ul>
-        <li><a href="/about">About Anil Panday (Anil Pandey) — London, UK</a></li>
+        <li><a href="/about">About Anil Pandey — London, UK</a></li>
         <li><a href="/articles/who-is-anil-pandey">Who Is Anil Pandey? My Journey in Business and Technology</a></li>
         <li><a href="/articles/finai-student-finance-project">FinAI: Building an AI &amp; Analytics Approach to Student Finance in London</a></li>
         <li><a href="/articles/learning-python-and-business-analytics">Learning Python and Business Analytics as a Business Management Student in London</a></li>
@@ -292,7 +293,7 @@ for (const article of articles) {
 }
 
 console.log("Static HTML generated successfully:");
-console.log("- build/index.html (Home with static H1, Anil Panday / Anil Pandey metadata & schema)");
+console.log("- build/index.html (Home with static H1, Anil Pandey metadata & schema)");
 console.log("- build/about/index.html & build/about.html (About with static H1, bio & schema)");
 console.log("- build/articles/who-is-anil-pandey/index.html");
 console.log("- build/articles/finai-student-finance-project/index.html");

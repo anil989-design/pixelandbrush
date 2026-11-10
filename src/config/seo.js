@@ -15,14 +15,14 @@ export const SOCIAL = Object.freeze({
 export const PAGE_META = Object.freeze({
   home: {
     path: "/",
-    title: "Anil Panday (Anil Pandey) | Business, AI & Digital Builder in London",
+    title: "Anil Pandey | Business, AI & Digital Builder in London",
     description:
-      "Anil Panday (Anil Pandey) is a London-based Business Management with International student at Ravensbourne University London, building FinAI and working across AI, Python, and Business Analytics.",
+      "Anil Pandey is a London-based Business Management with International student at Ravensbourne University London, building FinAI and working across AI, Python, and Business Analytics.",
   },
   about: {
     path: "/about",
-    title: "About Anil Panday (Anil Pandey) | Ravensbourne University London & FinAI",
+    title: "About Anil Pandey | Ravensbourne University London & FinAI",
     description:
-      "Meet Anil Panday (Anil Pandey), a London-based Business Management with International student at Ravensbourne University London exploring Artificial Intelligence, Python, Business Analytics, and FinAI.",
+      "Meet Anil Pandey, a London-based Business Management with International student at Ravensbourne University London exploring Artificial Intelligence, Python, Business Analytics, and FinAI.",
   },
 });
