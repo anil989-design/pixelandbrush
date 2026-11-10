@@ -36,32 +36,59 @@ export default function AboutPage() {
           <div className="container px-4 px-lg-5">
             <div className="row align-items-center justify-content-between g-5">
               <div className="col-12 col-lg-7">
-                <SectionLabel text="About Anil Panday" />
+                <SectionLabel text="About Anil Panday (Anil Pandey)" />
                 <h1 style={{ fontWeight: 800, fontSize: "clamp(2.2rem,4.5vw,3.6rem)", letterSpacing: "-.02em", lineHeight: 1.08, marginBottom: "1.8rem" }}>
-                  Anil Panday, Digital Designer &amp; <span style={gradientText}>Founder of Pixel &amp; Brush</span>
+                  Anil Panday (Anil Pandey) — <span style={gradientText}>Business, AI &amp; Technology in London</span>
                 </h1>
 
                 <p style={paragraph}>
-                  Hi, I'm Anil Panday, a digital designer based in London and originally from Nepal. Alongside
-                  running my studio, I'm studying Business Management at Ravensbourne University London, so I
-                  approach every project from both sides: how it looks, and how it helps a business grow.
+                  Hi, I'm <strong>Anil Panday</strong> (also spelled <strong>Anil Pandey</strong>), based in{" "}
+                  <strong>London, United Kingdom</strong> and originally from Nepal. I am studying{" "}
+                  <strong>Business Management with International</strong> at{" "}
+                  <strong>Ravensbourne University London</strong>, where I focus on connecting business strategy with
+                  modern technology.
                 </p>
                 <p style={paragraph}>
-                  Pixel &amp; Brush is the freelance agency founded by Anil Panday to give small businesses
-                  senior-level digital work without agency overheads. We offer web development, branding, digital
-                  marketing and AI solutions, plus friendly ongoing client support once your project is live. You
-                  work directly with me from the first call to launch day.
+                  My core interests include <strong>Artificial Intelligence</strong>, <strong>Business Analytics</strong>,{" "}
+                  <strong>Python and Data Analysis</strong>, <strong>AI Agents and Automation</strong>, and{" "}
+                  <strong>Entrepreneurship</strong>. I am the creator of <strong>FinAI</strong>, a student finance
+                  project that applies Python data analysis and AI automation to help university students manage budgets
+                  and understand spending patterns, and the founder of Pixel &amp; Brush.
                 </p>
                 <p style={paragraph}>
-                  Want to work with Anil Panday and Pixel &amp; Brush? Send a message through the{" "}
-                  <a href="/#contact" style={inlineLink}>contact form</a>, email me at{" "}
-                  <a href={`mailto:${CONTACT.email}`} style={inlineLink}>{CONTACT.email}</a>, or connect with me on{" "}
-                  <a href={SOCIAL.linkedin} target="_blank" rel="noopener noreferrer" style={inlineLink}>LinkedIn</a>.
+                  Want to connect with Anil Panday (Anil Pandey) or explore my projects? View my code and documentation
+                  on{" "}
+                  <a href={SOCIAL.github} target="_blank" rel="noopener noreferrer" style={inlineLink}>GitHub</a>, send
+                  a message through the <a href="/#contact" style={inlineLink}>contact form</a>, or email me at{" "}
+                  <a href={`mailto:${CONTACT.email}`} style={inlineLink}>{CONTACT.email}</a>.
                 </p>
 
                 <div style={{ display: "flex", flexWrap: "wrap", gap: "1rem", marginTop: "2rem" }}>
-                  <Button primary href="/#contact">Start a Project →</Button>
+                  <Button primary href={SOCIAL.github}>View GitHub Profile →</Button>
                   <Button href={`mailto:${CONTACT.email}`}>Email Me</Button>
+                </div>
+
+                <div style={{ marginTop: "3rem", paddingTop: "2rem", borderTop: "1px solid rgba(37,99,235,.18)" }}>
+                  <h2 style={{ fontFamily: "'Baloo 2',sans-serif", fontWeight: 700, fontSize: "1.35rem", color: "#e8edf7", marginBottom: "1rem" }}>
+                    Articles &amp; Case Studies by Anil Pandey (Anil Panday)
+                  </h2>
+                  <ul style={{ listStyle: "none", padding: 0, margin: 0, display: "grid", gap: "0.75rem" }}>
+                    <li>
+                      <a href="/articles/who-is-anil-pandey" style={inlineLink}>
+                        Who Is Anil Pandey? My Journey in Business and Technology →
+                      </a>
+                    </li>
+                    <li>
+                      <a href="/articles/finai-student-finance-project" style={inlineLink}>
+                        FinAI: Building an AI &amp; Analytics Approach to Student Finance in London →
+                      </a>
+                    </li>
+                    <li>
+                      <a href="/articles/learning-python-and-business-analytics" style={inlineLink}>
+                        Learning Python and Business Analytics as a Business Management Student in London →
+                      </a>
+                    </li>
+                  </ul>
                 </div>
               </div>
 
@@ -70,10 +97,10 @@ export default function AboutPage() {
                   <div style={{ position: "absolute", bottom: "-8%", left: "10%", right: "10%", height: "55%", background: "radial-gradient(ellipse,rgba(37,99,235,.42) 0%,transparent 70%)", filter: "blur(26px)", zIndex: 0 }} />
                   <div style={{ position: "relative", zIndex: 1, border: "1px solid rgba(37,99,235,.25)", borderRadius: frameRadius, overflow: "hidden", aspectRatio: "3/4", background: "linear-gradient(160deg,rgba(30,58,138,.18),rgba(34,211,238,.07))" }}>
                     <img
-                      src="/me.webp"
-                      alt="Anil Panday, Digital Designer in London"
-                      width="720"
-                      height="960"
+                      src="/anil-pandey-anil-panday.jpg"
+                      alt="Anil Panday (Anil Pandey) — Business Management with International student at Ravensbourne University London"
+                      width="768"
+                      height="1024"
                       fetchPriority="high"
                       decoding="async"
                       style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "center top" }}

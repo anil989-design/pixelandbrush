@@ -6,24 +6,23 @@
 export const SITE_URL = "https://pixelandbrush.vercel.app";
 
 /**
- * Social profiles.
+ * Public profiles (no social media).
  */
 export const SOCIAL = Object.freeze({
-  linkedin: "https://www.linkedin.com/in/anilpanday-digital/",
   github: "https://github.com/anil989-design",
 });
 
 export const PAGE_META = Object.freeze({
   home: {
     path: "/",
-    title: "Anil Panday | Digital Designer & Founder of Pixel & Brush, London",
+    title: "Anil Panday (Anil Pandey) | Business, AI & Digital Builder in London",
     description:
-      "Anil Panday is a London-based digital designer and founder of Pixel & Brush, a freelance agency for web development, branding and digital marketing.",
+      "Anil Panday (Anil Pandey) is a London-based Business Management with International student at Ravensbourne University London, building FinAI and working across AI, Python, and Business Analytics.",
   },
   about: {
     path: "/about",
-    title: "About Anil Panday | Digital Designer & Founder of Pixel & Brush",
+    title: "About Anil Panday (Anil Pandey) | Ravensbourne University London & FinAI",
     description:
-      "Meet Anil Panday, a London-based digital designer, Ravensbourne University London student and founder of Pixel & Brush – web development, branding, digital marketing and AI solutions.",
+      "Meet Anil Panday (Anil Pandey), a London-based Business Management with International student at Ravensbourne University London exploring Artificial Intelligence, Python, Business Analytics, and FinAI.",
   },
 });

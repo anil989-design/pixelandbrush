@@ -50,7 +50,19 @@
       "destination": "/about/index.html"
     },
     {
-      "source": "/((?!static/|projects/|about|sitemap\\.xml|robots\\.txt|.*\\..*).*)",
+      "source": "/articles/who-is-anil-pandey",
+      "destination": "/articles/who-is-anil-pandey/index.html"
+    },
+    {
+      "source": "/articles/finai-student-finance-project",
+      "destination": "/articles/finai-student-finance-project/index.html"
+    },
+    {
+      "source": "/articles/learning-python-and-business-analytics",
+      "destination": "/articles/learning-python-and-business-analytics/index.html"
+    },
+    {
+      "source": "/((?!static/|projects/|about|articles/|sitemap\\.xml|robots\\.txt|.*\\..*).*)",
       "destination": "/index.html"
     }
   ]

@@ -10,10 +10,10 @@ const Footer = () => {
           <div style={{fontFamily:"'Baloo 2',sans-serif",fontWeight:800,fontSize:"1.3rem",background:"linear-gradient(135deg,#60a5fa,#22d3ee)",WebkitBackgroundClip:"text",WebkitTextFillColor:"transparent",letterSpacing:".04em",marginBottom:".7rem"}}>Pixel & Brush</div>
           <p style={{color:"#6f7a96",fontSize:".83rem",lineHeight:1.7,maxWidth:240,marginBottom:".6rem"}}>Digital creative studio based in the UK — helping brands own their space online.</p>
           <p style={{fontSize:".83rem",marginBottom:"1.3rem"}}>
-            <a href="/about" style={{color:"#8a93ab",textDecoration:"none",transition:"color .3s"}} onMouseEnter={e=>e.currentTarget.style.color="#60a5fa"} onMouseLeave={e=>e.currentTarget.style.color="#8a93ab"}>Founded by Anil Panday</a>
+            <a href="/about" style={{color:"#8a93ab",textDecoration:"none",transition:"color .3s"}} onMouseEnter={e=>e.currentTarget.style.color="#60a5fa"} onMouseLeave={e=>e.currentTarget.style.color="#8a93ab"}>Founded by Anil Panday (Anil Pandey)</a>
           </p>
           <div style={{display:"flex",gap:".7rem"}}>
-            {[{icon:"bi bi-linkedin",href:SOCIAL.linkedin,title:"Anil Panday on LinkedIn"},{icon:"bi bi-github",href:SOCIAL.github,title:"Anil Panday on GitHub"},{icon:"bi bi-instagram",href:"https://instagram.com",title:"Pixel & Brush on Instagram"}].map(s=>(
+            {[{icon:"bi bi-github",href:SOCIAL.github,title:"Anil Panday (Anil Pandey) on GitHub"}].map(s=>(
               <a key={s.title} href={s.href} target="_blank" rel="noopener noreferrer" title={s.title} aria-label={s.title} style={{width:36,height:36,background:"rgba(37,99,235,.1)",border:"1px solid rgba(37,99,235,.2)",borderRadius:8,display:"flex",alignItems:"center",justifyContent:"center",color:"#8a93ab",fontSize:".95rem",textDecoration:"none",transition:"all .3s"}} onMouseEnter={e=>{e.currentTarget.style.background="rgba(37,99,235,.25)";e.currentTarget.style.color="#60a5fa";e.currentTarget.style.borderColor="rgba(37,99,235,.5)";}} onMouseLeave={e=>{e.currentTarget.style.background="rgba(37,99,235,.1)";e.currentTarget.style.color="#8a93ab";e.currentTarget.style.borderColor="rgba(37,99,235,.2)";}}>
                 <i className={s.icon} aria-hidden="true"></i>
               </a>
