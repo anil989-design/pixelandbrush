@@ -1,34 +1,137 @@
-import SectionLabel from "../../../components/common/SectionLabel";
-import { aboutFeatures } from "../data/about";
+import TiltCard from "../../../components/common/TiltCard";
+import webIcon from "../../../assets/web.png";
+import mobileIcon from "../../../assets/mobile.png";
+import backendIcon from "../../../assets/backend.png";
+import creatorIcon from "../../../assets/creator.png";
+
+const ROLE_CARDS = [
+  {
+    title: "Full-Stack Web Developer",
+    icon: webIcon,
+  },
+  {
+    title: "UI / UX & Brand Designer",
+    icon: creatorIcon,
+  },
+  {
+    title: "AI & Python Solutions",
+    icon: backendIcon,
+  },
+  {
+    title: "Digital Strategy & Growth",
+    icon: mobileIcon,
+  },
+];
 
 const AboutSection = () => {
   return (
-  <section style={{padding:"7rem 0",position:"relative",zIndex:1}}>
-    <div className="container px-4 px-lg-5">
-      <div className="rv text-center mx-auto mb-5" data-dir="up" style={{maxWidth:640}}>
-        <SectionLabel text="Why Pixel & Brush"/>
-        <h2 style={{fontFamily:"'Baloo 2',sans-serif",fontWeight:800,fontSize:"clamp(2.2rem,4vw,3.4rem)",letterSpacing:"-.02em",lineHeight:1.08,marginBottom:"1.1rem"}}>
-          A Studio That Cares About<br/>
-          <span style={{background:"linear-gradient(135deg,#c084fc,#ec4899,#f97316,#fbbf24)",WebkitBackgroundClip:"text",WebkitTextFillColor:"transparent"}}>Your Growth</span>
+    <section
+      id="about"
+      style={{
+        maxWidth: 1280,
+        margin: "0 auto",
+        padding: "6rem clamp(1.5rem, 5vw, 4rem)",
+        position: "relative",
+        zIndex: 1,
+      }}
+    >
+      <div>
+        <p
+          style={{
+            fontSize: "clamp(14px, 1.6vw, 18px)",
+            color: "#aaa6c3",
+            textTransform: "uppercase",
+            letterSpacing: "0.08em",
+            marginBottom: "0.35rem",
+          }}
+        >
+          Introduction
+        </p>
+        <h2
+          style={{
+            color: "#ffffff",
+            fontWeight: 900,
+            fontSize: "clamp(32px, 5vw, 60px)",
+            margin: 0,
+          }}
+        >
+          Overview.
         </h2>
-        <p style={{color:"#a79ab8",lineHeight:1.76,fontFamily:"'Outfit',sans-serif",fontSize:"1rem"}}>We're a small, focused digital studio based in the UK. Senior-level work at every stage — no junior hand-offs, no bloated overhead.</p>
       </div>
-      
-      <div className="row g-3 g-md-4 justify-content-center">
-        {aboutFeatures.map((f,i)=>(
-          <div key={i} className="col-12 col-md-6 col-lg-4">
-            <div className="h-100 rv" data-delay={i*.07} style={{background:"rgba(12,6,26,.74)",border:"1px solid rgba(168,85,247,.14)",borderRadius:16,padding:"1.6rem",display:"flex",gap:"1.1rem",alignItems:"flex-start",transition:"border-color .3s,background .3s,transform .3s"}} onMouseEnter={e=>{e.currentTarget.style.borderColor="rgba(249,115,22,.45)";e.currentTarget.style.background="rgba(22,10,42,.92)";e.currentTarget.style.transform="translateY(-4px)";}} onMouseLeave={e=>{e.currentTarget.style.borderColor="rgba(168,85,247,.14)";e.currentTarget.style.background="rgba(12,6,26,.74)";e.currentTarget.style.transform="none";}}>
-              <div style={{fontSize:"1.6rem",color:"#fb923c",flexShrink:0}}><i className={f.iconClass}></i></div>
-              <div>
-                <div style={{fontFamily:"'Baloo 2',sans-serif",fontWeight:700,fontSize:"1rem",marginBottom:".32rem"}}>{f.title}</div>
-                <div style={{color:"#a79ab8",fontSize:".83rem",lineHeight:1.6}}>{f.desc}</div>
+
+      <p
+        style={{
+          marginTop: "1rem",
+          color: "#aaa6c3",
+          fontSize: 17,
+          maxWidth: 780,
+          lineHeight: "30px",
+        }}
+      >
+        I'm <strong style={{ color: "#fff" }}>Anil Pandey</strong>, founder of{" "}
+        <strong style={{ color: "#fb923c" }}>Pixel and Brush</strong> in London and a Business Management with
+        International student at <strong style={{ color: "#fff" }}>Ravensbourne University London</strong>. I build
+        high-impact websites, brand identities, 3D interactive experiences, and AI-powered analytics tools like{" "}
+        <strong style={{ color: "#915EFF" }}>FinAI</strong> using React, Three.js, Python, and modern web technologies.
+        Let's work together to bring your ideas to life!
+      </p>
+
+      <div
+        style={{
+          marginTop: "4.5rem",
+          display: "grid",
+          gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))",
+          gap: "2.25rem",
+        }}
+      >
+        {ROLE_CARDS.map((card) => (
+          <TiltCard key={card.title} max={25} scale={1.04}>
+            <div
+              className="green-pink-gradient"
+              style={{
+                width: "100%",
+                padding: 1,
+                borderRadius: 20,
+                boxShadow: "0px 35px 120px -15px #211e35",
+              }}
+            >
+              <div
+                style={{
+                  background: "#151030",
+                  borderRadius: 20,
+                  padding: "1.5rem 2.2rem",
+                  minHeight: 280,
+                  display: "flex",
+                  flexDirection: "column",
+                  justifyContent: "space-evenly",
+                  alignItems: "center",
+                }}
+              >
+                <img
+                  src={card.icon}
+                  alt={card.title}
+                  width="64"
+                  height="64"
+                  loading="lazy"
+                  style={{ width: 64, height: 64, objectFit: "contain" }}
+                />
+                <h3
+                  style={{
+                    color: "#ffffff",
+                    fontSize: 20,
+                    fontWeight: 700,
+                    textAlign: "center",
+                    lineHeight: 1.35,
+                  }}
+                >
+                  {card.title}
+                </h3>
               </div>
             </div>
-          </div>
+          </TiltCard>
         ))}
       </div>
-    </div>
-  </section>
+    </section>
   );
 };
 

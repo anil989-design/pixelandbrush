@@ -1,83 +1,218 @@
-import Button from "../../../components/common/Button";
-import { CONTACT } from "../../../config/constants";
-import { SOCIAL } from "../../../config/seo";
+import EarthCanvas from "../../../components/canvas/EarthCanvas";
 import useContactForm from "../hooks/useContactForm";
-import SectionLabel from "../../../components/common/SectionLabel";
 
 const ContactSection = () => {
   const { fields, setField, honeypot, setHoneypot, formStatus, formError, sendMessage, preload } =
     useContactForm();
 
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    sendMessage();
+  };
+
   return (
-  <section id="contact" style={{padding:"8rem 0",position:"relative",zIndex:1}}>
-    <div className="container px-4 px-lg-5">
-      <div className="row g-5 align-items-start">
-        <div className="col-12 col-lg-5">
-          <div className="rv" data-dir="left">
-            <SectionLabel text="Get In Touch"/>
-            <h2 style={{fontFamily:"'Baloo 2',sans-serif",fontWeight:800,fontSize:"clamp(2.2rem,4.5vw,3.5rem)",letterSpacing:"-.02em",marginBottom:"1rem",lineHeight:1.05}}>Let's Build<br/><span style={{background:"linear-gradient(135deg,#c084fc,#ec4899,#f97316,#fbbf24)",WebkitBackgroundClip:"text",WebkitTextFillColor:"transparent"}}>Something Great</span></h2>
-            <p style={{color:"#a79ab8",lineHeight:1.75,marginBottom:"2rem",maxWidth:360,fontFamily:"'Outfit',sans-serif",fontSize:".95rem"}}>Tell us about your project and we will get back to you within 24 hours.</p>
-          </div>
-          <div className="rv" data-dir="left" data-delay=".1">
-            {[
-              {iconClass:"bi bi-envelope-fill",label:CONTACT.email,href:`mailto:${CONTACT.email}`},
-              {iconClass:"bi bi-linkedin",label:"linkedin.com/in/anilpanday-digital",href:SOCIAL.linkedin,target:"_blank",rel:"noopener noreferrer"},
-              {iconClass:"bi bi-geo-alt-fill",label:"United Kingdom",href:null}
-            ].map((c,i)=>(
-              <div key={i} style={{display:"flex",alignItems:"center",gap:"1rem",marginBottom:"1.2rem"}}>
-                <div style={{width:44,height:44,background:"linear-gradient(135deg,rgba(124,58,237,.16),rgba(249,115,22,.14))",border:"1px solid rgba(249,115,22,.28)",borderRadius:10,display:"flex",alignItems:"center",justifyContent:"center",fontSize:"1.1rem",color:"#fb923c",flexShrink:0}}>
-                  <i className={c.iconClass}></i>
-                </div>
-                {c.href?<a href={c.href} target={c.target} rel={c.rel} style={{color:"#a79ab8",fontSize:".86rem",textDecoration:"none",transition:"color .3s"}} onMouseEnter={e=>e.target.style.color="#fb923c"} onMouseLeave={e=>e.target.style.color="#a79ab8"}>{c.label}</a>:<span style={{color:"#a79ab8",fontSize:".86rem"}}>{c.label}</span>}
-              </div>
-            ))}
-          </div>
-        </div>
-        
-        <div className="col-12 col-lg-7">
-          <div className="rv" data-dir="right" data-delay=".15">
-            <div onFocusCapture={preload} style={{background:"rgba(12,6,26,.88)",border:"1px solid rgba(168,85,247,.18)",borderRadius:18,padding:"2.6rem",display:"flex",flexDirection:"column",gap:"1.2rem",boxShadow:"0 22px 60px rgba(0,0,0,.35)"}}>
-              {formStatus==="success"&&(<div style={{background:"rgba(16,185,129,.1)",border:"1px solid rgba(16,185,129,.28)",borderRadius:10,padding:"1rem 1.2rem",color:"#6ee7b7",fontFamily:"'Baloo 2',sans-serif",fontWeight:600,fontSize:".9rem",display:"flex",gap:".6rem",alignItems:"center"}}><i className="bi bi-check-circle-fill"></i> Message sent! We'll be in touch within 24 hours.</div>)}
-              {formError&&(<div style={{background:"rgba(239,68,68,.1)",border:"1px solid rgba(239,68,68,.28)",borderRadius:10,padding:"1rem 1.2rem",color:"#f87171",fontFamily:"'Baloo 2',sans-serif",fontWeight:600,fontSize:".9rem",display:"flex",gap:".6rem",alignItems:"center"}}><i className="bi bi-exclamation-triangle-fill"></i> {formError}</div>)}
+    <section
+      id="contact"
+      style={{
+        maxWidth: 1280,
+        margin: "0 auto",
+        padding: "5rem clamp(1.5rem, 5vw, 4rem)",
+        position: "relative",
+        zIndex: 1,
+      }}
+    >
+      <div className="row g-5 align-items-center flex-column-reverse flex-xl-row">
+        {/* Left: Contact Form Card (Huzaif-Ahmed-Portfolio Contact.jsx) */}
+        <div className="col-12 col-xl-6">
+          <div
+            onFocusCapture={preload}
+            style={{
+              background: "#100d25",
+              padding: "2.5rem",
+              borderRadius: 20,
+              boxShadow: "0px 35px 120px -15px #211e35",
+            }}
+          >
+            <p
+              style={{
+                fontSize: "clamp(14px, 1.6vw, 18px)",
+                color: "#aaa6c3",
+                textTransform: "uppercase",
+                letterSpacing: "0.08em",
+                marginBottom: "0.35rem",
+              }}
+            >
+              Get in touch
+            </p>
+            <h2
+              style={{
+                color: "#ffffff",
+                fontWeight: 900,
+                fontSize: "clamp(32px, 5vw, 56px)",
+                margin: 0,
+              }}
+            >
+              Contact.
+            </h2>
 
-              {/* Honeypot Bot Trap */}
-              <div style={{display:"none"}} aria-hidden="true">
-                <input type="text" name="company_website_hp" value={honeypot} onChange={e=>setHoneypot(e.target.value)} tabIndex="-1" autoComplete="off"/>
+            {formStatus === "success" && (
+              <div
+                style={{
+                  marginTop: "1.2rem",
+                  background: "rgba(16,185,129,.12)",
+                  border: "1px solid rgba(16,185,129,.32)",
+                  borderRadius: 10,
+                  padding: "1rem 1.2rem",
+                  color: "#6ee7b7",
+                  fontWeight: 600,
+                  fontSize: ".9rem",
+                  display: "flex",
+                  gap: ".6rem",
+                  alignItems: "center",
+                }}
+              >
+                <i className="bi bi-check-circle-fill" /> Thank you. I will get back to you as soon as possible.
               </div>
-
-              <div className="row g-3">
-                <div className="col-12 col-sm-6">
-                  <label htmlFor="contact-name" style={{fontSize:".68rem",color:"#8f84a6",letterSpacing:".1em",textTransform:"uppercase",fontFamily:"'Baloo 2',sans-serif",fontWeight:600,marginBottom:".38rem",display:"block"}}>Your Name</label>
-                  <input type="text" maxLength={100} placeholder="John Smith" id="contact-name" name="name" autoComplete="name" value={fields.name} onChange={setField("name")} className="form-control pb-form-control"/>
-                </div>
-                <div className="col-12 col-sm-6">
-                  <label htmlFor="contact-email" style={{fontSize:".68rem",color:"#8f84a6",letterSpacing:".1em",textTransform:"uppercase",fontFamily:"'Baloo 2',sans-serif",fontWeight:600,marginBottom:".38rem",display:"block"}}>Email Address</label>
-                  <input type="email" maxLength={254} placeholder="john@company.com" id="contact-email" name="email" autoComplete="email" value={fields.email} onChange={setField("email")} className="form-control pb-form-control"/>
-                </div>
+            )}
+            {formError && (
+              <div
+                style={{
+                  marginTop: "1.2rem",
+                  background: "rgba(239,68,68,.12)",
+                  border: "1px solid rgba(239,68,68,.32)",
+                  borderRadius: 10,
+                  padding: "1rem 1.2rem",
+                  color: "#f87171",
+                  fontWeight: 600,
+                  fontSize: ".9rem",
+                  display: "flex",
+                  gap: ".6rem",
+                  alignItems: "center",
+                }}
+              >
+                <i className="bi bi-exclamation-triangle-fill" /> {formError}
               </div>
+            )}
 
-              <div>
-                <label htmlFor="contact-service" style={{fontSize:".68rem",color:"#8f84a6",letterSpacing:".1em",textTransform:"uppercase",fontFamily:"'Baloo 2',sans-serif",fontWeight:600,marginBottom:".38rem",display:"block"}}>Service Needed</label>
-                <select id="contact-service" name="service" value={fields.service} onChange={setField("service")} className="form-select pb-form-control">
+            {/* Honeypot Bot Trap */}
+            <div style={{ display: "none" }} aria-hidden="true">
+              <input
+                type="text"
+                name="company_website_hp"
+                value={honeypot}
+                onChange={(e) => setHoneypot(e.target.value)}
+                tabIndex="-1"
+                autoComplete="off"
+              />
+            </div>
+
+            <form
+              onSubmit={handleSubmit}
+              style={{
+                marginTop: "2.2rem",
+                display: "flex",
+                flexDirection: "column",
+                gap: "1.6rem",
+              }}
+            >
+              <label style={{ display: "flex", flexDirection: "column" }}>
+                <span style={{ color: "#ffffff", fontWeight: 500, marginBottom: "0.75rem" }}>
+                  Your Name
+                </span>
+                <input
+                  type="text"
+                  name="name"
+                  maxLength={100}
+                  value={fields.name}
+                  onChange={setField("name")}
+                  placeholder="What's your good name?"
+                  className="pb-form-control"
+                />
+              </label>
+
+              <label style={{ display: "flex", flexDirection: "column" }}>
+                <span style={{ color: "#ffffff", fontWeight: 500, marginBottom: "0.75rem" }}>
+                  Your email
+                </span>
+                <input
+                  type="email"
+                  name="email"
+                  maxLength={254}
+                  value={fields.email}
+                  onChange={setField("email")}
+                  placeholder="What's your web address?"
+                  className="pb-form-control"
+                />
+              </label>
+
+              <label style={{ display: "flex", flexDirection: "column" }}>
+                <span style={{ color: "#ffffff", fontWeight: 500, marginBottom: "0.75rem" }}>
+                  Service Needed
+                </span>
+                <select
+                  name="service"
+                  value={fields.service}
+                  onChange={setField("service")}
+                  className="pb-form-control"
+                >
                   <option value="Web Development">Web Development</option>
                   <option value="Social Media Management">Social Media Management</option>
                   <option value="Graphic Design">Graphic Design</option>
                   <option value="Full Package">Full Package</option>
                 </select>
-              </div>
+              </label>
 
-              <div>
-                <label htmlFor="contact-message" style={{fontSize:".68rem",color:"#8f84a6",letterSpacing:".1em",textTransform:"uppercase",fontFamily:"'Baloo 2',sans-serif",fontWeight:600,marginBottom:".38rem",display:"block"}}>About Your Project</label>
-                <textarea maxLength={3000} placeholder="Brief description of what you need..." rows={4} id="contact-message" name="message" value={fields.message} onChange={setField("message")} className="form-control pb-form-control" style={{resize:"vertical"}}/>
-              </div>
+              <label style={{ display: "flex", flexDirection: "column" }}>
+                <span style={{ color: "#ffffff", fontWeight: 500, marginBottom: "0.75rem" }}>
+                  Your Message
+                </span>
+                <textarea
+                  rows={6}
+                  name="message"
+                  maxLength={3000}
+                  value={fields.message}
+                  onChange={setField("message")}
+                  placeholder="What you want to say?"
+                  className="pb-form-control"
+                  style={{ resize: "vertical" }}
+                />
+              </label>
 
-              <Button primary onClick={sendMessage} disabled={formStatus==="sending"} className="w-100">{formStatus==="sending"?"Sending…":"Send Message →"}</Button>
-            </div>
+              <button
+                type="submit"
+                disabled={formStatus === "sending"}
+                style={{
+                  background: "#151030",
+                  padding: "0.9rem 2.2rem",
+                  borderRadius: 12,
+                  border: "1px solid rgba(145,94,255,0.35)",
+                  width: "fit-content",
+                  color: "#ffffff",
+                  fontWeight: 700,
+                  fontSize: "1rem",
+                  cursor: formStatus === "sending" ? "not-allowed" : "pointer",
+                  boxShadow: "0 4px 20px rgba(5, 8, 22, 0.8)",
+                  transition: "background 0.25s, transform 0.25s",
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.background = "#915EFF";
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.background = "#151030";
+                }}
+              >
+                {formStatus === "sending" ? "Sending..." : "Send"}
+              </button>
+            </form>
           </div>
         </div>
+
+        {/* Right: Interactive 3D Rotating Planet Earth Canvas */}
+        <div className="col-12 col-xl-6" style={{ height: "clamp(360px, 50vw, 560px)" }}>
+          <EarthCanvas />
+        </div>
       </div>
-    </div>
-  </section>
+    </section>
   );
 };
 

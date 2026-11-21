@@ -10,6 +10,15 @@
       ]
     },
     {
+      "source": "/(desktop_pc|planet)/(.*)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=604800, stale-while-revalidate=86400"
+        }
+      ]
+    },
+    {
       "source": "/(.*)\\.(webp|png|jpg|jpeg|svg|ico|woff2|xml|txt|html)",
       "headers": [
         {
@@ -62,7 +71,7 @@
       "destination": "/articles/learning-python-and-business-analytics/index.html"
     },
     {
-      "source": "/((?!static/|projects/|about|articles/|sitemap\\.xml|robots\\.txt|.*\\..*).*)",
+      "source": "/((?!static/|projects/|desktop_pc/|planet/|about|articles/|sitemap\\.xml|robots\\.txt|.*\\..*).*)",
       "destination": "/index.html"
     }
   ]

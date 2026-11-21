@@ -1,51 +1,138 @@
-import Button from "../../../components/common/Button";
-import Counter from "../../../components/common/Counter";
-import SplitHeading from "../../../components/common/SplitHeading";
-import PhotoCutout from "../components/PhotoCutout";
+import ComputersCanvas from "../../../components/canvas/ComputersCanvas";
+import heroBg from "../../../assets/herobg.png";
 
-const HeroSection = ({ heroVis }) => {
+const HeroSection = () => {
   return (
-  <section style={{minHeight:"100vh",display:"flex",alignItems:"center",padding:"8rem 0 5rem",position:"relative",overflow:"hidden",zIndex:1}}>
-    <div style={{position:"absolute",top:"50%",left:"50%",transform:"translate(-50%,-50%)",fontFamily:"'Baloo 2',sans-serif",fontWeight:800,fontSize:"clamp(5rem,17vw,15rem)",color:"rgba(168,85,247,.035)",whiteSpace:"nowrap",pointerEvents:"none",userSelect:"none",letterSpacing:"-.02em",zIndex:0}}>DIGITAL</div>
-    
-    <div className="container px-4 px-lg-5 position-relative" style={{zIndex:2}}>
-      <div className="row align-items-center justify-content-between g-5">
-        <div className="col-12 col-lg-7">
-          <div style={{display:"inline-flex",alignItems:"center",gap:".55rem",background:"linear-gradient(135deg,rgba(124,58,237,.14),rgba(249,115,22,.12))",border:"1px solid rgba(249,115,22,.32)",padding:".4rem 1.05rem",borderRadius:100,marginBottom:"1.8rem",opacity:heroVis?1:0,transform:heroVis?"none":"translateY(14px)",transition:"all .8s .1s cubic-bezier(.22,1,.36,1)"}}>
-            <span style={{width:7,height:7,background:"#fb923c",boxShadow:"0 0 8px #f97316",borderRadius:"50%",animation:"blink 1.5s ease infinite",flexShrink:0}}/>
-            <span style={{color:"#fb923c",fontSize:".7rem",letterSpacing:".14em",textTransform:"uppercase",fontWeight:700}}>Available for new projects</span>
-          </div>
-          <h1 style={{margin:0,fontSize:"inherit",fontWeight:"inherit",lineHeight:"inherit",color:"inherit",opacity:heroVis?1:0,transform:heroVis?"none":"translateY(26px)",transition:"all .9s .22s cubic-bezier(.22,1,.36,1)"}}>
-            <SplitHeading as="span" text="We Craft" delay={0}/>
-            <SplitHeading as="span" text="Digital World" delay={0.15} shimmer={true}/>
-          </h1>
-          <p style={{fontFamily:"'Outfit',sans-serif",fontWeight:300,fontSize:"clamp(1.1rem,2.2vw,1.4rem)",color:"#b8adc9",lineHeight:1.65,maxWidth:480,margin:"1.6rem 0 2.4rem",opacity:heroVis?1:0,transform:heroVis?"none":"translateY(14px)",transition:"all .85s .42s cubic-bezier(.22,1,.36,1)"}}>
-            Web development, graphic design &amp; social media management — for businesses ready to own their digital space.
-          </p>
-          <div style={{display:"flex",flexWrap:"wrap",gap:"1rem",opacity:heroVis?1:0,transform:heroVis?"none":"translateY(14px)",transition:"all .8s .58s cubic-bezier(.22,1,.36,1)"}}>
-            <Button primary href="#contact">Start a Project →</Button>
-            <Button href="#portfolio">View Our Work</Button>
-          </div>
-          <div className="row g-4 mt-4 pt-3 border-top" style={{borderColor:"rgba(168,85,247,.16) !important",opacity:heroVis?1:0,transition:"opacity 1s .78s ease"}}>
-            {[{n:15,s:"+",l:"Projects Delivered"},{n:100,s:"%",l:"Client Satisfaction"},{n:3,s:"x",l:"Avg Engagement Boost"}].map((st,i)=>(
-              <div key={i} className="col-4">
-                <div style={{fontFamily:"'Baloo 2',sans-serif",fontWeight:800,fontSize:"clamp(1.6rem,3vw,2.4rem)",background:"linear-gradient(135deg,#c084fc,#ec4899,#f97316,#fbbf24)",WebkitBackgroundClip:"text",WebkitTextFillColor:"transparent"}}><Counter end={st.n} suffix={st.s}/></div>
-                <div style={{color:"#8f84a6",fontSize:".68rem",letterSpacing:".1em",textTransform:"uppercase",marginTop:".18rem"}}>{st.l}</div>
-              </div>
-            ))}
-          </div>
+    <section
+      style={{
+        position: "relative",
+        width: "100%",
+        height: "100vh",
+        minHeight: 720,
+        margin: "0 auto",
+        backgroundImage: `url(${heroBg})`,
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+        backgroundRepeat: "no-repeat",
+        overflow: "hidden",
+      }}
+    >
+      {/* Top Hero Headline + Purple Vertical Line (Huzaif-Ahmed-Portfolio Hero.jsx) */}
+      <div
+        style={{
+          position: "absolute",
+          inset: 0,
+          top: 115,
+          maxWidth: 1280,
+          margin: "0 auto",
+          padding: "0 clamp(1.5rem, 5vw, 4rem)",
+          display: "flex",
+          flexDirection: "row",
+          alignItems: "flex-start",
+          gap: "1.25rem",
+          zIndex: 2,
+          pointerEvents: "none",
+        }}
+      >
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "center",
+            alignItems: "center",
+            marginTop: "0.5rem",
+          }}
+        >
+          <div
+            style={{
+              width: 20,
+              height: 20,
+              borderRadius: "50%",
+              background: "#915EFF",
+              boxShadow: "0 0 18px #915EFF",
+            }}
+          />
+          <div
+            className="violet-gradient"
+            style={{
+              width: 4,
+              height: "clamp(160px, 28vh, 300px)",
+            }}
+          />
         </div>
-        <div className="col-12 col-lg-5 text-center" style={{opacity:heroVis?1:0,transform:heroVis?"none":"translateX(28px) scale(.94)",transition:"all 1s .65s cubic-bezier(.22,1,.36,1)"}}>
-          <PhotoCutout/>
+
+        <div>
+          <h1
+            style={{
+              fontWeight: 900,
+              color: "#ffffff",
+              fontSize: "clamp(2.4rem, 5.5vw, 4.75rem)",
+              lineHeight: 1.15,
+              marginTop: "0.25rem",
+              fontFamily: "'Poppins', sans-serif",
+            }}
+          >
+            Hi, I'm <span style={{ color: "#915EFF" }}>Anil</span>
+          </h1>
+          <p
+            style={{
+              color: "#dfd9ff",
+              fontWeight: 500,
+              fontSize: "clamp(1rem, 2.1vw, 1.7rem)",
+              lineHeight: 1.45,
+              marginTop: "0.5rem",
+              maxWidth: 680,
+              fontFamily: "'Poppins', sans-serif",
+            }}
+          >
+            Founder of <span style={{ color: "#fb923c", fontWeight: 700 }}>Pixel and Brush</span> — I develop 3D visuals,{" "}
+            <br className="d-none d-sm-inline" />
+            modern user interfaces, AI &amp; web applications
+          </p>
         </div>
       </div>
-    </div>
 
-    <div style={{position:"absolute",bottom:"2.5rem",left:"50%",transform:"translateX(-50%)",display:"flex",flexDirection:"column",alignItems:"center",gap:".5rem",opacity:.35,zIndex:1}}>
-      <span style={{fontSize:".62rem",letterSpacing:".18em",textTransform:"uppercase",color:"#a79ab8",fontFamily:"'Baloo 2',sans-serif",fontWeight:600}}>Scroll</span>
-      <div style={{width:1.5,height:42,background:"linear-gradient(#f97316,#a855f7,transparent)",animation:"floatY 2s ease-in-out infinite"}}/>
-    </div>
-  </section>
+      {/* Interactive 3D Desktop Workstation GLTF Canvas */}
+      <ComputersCanvas />
+
+      {/* Bottom Animated Scroll Pill */}
+      <div
+        style={{
+          position: "absolute",
+          bottom: "2.2rem",
+          width: "100%",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          zIndex: 3,
+        }}
+      >
+        <a href="#about" aria-label="Scroll to overview">
+          <div
+            style={{
+              width: 35,
+              height: 64,
+              borderRadius: 24,
+              border: "4px solid #aaa6c3",
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "flex-start",
+              padding: 6,
+            }}
+          >
+            <div
+              style={{
+                width: 12,
+                height: 12,
+                borderRadius: "50%",
+                background: "#aaa6c3",
+                animation: "scrollDotBounce 1.5s infinite ease-in-out",
+              }}
+            />
+          </div>
+        </a>
+      </div>
+    </section>
   );
 };
 
