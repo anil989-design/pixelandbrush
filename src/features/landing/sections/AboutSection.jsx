@@ -1,26 +1,14 @@
 import TiltCard from "../../../components/common/TiltCard";
-import webIcon from "../../../assets/web.png";
-import mobileIcon from "../../../assets/mobile.png";
-import backendIcon from "../../../assets/backend.png";
-import creatorIcon from "../../../assets/creator.png";
+import web from "../../../assets/web.png";
+import mobile from "../../../assets/mobile.png";
+import backend from "../../../assets/backend.png";
+import creator from "../../../assets/creator.png";
 
-const ROLE_CARDS = [
-  {
-    title: "Full-Stack Web Developer",
-    icon: webIcon,
-  },
-  {
-    title: "UI / UX & Brand Designer",
-    icon: creatorIcon,
-  },
-  {
-    title: "AI & Python Solutions",
-    icon: backendIcon,
-  },
-  {
-    title: "Digital Strategy & Growth",
-    icon: mobileIcon,
-  },
+const SERVICES = [
+  { title: "Full-Stack Developer", icon: web },
+  { title: "Frontend Developer", icon: mobile },
+  { title: "Backend Developer", icon: backend },
+  { title: "Ui UX Designer", icon: creator },
 ];
 
 const AboutSection = () => {
@@ -30,9 +18,9 @@ const AboutSection = () => {
       style={{
         maxWidth: 1280,
         margin: "0 auto",
-        padding: "6rem clamp(1.5rem, 5vw, 4rem)",
+        padding: "4rem clamp(1.5rem, 5vw, 4rem)",
         position: "relative",
-        zIndex: 1,
+        zIndex: 0,
       }}
     >
       <div>
@@ -41,8 +29,8 @@ const AboutSection = () => {
             fontSize: "clamp(14px, 1.6vw, 18px)",
             color: "#aaa6c3",
             textTransform: "uppercase",
-            letterSpacing: "0.08em",
-            marginBottom: "0.35rem",
+            letterSpacing: "0.05em",
+            margin: 0,
           }}
         >
           Introduction
@@ -51,7 +39,7 @@ const AboutSection = () => {
           style={{
             color: "#ffffff",
             fontWeight: 900,
-            fontSize: "clamp(32px, 5vw, 60px)",
+            fontSize: "clamp(30px, 5vw, 60px)",
             margin: 0,
           }}
         >
@@ -64,28 +52,26 @@ const AboutSection = () => {
           marginTop: "1rem",
           color: "#aaa6c3",
           fontSize: 17,
-          maxWidth: 780,
+          maxWidth: 768,
           lineHeight: "30px",
         }}
       >
-        I'm <strong style={{ color: "#fff" }}>Anil Pandey</strong>, founder of{" "}
-        <strong style={{ color: "#fb923c" }}>Pixel and Brush</strong> in London and a Business Management with
-        International student at <strong style={{ color: "#fff" }}>Ravensbourne University London</strong>. I build
-        high-impact websites, brand identities, 3D interactive experiences, and AI-powered analytics tools like{" "}
-        <strong style={{ color: "#915EFF" }}>FinAI</strong> using React, Three.js, Python, and modern web technologies.
-        Let's work together to bring your ideas to life!
+        I'm a skilled software developer with experience in JavaScript, and expertise in frameworks like React,
+        Node.js, and Three.js. I'm a quick learner and collaborate closely with clients to create efficient, scalable,
+        and user-friendly solutions that solve real-world problems. Let's work together to bring your ideas to life!
       </p>
 
       <div
         style={{
-          marginTop: "4.5rem",
+          marginTop: "5rem",
           display: "grid",
-          gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))",
-          gap: "2.25rem",
+          gridTemplateColumns: "repeat(auto-fit, minmax(230px, 250px))",
+          justifyContent: "center",
+          gap: "2.5rem",
         }}
       >
-        {ROLE_CARDS.map((card) => (
-          <TiltCard key={card.title} max={25} scale={1.04}>
+        {SERVICES.map((service) => (
+          <TiltCard key={service.title} style={{ width: "100%" }}>
             <div
               className="green-pink-gradient"
               style={{
@@ -99,20 +85,19 @@ const AboutSection = () => {
                 style={{
                   background: "#151030",
                   borderRadius: 20,
-                  padding: "1.5rem 2.2rem",
+                  padding: "1.25rem 3rem",
                   minHeight: 280,
                   display: "flex",
-                  flexDirection: "column",
                   justifyContent: "space-evenly",
                   alignItems: "center",
+                  flexDirection: "column",
                 }}
               >
                 <img
-                  src={card.icon}
-                  alt={card.title}
+                  src={service.icon}
+                  alt={service.title}
                   width="64"
                   height="64"
-                  loading="lazy"
                   style={{ width: 64, height: 64, objectFit: "contain" }}
                 />
                 <h3
@@ -121,10 +106,10 @@ const AboutSection = () => {
                     fontSize: 20,
                     fontWeight: 700,
                     textAlign: "center",
-                    lineHeight: 1.35,
+                    margin: 0,
                   }}
                 >
-                  {card.title}
+                  {service.title}
                 </h3>
               </div>
             </div>

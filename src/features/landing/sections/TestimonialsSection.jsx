@@ -1,4 +1,33 @@
-import { testimonials } from "../data/testimonials";
+import firstTestimonial from "../../../assets/Tars Ken.webp";
+import secondTestimonial from "../../../assets/image.webp";
+import thirdTestimonial from "../../../assets/third testimonial.webp";
+
+const FEEDBACKS = [
+  {
+    testimonial:
+      "I thought it was impossible to make a website as beautiful as our product, but Anil proved me wrong.",
+    name: "MD Mustaqeem",
+    designation: "Ecommerce",
+    company: "QuickMart",
+    image: firstTestimonial,
+  },
+  {
+    testimonial:
+      "I've never met a web developer who truly cares about their clients' success like Anil does.",
+    name: "Abdul Raheman",
+    designation: "Ecommerce Business",
+    company: "justbuyz",
+    image: secondTestimonial,
+  },
+  {
+    testimonial:
+      "After Anil optimized our website, our traffic increased by 50%. We can't thank them enough!",
+    name: "James Wang",
+    designation: "CTO",
+    company: "456 Enterprises",
+    image: thirdTestimonial,
+  },
+];
 
 const TestimonialsSection = () => {
   return (
@@ -8,127 +37,125 @@ const TestimonialsSection = () => {
         margin: "0 auto",
         padding: "4rem clamp(1.5rem, 5vw, 4rem)",
         position: "relative",
-        zIndex: 1,
+        zIndex: 0,
       }}
     >
       <div
         style={{
+          marginTop: "3rem",
           background: "#100d25",
           borderRadius: 20,
-          overflow: "hidden",
         }}
       >
         <div
           style={{
             background: "#151030",
             borderRadius: 16,
-            padding: "3.5rem clamp(1.5rem, 5vw, 4rem)",
-            minHeight: 280,
+            padding: "clamp(2.5rem, 5vw, 4rem) clamp(1.5rem, 5vw, 4rem)",
+            minHeight: 300,
           }}
         >
-          <p
-            style={{
-              fontSize: "clamp(14px, 1.6vw, 18px)",
-              color: "#aaa6c3",
-              textTransform: "uppercase",
-              letterSpacing: "0.08em",
-              marginBottom: "0.35rem",
-            }}
-          >
-            What others say
-          </p>
-          <h2
-            style={{
-              color: "#ffffff",
-              fontWeight: 900,
-              fontSize: "clamp(32px, 5vw, 60px)",
-              margin: 0,
-            }}
-          >
-            Testimonials.
-          </h2>
+          <div>
+            <p
+              style={{
+                fontSize: "clamp(14px, 1.6vw, 18px)",
+                color: "#aaa6c3",
+                textTransform: "uppercase",
+                letterSpacing: "0.05em",
+                margin: 0,
+              }}
+            >
+              What others say
+            </p>
+            <h2
+              style={{
+                color: "#ffffff",
+                fontWeight: 900,
+                fontSize: "clamp(30px, 5vw, 60px)",
+                margin: 0,
+              }}
+            >
+              Testimonials.
+            </h2>
+          </div>
         </div>
 
         <div
           style={{
             marginTop: "-5rem",
-            padding: "0 clamp(1.5rem, 5vw, 4rem) 3.5rem",
+            paddingBottom: "3.5rem",
+            paddingLeft: "clamp(1.5rem, 5vw, 4rem)",
+            paddingRight: "clamp(1.5rem, 5vw, 4rem)",
             display: "grid",
-            gridTemplateColumns: "repeat(auto-fit, minmax(290px, 1fr))",
-            gap: "2rem",
+            gridTemplateColumns: "repeat(auto-fit, minmax(280px, 320px))",
+            justifyContent: "center",
+            gap: "2.5rem",
           }}
         >
-          {testimonials.map((t) => (
+          {FEEDBACKS.map((item) => (
             <div
-              key={t.name}
+              key={item.name}
               style={{
                 background: "#090325",
-                padding: "2.25rem",
+                padding: "2.5rem",
                 borderRadius: 24,
-                display: "flex",
-                flexDirection: "column",
-                justifyContent: "space-between",
-                boxShadow: "0px 25px 70px rgba(0,0,0,0.45)",
+                width: "100%",
               }}
             >
-              <div>
-                <p
-                  style={{
-                    color: "#ffffff",
-                    fontWeight: 900,
-                    fontSize: 48,
-                    lineHeight: 0.9,
-                    marginBottom: "0.5rem",
-                  }}
-                >
-                  "
-                </p>
-                <p
-                  style={{
-                    color: "#ffffff",
-                    letterSpacing: "0.03em",
-                    fontSize: 16,
-                    lineHeight: 1.7,
-                  }}
-                >
-                  {t.quote}
-                </p>
-              </div>
-
-              <div
+              <p
                 style={{
-                  marginTop: "1.75rem",
-                  display: "flex",
-                  justifyContent: "space-between",
-                  alignItems: "center",
-                  gap: "0.75rem",
+                  color: "#ffffff",
+                  fontWeight: 900,
+                  fontSize: 48,
+                  margin: 0,
+                  lineHeight: 1,
                 }}
               >
-                <div style={{ flex: 1, display: "flex", flexDirection: "column" }}>
-                  <p style={{ color: "#ffffff", fontWeight: 600, fontSize: 15, margin: 0 }}>
-                    <span className="blue-text-gradient">@</span> {t.name}
-                  </p>
-                  <p style={{ marginTop: 4, color: "#aaa6c3", fontSize: 12, marginBottom: 0 }}>
-                    {t.role} of {t.company}
-                  </p>
-                </div>
+                "
+              </p>
+
+              <div style={{ marginTop: "0.25rem" }}>
+                <p
+                  style={{
+                    color: "#ffffff",
+                    letterSpacing: "0.05em",
+                    fontSize: 18,
+                    lineHeight: 1.6,
+                  }}
+                >
+                  {item.testimonial}
+                </p>
 
                 <div
                   style={{
-                    width: 42,
-                    height: 42,
-                    borderRadius: "50%",
-                    background: "linear-gradient(135deg, #915EFF, #f97316)",
+                    marginTop: "1.75rem",
                     display: "flex",
+                    justifyContent: "space-between",
                     alignItems: "center",
-                    justifyContent: "center",
-                    color: "#fff",
-                    fontWeight: 800,
-                    fontSize: 16,
-                    flexShrink: 0,
+                    gap: "0.25rem",
                   }}
                 >
-                  {t.name.charAt(0)}
+                  <div style={{ flex: 1, display: "flex", flexDirection: "column" }}>
+                    <p style={{ color: "#ffffff", fontWeight: 500, fontSize: 16, margin: 0 }}>
+                      <span className="blue-text-gradient">@</span> {item.name}
+                    </p>
+                    <p style={{ marginTop: "0.25rem", color: "#aaa6c3", fontSize: 12, margin: 0 }}>
+                      {item.designation} of {item.company}
+                    </p>
+                  </div>
+
+                  <img
+                    src={item.image}
+                    alt={`feedback_by-${item.name}`}
+                    width="40"
+                    height="40"
+                    style={{
+                      width: 40,
+                      height: 40,
+                      borderRadius: "50%",
+                      objectFit: "cover",
+                    }}
+                  />
                 </div>
               </div>
             </div>

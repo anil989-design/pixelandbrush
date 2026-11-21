@@ -1,56 +1,59 @@
 import TiltCard from "../../../components/common/TiltCard";
+import github from "../../../assets/github.png";
+import project2 from "../../../assets/proj1.webp";
+import gearXpert from "../../../assets/gearXpert.png";
+import project3 from "../../../assets/project3.webp";
 
 const PROJECTS = [
   {
-    name: "Kashish Makeup Studio",
+    name: "Tekisky Mart",
     description:
-      "Full website overhaul with online booking, interactive service menu, and local SEO architecture that doubled client bookings after launch.",
+      "Tekisky Mart is a web-based platform that allows users to search, explore, and purchase a wide range of products from various providers, offering a seamless and efficient shopping experience.",
     tags: [
       { name: "react", color: "blue-text-gradient" },
       { name: "tailwind", color: "white-text-gradient" },
-      { name: "booking-ui", color: "pink-text-gradient" },
-      { name: "seo", color: "green-text-gradient" },
+      { name: "node", color: "pink-text-gradient" },
+      { name: "mongodb", color: "green-text-gradient" },
     ],
-    image: "/projects/KA.webp",
-    link: "/#contact",
+    image: project2,
+    source_code_link: "https://github.com/",
   },
   {
-    name: "Vijaya Pharma",
+    name: "GearXpert",
     description:
-      "Complete corporate digital transformation including brand identity, responsive web platform, product catalog, and multi-channel digital presence.",
+      "GearXpert is your ultimate destination for premium auto parts and accessories, Whether you're an automobile enthusiast or a professional, find everything you need to upgrade, repair.",
     tags: [
       { name: "react", color: "blue-text-gradient" },
-      { name: "branding", color: "orange-text-gradient" },
-      { name: "ui-ux", color: "pink-text-gradient" },
-      { name: "analytics", color: "green-text-gradient" },
+      { name: "emailJs", color: "green-text-gradient" },
+      { name: "Gsap", color: "pink-text-gradient" },
     ],
-    image: "/projects/vijaya.webp",
-    link: "/#contact",
+    image: gearXpert,
+    source_code_link: "https://github.com/",
   },
   {
-    name: "Kangaroo Education Foundation",
+    name: "GoGroove-Ecommerce",
     description:
-      "Data-driven social media and digital growth strategy delivering 300% follower growth and high-intent student enquiries within 60 days.",
+      "Go-Groove is your ultimate destination for premium products across various categories. Whether you're a savvy shopper or a professional, enhance, and simplify your lifestyle—all in one place!",
     tags: [
-      { name: "digital-strategy", color: "blue-text-gradient" },
-      { name: "growth", color: "green-text-gradient" },
-      { name: "creative-design", color: "pink-text-gradient" },
+      { name: "react", color: "blue-text-gradient" },
+      { name: "express", color: "white-text-gradient" },
+      { name: "node", color: "green-text-gradient" },
+      { name: "mongodb", color: "green-text-gradient" },
     ],
-    image: "/projects/kangaroo.webp",
-    link: "/#contact",
+    image: project3,
+    source_code_link: "https://github.com/",
   },
 ];
 
 const PortfolioSection = () => {
   return (
     <section
-      id="portfolio"
       style={{
         maxWidth: 1280,
         margin: "0 auto",
-        padding: "5rem clamp(1.5rem, 5vw, 4rem)",
+        padding: "4rem clamp(1.5rem, 5vw, 4rem)",
         position: "relative",
-        zIndex: 1,
+        zIndex: 0,
       }}
     >
       <div>
@@ -59,8 +62,8 @@ const PortfolioSection = () => {
             fontSize: "clamp(14px, 1.6vw, 18px)",
             color: "#aaa6c3",
             textTransform: "uppercase",
-            letterSpacing: "0.08em",
-            marginBottom: "0.35rem",
+            letterSpacing: "0.05em",
+            margin: 0,
           }}
         >
           My work
@@ -69,7 +72,7 @@ const PortfolioSection = () => {
           style={{
             color: "#ffffff",
             fontWeight: 900,
-            fontSize: "clamp(32px, 5vw, 60px)",
+            fontSize: "clamp(30px, 5vw, 60px)",
             margin: 0,
           }}
         >
@@ -77,118 +80,111 @@ const PortfolioSection = () => {
         </h2>
       </div>
 
-      <p
-        style={{
-          marginTop: "0.85rem",
-          color: "#aaa6c3",
-          fontSize: 17,
-          maxWidth: 780,
-          lineHeight: "30px",
-        }}
-      >
-        Following projects showcase our skills and experience through real-world examples of our work at{" "}
-        <strong style={{ color: "#fff" }}>Pixel and Brush</strong>. Each project reflects our ability to solve complex
-        business challenges, work with modern technologies, and deliver measurable growth.
-      </p>
+      <div style={{ width: "100%", display: "flex" }}>
+        <p
+          style={{
+            marginTop: "0.75rem",
+            color: "#aaa6c3",
+            fontSize: 17,
+            maxWidth: 768,
+            lineHeight: "30px",
+          }}
+        >
+          Following projects showcase my skills and experience through real-world examples of my work. Each project is
+          briefly described with links to code repositories and live demos. It reflects my ability to solve complex
+          problems, work with different technologies, and manage projects effectively.
+        </p>
+      </div>
 
       <div
+        className="works-container"
         style={{
-          marginTop: "4rem",
+          marginTop: "5rem",
           display: "grid",
-          gridTemplateColumns: "repeat(auto-fit, minmax(310px, 1fr))",
-          gap: "2rem",
+          gridTemplateColumns: "repeat(auto-fit, minmax(320px, 360px))",
+          justifyContent: "center",
+          gap: "1.75rem",
         }}
       >
-        {PROJECTS.map((project) => (
-          <TiltCard key={project.name} max={18} scale={1.02}>
-            <div
+        {PROJECTS.map((project, index) => (
+          <div key={`project-${index}`} className="project-card">
+            <TiltCard
+              max={25}
+              scale={1}
               style={{
                 background: "#151030",
-                padding: "1.35rem",
-                borderRadius: 18,
+                padding: "1.25rem",
+                borderRadius: 16,
+                width: "100%",
                 height: "100%",
-                display: "flex",
-                flexDirection: "column",
-                justifyContent: "space-between",
-                boxShadow: "0px 35px 120px -15px #211e35",
               }}
             >
-              <div>
+              <div style={{ position: "relative", width: "100%", height: 230 }}>
+                <img
+                  src={project.image}
+                  alt={project.name}
+                  style={{
+                    width: "100%",
+                    height: "100%",
+                    objectFit: "cover",
+                    objectPosition: "left",
+                    borderRadius: 16,
+                  }}
+                />
+
                 <div
                   style={{
-                    position: "relative",
-                    width: "100%",
-                    height: 230,
-                    borderRadius: 14,
-                    overflow: "hidden",
-                    background: "#090325",
+                    position: "absolute",
+                    inset: 0,
+                    display: "flex",
+                    justifyContent: "flex-end",
+                    margin: "0.75rem",
                   }}
                 >
-                  <img
-                    src={project.image}
-                    alt={project.name}
-                    width="800"
-                    height="800"
-                    loading="lazy"
-                    decoding="async"
-                    style={{
-                      width: "100%",
-                      height: "100%",
-                      objectFit: "cover",
-                      borderRadius: 14,
-                    }}
-                  />
                   <div
+                    onClick={() => window.open(project.source_code_link, "_blank")}
+                    className="black-gradient"
                     style={{
-                      position: "absolute",
-                      top: 12,
-                      right: 12,
+                      width: 40,
+                      height: 40,
+                      borderRadius: "50%",
+                      display: "flex",
+                      justifyContent: "center",
+                      alignItems: "center",
+                      cursor: "pointer",
                     }}
                   >
-                    <a
-                      href={project.link}
-                      aria-label={`Inquire about ${project.name}`}
-                      className="black-gradient"
-                      style={{
-                        width: 40,
-                        height: 40,
-                        borderRadius: "50%",
-                        display: "flex",
-                        justifyContent: "center",
-                        alignItems: "center",
-                        color: "#fff",
-                        fontSize: "1rem",
-                        boxShadow: "0 4px 12px rgba(0,0,0,0.5)",
-                      }}
-                    >
-                      <i className="bi bi-arrow-up-right" />
-                    </a>
+                    <img
+                      src={github}
+                      alt="source code"
+                      style={{ width: "50%", height: "50%", objectFit: "contain" }}
+                    />
                   </div>
                 </div>
-
-                <div style={{ marginTop: "1.25rem" }}>
-                  <h3 style={{ color: "#ffffff", fontWeight: 700, fontSize: 23, marginBottom: "0.5rem" }}>
-                    {project.name}
-                  </h3>
-                  <p style={{ color: "#aaa6c3", fontSize: 14, lineHeight: 1.65 }}>
-                    {project.description}
-                  </p>
-                </div>
               </div>
 
-              <div style={{ marginTop: "1rem", display: "flex", flexWrap: "wrap", gap: "0.55rem" }}>
+              <div style={{ marginTop: "1.25rem" }}>
+                <h3 style={{ color: "#ffffff", fontWeight: 700, fontSize: 24, margin: 0 }}>
+                  {project.name}
+                </h3>
+                <p style={{ marginTop: "0.5rem", color: "#aaa6c3", fontSize: 14, lineHeight: 1.5 }}>
+                  {project.description}
+                </p>
+              </div>
+
+              <div style={{ marginTop: "1rem", display: "flex", flexWrap: "wrap", gap: "0.5rem" }}>
                 {project.tags.map((tag) => (
-                  <span
+                  <p
                     key={`${project.name}-${tag.name}`}
                     className={tag.color}
-                    style={{ fontSize: 14, fontWeight: 500 }}
+                    style={{ fontSize: 14, margin: 0 }}
                   >
                     #{tag.name}
-                  </span>
+                  </p>
                 ))}
               </div>
-            </div>
-          </TiltCard>
+            </TiltCard>
+          </div>
         ))}
       </div>
     </section>
