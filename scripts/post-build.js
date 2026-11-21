@@ -40,8 +40,8 @@ if (!aboutHtml.includes("<!-- GOOGLE SEARCH CONSOLE VERIFICATION TAG GOES HERE -
   );
 }
 
-const aboutTitle = "About Anil Pandey | Ravensbourne University London & FinAI";
-const aboutDesc = "Meet Anil Pandey, a London-based Business Management with International student at Ravensbourne University London exploring Artificial Intelligence, Python, Business Analytics, and FinAI.";
+const aboutTitle = "About Anil Pandey | Pixel & Brush · Ravensbourne University London & FinAI";
+const aboutDesc = "Meet Anil Pandey, founder of Pixel & Brush and a London-based Business Management with International student at Ravensbourne University London exploring Artificial Intelligence, Python, Business Analytics, and FinAI.";
 const aboutUrl = "https://pixelandbrush.vercel.app/about";
 
 aboutHtml = aboutHtml.replace(/<title>[\s\S]*?<\/title>/i, `<title>${aboutTitle}</title>`);
@@ -61,6 +61,10 @@ if (aboutHtml.includes('<link rel="canonical"')) {
 const aboutPrerenderContent = `
   <main style="background:#060912;color:#e8edf7;padding:9rem 1.5rem 6rem;font-family:'Outfit',sans-serif;">
     <div style="max-width:1140px;margin:0 auto;">
+      <div style="display:flex;align-items:center;gap:0.75rem;margin-bottom:1.25rem;">
+        <img src="/logo.svg" alt="Pixel &amp; Brush logo" width="40" height="40" style="width:40px;height:40px;border-radius:10px;display:block;" />
+        <span style="font-family:'Baloo 2',sans-serif;font-weight:800;font-size:1.25rem;color:#60a5fa;">Pixel &amp; Brush</span>
+      </div>
       <p style="color:#2563eb;font-weight:700;letter-spacing:.22em;text-transform:uppercase;font-size:0.7rem;margin-bottom:0.65rem;">About Anil Pandey</p>
       <h1 style="font-family:'Baloo 2',sans-serif;font-weight:800;font-size:clamp(2.2rem,4.5vw,3.6rem);letter-spacing:-.02em;line-height:1.08;margin-bottom:1.8rem;color:#e8edf7;">
         Anil Pandey — <span style="background:linear-gradient(135deg,#60a5fa,#22d3ee);-webkit-background-clip:text;-webkit-text-fill-color:transparent;">Business, AI &amp; Technology in London</span>
@@ -94,11 +98,15 @@ aboutHtml = aboutHtml.replace('<div id="root"></div>', `<div id="root">${aboutPr
 const homePrerenderContent = `
   <main style="background:#060912;color:#e8edf7;padding:8rem 1.5rem 5rem;font-family:'Outfit',sans-serif;">
     <div style="max-width:1140px;margin:0 auto;">
+      <div style="display:flex;align-items:center;gap:0.75rem;margin-bottom:1.5rem;">
+        <img src="/logo.svg" alt="Pixel &amp; Brush logo" width="44" height="44" style="width:44px;height:44px;border-radius:10px;display:block;" />
+        <span style="font-family:'Baloo 2',sans-serif;font-weight:800;font-size:1.35rem;color:#60a5fa;">Pixel &amp; Brush</span>
+      </div>
       <h1 style="font-family:'Baloo 2',sans-serif;font-size:clamp(3rem,8vw,6.5rem);font-weight:800;line-height:1.02;color:#e8edf7;">
         We Craft Digital World
       </h1>
       <p style="font-size:clamp(1.1rem,2.2vw,1.4rem);color:#9aa6c4;line-height:1.65;max-width:480px;margin:1.6rem 0 2.4rem;">
-        Web development, graphic design &amp; digital solutions — founded by Anil Pandey, Business Management with International student at Ravensbourne University London and creator of FinAI.
+        Pixel &amp; Brush — Web development, graphic design &amp; digital solutions in London, founded by Anil Pandey, Business Management with International student at Ravensbourne University London and creator of FinAI.
       </p>
       <img src="/anil-pandey-anil-panday.jpg" alt="Anil Pandey — Ravensbourne University London" width="768" height="1024" style="max-width:320px;display:none;" />
     </div>
@@ -195,6 +203,12 @@ for (const article of articles) {
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="icon" href="/favicon.ico" sizes="48x48" />
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png" />
+  <link rel="icon" type="image/png" sizes="48x48" href="/favicon-48x48.png" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+  <meta name="application-name" content="Pixel &amp; Brush" />
   <meta name="google-site-verification" content="zxJ9NwoEE3Z6vaX_07ZiyXqKPhk7I0Zl0Y7QyEbEDcs" />
   <title>${article.title}</title>
   <meta name="description" content="${article.description}" />
@@ -202,6 +216,7 @@ for (const article of articles) {
   <meta name="robots" content="index, follow" />
   <link rel="canonical" href="${canonicalUrl}" />
   <meta property="og:type" content="article" />
+  <meta property="og:site_name" content="Pixel &amp; Brush" />
   <meta property="og:title" content="${article.title}" />
   <meta property="og:description" content="${article.description}" />
   <meta property="og:image" content="https://pixelandbrush.vercel.app/anil-pandey-anil-panday.jpg" />

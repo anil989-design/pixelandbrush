@@ -43,7 +43,22 @@ const Loader = ({ onDone }) => {
         transition: phase === "out" ? "opacity .6s ease,transform .6s ease" : "none",
       }}
     >
-      <div style={{ position: "relative", zIndex: 1, display: "flex", flexDirection: "column", alignItems: "center", gap: "1.6rem" }}>
+      <div style={{ position: "relative", zIndex: 1, display: "flex", flexDirection: "column", alignItems: "center", gap: "1.2rem" }}>
+        {showName && (
+          <img
+            src="/logo.svg"
+            alt=""
+            width="64"
+            height="64"
+            style={{
+              width: 64,
+              height: 64,
+              borderRadius: 16,
+              boxShadow: "0 0 28px rgba(34,211,238,.35)",
+              animation: "nameReveal .8s cubic-bezier(.22,1,.36,1) forwards",
+            }}
+          />
+        )}
         {showName && (
           <div
             style={{

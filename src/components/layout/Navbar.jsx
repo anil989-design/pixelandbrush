@@ -12,7 +12,10 @@ const Navbar = ({vis}) => {
   return (
     <>
       <nav style={{position:"fixed",top:0,left:0,right:0,zIndex:500,padding:"1.1rem clamp(1.5rem,5vw,4rem)",display:"flex",alignItems:"center",justifyContent:"space-between",background:sc?"rgba(3,3,10,.88)":"transparent",backdropFilter:sc?"blur(22px)":"none",borderBottom:sc?"1px solid rgba(37,99,235,.1)":"1px solid transparent",transition:"all .5s ease",opacity:vis?1:0,transform:vis?"translateY(0)":"translateY(-20px)"}}>
-        <a href="/" aria-label="Pixel & Brush home" style={{textDecoration:"none"}}><div style={{fontFamily:"'Baloo 2',sans-serif",fontWeight:800,fontSize:"1.2rem",letterSpacing:".04em",background:"linear-gradient(135deg,#60a5fa,#22d3ee)",WebkitBackgroundClip:"text",WebkitTextFillColor:"transparent"}}>Pixel<span style={{opacity:.55}}>&</span>Brush</div></a>
+        <a href="/" aria-label="Pixel & Brush home" style={{textDecoration:"none",display:"inline-flex",alignItems:"center",gap:".6rem"}}>
+          <img src="/logo.svg" alt="Pixel & Brush logo" width="34" height="34" style={{width:34,height:34,borderRadius:8,display:"block",boxShadow:"0 0 14px rgba(34,211,238,.28)"}} />
+          <div style={{fontFamily:"'Baloo 2',sans-serif",fontWeight:800,fontSize:"1.2rem",letterSpacing:".04em",background:"linear-gradient(135deg,#60a5fa,#22d3ee)",WebkitBackgroundClip:"text",WebkitTextFillColor:"transparent"}}>Pixel<span style={{opacity:.55}}>&</span>Brush</div>
+        </a>
         <div className="nav-links" style={{display:"flex",gap:"2.5rem",alignItems:"center",flexWrap:"wrap"}}>
           {NAV_LINKS.map(([l,h])=>(
             <a key={l} href={h} style={{color:"#8a93ab",textDecoration:"none",fontSize:".8rem",letterSpacing:".1em",textTransform:"uppercase",fontWeight:600,transition:"color .3s"}} onMouseEnter={e=>e.target.style.color="#e8edf7"} onMouseLeave={e=>e.target.style.color="#8a93ab"}>{l}</a>
@@ -28,7 +31,10 @@ const Navbar = ({vis}) => {
       </nav>
       <div className={`mobile-overlay${open?" open":""}`} onClick={close}/>
       <div className={`mobile-drawer${open?" open":""}`}>
-        <div style={{fontFamily:"'Baloo 2',sans-serif",fontWeight:800,fontSize:"1.2rem",background:"linear-gradient(135deg,#60a5fa,#22d3ee)",WebkitBackgroundClip:"text",WebkitTextFillColor:"transparent",marginBottom:"1.2rem"}}>Pixel&Brush</div>
+        <div style={{display:"flex",alignItems:"center",gap:".6rem",marginBottom:"1.2rem"}}>
+          <img src="/logo.svg" alt="Pixel & Brush logo" width="32" height="32" style={{width:32,height:32,borderRadius:8,display:"block"}} />
+          <div style={{fontFamily:"'Baloo 2',sans-serif",fontWeight:800,fontSize:"1.2rem",background:"linear-gradient(135deg,#60a5fa,#22d3ee)",WebkitBackgroundClip:"text",WebkitTextFillColor:"transparent"}}>Pixel&Brush</div>
+        </div>
         {NAV_LINKS.map(([l,h])=>(
           <a key={l} href={h} onClick={close} style={{color:"#8a93ab",textDecoration:"none",fontSize:".98rem",letterSpacing:".05em",fontWeight:600,padding:".85rem 0",borderBottom:"1px solid rgba(37,99,235,.07)",display:"block",transition:"color .3s"}} onMouseEnter={e=>e.target.style.color="#e8edf7"} onMouseLeave={e=>e.target.style.color="#8a93ab"}>{l}</a>
         ))}

@@ -6,7 +6,10 @@ const Footer = () => {
     <div className="container px-4 px-lg-5">
       <div className="row g-4 mb-5">
         <div className="col-12 col-sm-6 col-lg-3">
-          <div style={{fontFamily:"'Baloo 2',sans-serif",fontWeight:800,fontSize:"1.3rem",background:"linear-gradient(135deg,#60a5fa,#22d3ee)",WebkitBackgroundClip:"text",WebkitTextFillColor:"transparent",letterSpacing:".04em",marginBottom:".7rem"}}>Pixel & Brush</div>
+          <a href="/" style={{display:"inline-flex",alignItems:"center",gap:".6rem",textDecoration:"none",marginBottom:".7rem"}}>
+            <img src="/logo.svg" alt="Pixel & Brush logo" width="34" height="34" style={{width:34,height:34,borderRadius:8,display:"block",boxShadow:"0 0 12px rgba(34,211,238,.25)"}} />
+            <div style={{fontFamily:"'Baloo 2',sans-serif",fontWeight:800,fontSize:"1.3rem",background:"linear-gradient(135deg,#60a5fa,#22d3ee)",WebkitBackgroundClip:"text",WebkitTextFillColor:"transparent",letterSpacing:".04em"}}>Pixel & Brush</div>
+          </a>
           <p style={{color:"#6f7a96",fontSize:".83rem",lineHeight:1.7,maxWidth:240,marginBottom:".6rem"}}>Digital creative studio based in the UK — helping brands own their space online.</p>
           <p style={{fontSize:".83rem",marginBottom:"1.3rem"}}>
             <a href="/about" style={{color:"#8a93ab",textDecoration:"none",transition:"color .3s"}} onMouseEnter={e=>e.currentTarget.style.color="#60a5fa"} onMouseLeave={e=>e.currentTarget.style.color="#8a93ab"}>Founded by Anil Pandey</a>

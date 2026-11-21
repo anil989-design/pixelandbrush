@@ -1,0 +1,34 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512" fill="none">
+  <defs>
+    <linearGradient id="pbBg" x1="0" y1="0" x2="512" y2="512" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#0a1128"/>
+      <stop offset="55%" stop-color="#060914"/>
+      <stop offset="100%" stop-color="#0d1b3e"/>
+    </linearGradient>
+    <linearGradient id="pbPrimary" x1="64" y1="64" x2="448" y2="448" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#3b82f6"/>
+      <stop offset="50%" stop-color="#2563eb"/>
+      <stop offset="100%" stop-color="#22d3ee"/>
+    </linearGradient>
+    <linearGradient id="pbCyan" x1="180" y1="96" x2="430" y2="410" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#60a5fa"/>
+      <stop offset="100%" stop-color="#22d3ee"/>
+    </linearGradient>
+    <linearGradient id="pbBorder" x1="0" y1="0" x2="512" y2="512" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#60a5fa" stop-opacity="0.75"/>
+      <stop offset="50%" stop-color="#2563eb" stop-opacity="0.45"/>
+      <stop offset="100%" stop-color="#22d3ee" stop-opacity="0.85"/>
+    </linearGradient>
+  </defs>
+  <rect x="16" y="16" width="480" height="480" rx="112" fill="url(#pbBg)"/>
+  <rect x="22" y="22" width="468" height="468" rx="106" stroke="url(#pbBorder)" stroke-width="12"/>
+  <circle cx="256" cy="256" r="190" fill="url(#pbPrimary)" fill-opacity="0.08"/>
+  <rect x="108" y="108" width="42" height="42" rx="10" fill="#22d3ee"/>
+  <rect x="162" y="108" width="28" height="28" rx="7" fill="#60a5fa" fill-opacity="0.85"/>
+  <rect x="108" y="162" width="28" height="28" rx="7" fill="#3b82f6" fill-opacity="0.85"/>
+  <path d="M128 210C128 198.954 136.954 190 148 190H268C327.647 190 372 229.847 372 284C372 338.153 327.647 378 268 378H196V404C196 415.046 187.046 424 176 424H148C136.954 424 128 415.046 128 404V210ZM196 248V320H262C289.614 320 306 305.225 306 284C306 262.775 289.614 248 262 248H196Z" fill="url(#pbCyan)"/>
+  <path d="M238 386C286 386 334 358 366 308C379 287 406 297 401 321C388 381 329 426 254 426C236 426 226 414 226 404C226 393 231 386 238 386Z" fill="#22d3ee"/>
+  <rect x="346" y="106" width="48" height="48" rx="12" fill="url(#pbCyan)"/>
+  <rect x="406" y="138" width="26" height="26" rx="6" fill="#22d3ee" fill-opacity="0.9"/>
+  <rect x="310" y="134" width="22" height="22" rx="5" fill="#60a5fa" fill-opacity="0.75"/>
+</svg>

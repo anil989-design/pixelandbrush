@@ -2,42 +2,86 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="theme-color" content="#060912" />
+
+    <!-- Favicons & Brand Icons for Google Search (multiples of 48px + SVG + ICO) -->
+    <link rel="icon" href="/favicon.ico" sizes="48x48" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png" />
+    <link rel="icon" type="image/png" sizes="48x48" href="/favicon-48x48.png" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/manifest.json" />
 
     <!-- GOOGLE SEARCH CONSOLE VERIFICATION TAG GOES HERE -->
     <meta name="google-site-verification" content="zxJ9NwoEE3Z6vaX_07ZiyXqKPhk7I0Zl0Y7QyEbEDcs" />
 
-    <!-- Primary SEO -->
-    <title>Anil Pandey | Business, AI &amp; Digital Builder in London</title>
-    <meta name="description" content="Anil Pandey is a London-based Business Management with International student at Ravensbourne University London, building FinAI and working across AI, Python, and Business Analytics." />
-    <meta name="keywords" content="Anil Pandey, Anil Panday, anilpandey, Ravensbourne University London, FinAI, Business Analytics, Artificial Intelligence, Python, London" />
+    <!-- Primary SEO & Site Name Signals (Overrides "Vercel" in Google Search) -->
+    <title>Pixel &amp; Brush | Anil Pandey — Business, AI &amp; Digital Studio in London</title>
+    <meta name="application-name" content="Pixel &amp; Brush" />
+    <meta name="apple-mobile-web-app-title" content="Pixel &amp; Brush" />
+    <meta name="description" content="Pixel &amp; Brush is a London digital creative &amp; AI studio founded by Anil Pandey, a Business Management with International student at Ravensbourne University London and creator of FinAI." />
+    <meta name="keywords" content="Pixel & Brush, Pixel and Brush, Anil Pandey, Anil Panday, anilpandey, Ravensbourne University London, FinAI, Business Analytics, Artificial Intelligence, Python, London" />
     <meta name="author" content="Anil Pandey" />
     <meta name="robots" content="index, follow" />
     <link rel="canonical" href="https://pixelandbrush.vercel.app/" />
     <!-- Route-specific canonical URLs are also managed by src/hooks/usePageMeta.js -->
 
     <!-- Open Graph -->
-    <meta property="og:type" content="profile" />
-    <meta property="og:title" content="Anil Pandey | Business, AI &amp; Digital Builder in London" />
-    <meta property="og:description" content="Anil Pandey is a Business Management with International student at Ravensbourne University London, exploring AI, Python, Business Analytics, and FinAI." />
-    <meta property="og:image" content="https://pixelandbrush.vercel.app/anil-pandey-anil-panday.jpg" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Pixel &amp; Brush" />
+    <meta property="og:title" content="Pixel &amp; Brush | Anil Pandey — Business, AI &amp; Digital Studio in London" />
+    <meta property="og:description" content="Pixel &amp; Brush is a London digital creative &amp; AI studio founded by Anil Pandey, a Business Management with International student at Ravensbourne University London and creator of FinAI." />
+    <meta property="og:image" content="https://pixelandbrush.vercel.app/logo512.png" />
     <meta property="og:url" content="https://pixelandbrush.vercel.app/" />
-    <meta property="og:site_name" content="Anil Pandey" />
     <meta property="og:locale" content="en_GB" />
 
     <!-- Twitter / Card -->
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="Anil Pandey | Business, AI &amp; Digital Builder in London" />
-    <meta name="twitter:description" content="Anil Pandey is a Business Management with International student at Ravensbourne University London, exploring AI, Python, Business Analytics, and FinAI." />
-    <meta name="twitter:image" content="https://pixelandbrush.vercel.app/anil-pandey-anil-panday.jpg" />
+    <meta name="twitter:title" content="Pixel &amp; Brush | Anil Pandey — Business, AI &amp; Digital Studio in London" />
+    <meta name="twitter:description" content="Pixel &amp; Brush is a London digital creative &amp; AI studio founded by Anil Pandey, a Business Management with International student at Ravensbourne University London and creator of FinAI." />
+    <meta name="twitter:image" content="https://pixelandbrush.vercel.app/logo512.png" />
 
-    <!-- Structured data: Person (Anil Pandey) + Organization (Pixel & Brush). -->
+    <!-- Structured data: WebSite (Site Name signal) + Organization (Logo signal) + Person (Anil Pandey) -->
     <script type="application/ld+json">
       {
         "@context": "https://schema.org",
         "@graph": [
+          {
+            "@type": "WebSite",
+            "@id": "https://pixelandbrush.vercel.app/#website",
+            "name": "Pixel & Brush",
+            "alternateName": ["Pixel and Brush", "Pixel & Brush by Anil Pandey", "Anil Pandey"],
+            "url": "https://pixelandbrush.vercel.app/",
+            "publisher": { "@id": "https://pixelandbrush.vercel.app/#organization" }
+          },
+          {
+            "@type": "Organization",
+            "@id": "https://pixelandbrush.vercel.app/#organization",
+            "name": "Pixel & Brush",
+            "alternateName": "Pixel and Brush",
+            "url": "https://pixelandbrush.vercel.app/",
+            "logo": {
+              "@type": "ImageObject",
+              "@id": "https://pixelandbrush.vercel.app/#logo",
+              "url": "https://pixelandbrush.vercel.app/logo512.png",
+              "contentUrl": "https://pixelandbrush.vercel.app/logo512.png",
+              "width": 512,
+              "height": 512,
+              "caption": "Pixel & Brush"
+            },
+            "image": "https://pixelandbrush.vercel.app/logo512.png",
+            "description": "Freelance digital agency in London for web development, branding, digital marketing and AI solutions.",
+            "email": "anilpte232@gmail.com",
+            "address": {
+              "@type": "PostalAddress",
+              "addressLocality": "London",
+              "addressCountry": "GB"
+            },
+            "founder": { "@id": "https://pixelandbrush.vercel.app/#anil-pandey" }
+          },
           {
             "@type": "Person",
             "@id": "https://pixelandbrush.vercel.app/#anil-pandey",
@@ -67,21 +111,6 @@
               "AI Agents and Automation",
               "FinAI"
             ]
-          },
-          {
-            "@type": "Organization",
-            "@id": "https://pixelandbrush.vercel.app/#organization",
-            "name": "Pixel & Brush",
-            "url": "https://pixelandbrush.vercel.app/",
-            "logo": "https://pixelandbrush.vercel.app/logo512.png",
-            "description": "Freelance digital agency in London for web development, branding, digital marketing and AI solutions.",
-            "email": "anilpte232@gmail.com",
-            "address": {
-              "@type": "PostalAddress",
-              "addressLocality": "London",
-              "addressCountry": "GB"
-            },
-            "founder": { "@id": "https://pixelandbrush.vercel.app/#anil-pandey" }
           }
         ]
       }
@@ -115,9 +144,6 @@
 
     <!-- Preload Hero LCP Cutout Image (WebP) -->
     <link rel="preload" as="image" href="%PUBLIC_URL%/me.webp" type="image/webp" fetchpriority="high" />
-
-    <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
-    <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
   </head>
   <body>
     <noscript>You need to enable JavaScript to run this app.</noscript>

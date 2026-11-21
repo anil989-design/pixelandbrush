@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { SITE_URL } from "../config/seo";
+import { SITE_NAME, SITE_URL } from "../config/seo";
 
 /** Find-or-create a <meta>/<link> tag in <head> and set one attribute on it. */
 function upsert(tag, keyAttr, keyValue, valueAttr, value) {
@@ -21,6 +21,8 @@ export default function usePageMeta({ title, description, path = "/" }) {
   useEffect(() => {
     const url = `${SITE_URL}${path === "/" ? "/" : path}`;
     document.title = title;
+    upsert("meta", "name", "application-name", "content", SITE_NAME);
+    upsert("meta", "property", "og:site_name", "content", SITE_NAME);
     upsert("meta", "name", "description", "content", description);
     upsert("link", "rel", "canonical", "href", url);
     upsert("meta", "property", "og:title", "content", title);
