@@ -26,32 +26,54 @@ const ContactSection = () => {
           <div
             onFocusCapture={preload}
             style={{
-              background: "#100d25",
-              padding: "2rem",
-              borderRadius: 16,
+              background: "#120824",
+              border: "1px solid rgba(249,115,22,0.25)",
+              padding: "2.25rem",
+              borderRadius: 20,
+              boxShadow: "0 25px 70px rgba(0,0,0,0.55)",
             }}
           >
             <p
               style={{
                 fontSize: "clamp(14px, 1.6vw, 18px)",
-                color: "#aaa6c3",
+                color: "#fb923c",
                 textTransform: "uppercase",
-                letterSpacing: "0.05em",
+                letterSpacing: "0.08em",
+                fontWeight: 700,
                 margin: 0,
               }}
             >
-              Get in touch
+              Stratford, London · chhetrianil232@gmail.com
             </p>
             <h3
               style={{
                 color: "#ffffff",
                 fontWeight: 900,
-                fontSize: "clamp(30px, 5vw, 60px)",
+                fontSize: "clamp(30px, 5vw, 56px)",
                 margin: 0,
               }}
             >
               Contact.
             </h3>
+
+            <div style={{ marginTop: "0.75rem", display: "flex", flexWrap: "wrap", gap: "1rem", fontSize: 13 }}>
+              <a
+                href="mailto:chhetrianil232@gmail.com"
+                style={{ color: "#c4b5dc", textDecoration: "none" }}
+              >
+                <i className="bi bi-envelope-fill" style={{ color: "#fb923c", marginRight: 6 }} />
+                chhetrianil232@gmail.com
+              </a>
+              <a
+                href="https://www.linkedin.com/in/anilpanday-digital"
+                target="_blank"
+                rel="noopener noreferrer"
+                style={{ color: "#c4b5dc", textDecoration: "none" }}
+              >
+                <i className="bi bi-linkedin" style={{ color: "#c084fc", marginRight: 6 }} />
+                linkedin.com/in/anilpanday-digital
+              </a>
+            </div>
 
             {formStatus === "success" && (
               <div
@@ -66,7 +88,7 @@ const ContactSection = () => {
                   fontSize: 14,
                 }}
               >
-                Thank you. I will get back to you as soon as possible.
+                Thank you! Your message has been sent to Anil Panday.
               </div>
             )}
             {formError && (
@@ -100,14 +122,14 @@ const ContactSection = () => {
             <form
               onSubmit={handleSubmit}
               style={{
-                marginTop: "3rem",
+                marginTop: "2rem",
                 display: "flex",
                 flexDirection: "column",
-                gap: "2rem",
+                gap: "1.5rem",
               }}
             >
               <label style={{ display: "flex", flexDirection: "column" }}>
-                <span style={{ color: "#ffffff", fontWeight: 500, marginBottom: "1rem" }}>
+                <span style={{ color: "#ffffff", fontWeight: 500, marginBottom: "0.65rem" }}>
                   Your Name
                 </span>
                 <input
@@ -121,7 +143,7 @@ const ContactSection = () => {
               </label>
 
               <label style={{ display: "flex", flexDirection: "column" }}>
-                <span style={{ color: "#ffffff", fontWeight: 500, marginBottom: "1rem" }}>
+                <span style={{ color: "#ffffff", fontWeight: 500, marginBottom: "0.65rem" }}>
                   Your email
                 </span>
                 <input
@@ -129,21 +151,21 @@ const ContactSection = () => {
                   name="email"
                   value={fields.email}
                   onChange={setField("email")}
-                  placeholder="What's your web address?"
+                  placeholder="What's your email address?"
                   className="pb-form-control"
                 />
               </label>
 
               <label style={{ display: "flex", flexDirection: "column" }}>
-                <span style={{ color: "#ffffff", fontWeight: 500, marginBottom: "1rem" }}>
+                <span style={{ color: "#ffffff", fontWeight: 500, marginBottom: "0.65rem" }}>
                   Your Message
                 </span>
                 <textarea
-                  rows={7}
+                  rows={6}
                   name="message"
                   value={fields.message}
                   onChange={setField("message")}
-                  placeholder="What you want to say?"
+                  placeholder="Tell me about your project or role..."
                   className="pb-form-control"
                 />
               </label>
@@ -152,19 +174,19 @@ const ContactSection = () => {
                 type="submit"
                 disabled={formStatus === "sending"}
                 style={{
-                  background: "#151030",
-                  padding: "0.75rem 2rem",
+                  background: "linear-gradient(135deg,#7c3aed 0%,#db2777 45%,#f97316 100%)",
+                  padding: "0.85rem 2.2rem",
                   borderRadius: 12,
                   outline: "none",
                   border: "none",
                   width: "fit-content",
                   color: "#ffffff",
                   fontWeight: 700,
-                  boxShadow: "0 4px 6px -1px #050816",
+                  boxShadow: "0 8px 24px rgba(249,115,22,0.35)",
                   cursor: "pointer",
                 }}
               >
-                {formStatus === "sending" ? "Sending..." : "Send"}
+                {formStatus === "sending" ? "Sending..." : "Send Message →"}
               </button>
             </form>
           </div>

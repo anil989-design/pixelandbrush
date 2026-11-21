@@ -4,7 +4,8 @@ import close from "../../assets/close.svg";
 
 const NAV_LINKS = [
   { id: "about", title: "About" },
-  { id: "work", title: "Work" },
+  { id: "work", title: "Experience" },
+  { id: "portfolio", title: "Projects" },
   { id: "contact", title: "Contact" },
 ];
 
@@ -27,12 +28,14 @@ const Navbar = () => {
         width: "100%",
         display: "flex",
         alignItems: "center",
-        padding: "1.25rem clamp(1.5rem, 5vw, 4rem)",
+        padding: "1.15rem clamp(1.5rem, 5vw, 4rem)",
         position: "fixed",
         top: 0,
         zIndex: 20,
-        background: scrolled ? "#050816" : "transparent",
-        transition: "background 0.25s ease",
+        background: scrolled ? "rgba(7, 4, 14, 0.92)" : "transparent",
+        backdropFilter: scrolled ? "blur(18px)" : "none",
+        borderBottom: scrolled ? "1px solid rgba(249,115,22,0.18)" : "1px solid transparent",
+        transition: "all 0.25s ease",
       }}
     >
       <div
@@ -50,7 +53,7 @@ const Navbar = () => {
           style={{
             display: "flex",
             alignItems: "center",
-            gap: "0.5rem",
+            gap: "0.65rem",
             textDecoration: "none",
           }}
           onClick={() => {
@@ -60,24 +63,44 @@ const Navbar = () => {
         >
           <img
             src="/logo-icon.webp"
-            alt="logo"
-            width="36"
-            height="36"
-            style={{ width: 36, height: 36, objectFit: "contain", borderRadius: 8 }}
-          />
-          <p
+            alt="Pixel and Brush logo"
+            width="40"
+            height="40"
             style={{
-              color: "#ffffff",
-              fontSize: 18,
-              fontWeight: 700,
+              width: 40,
+              height: 40,
+              objectFit: "contain",
+              borderRadius: 10,
+              border: "1px solid rgba(249,115,22,0.35)",
+              boxShadow: "0 0 16px rgba(249,115,22,0.28)",
+            }}
+          />
+          <div
+            style={{
+              fontSize: 19,
+              fontWeight: 800,
               cursor: "pointer",
-              display: "flex",
+              display: "inline-flex",
+              alignItems: "baseline",
+              gap: "0.3rem",
               margin: 0,
             }}
           >
-            Anil &nbsp;
-            <span className="d-none d-sm-inline">| Pixel and Brush</span>
-          </p>
+            <span style={{ color: "#ffffff" }}>Pixel</span>
+            <span style={{ color: "#a1a1aa", fontStyle: "italic", fontWeight: 400, fontSize: "0.8em" }}>and</span>
+            <span
+              style={{
+                background: "linear-gradient(135deg,#fbbf24,#f97316,#ea580c)",
+                WebkitBackgroundClip: "text",
+                WebkitTextFillColor: "transparent",
+              }}
+            >
+              Brush
+            </span>
+            <span className="d-none d-md-inline" style={{ color: "#c084fc", fontSize: 15, fontWeight: 600 }}>
+              &nbsp;| Anil Panday
+            </span>
+          </div>
         </a>
 
         <ul
@@ -86,7 +109,8 @@ const Navbar = () => {
             listStyle: "none",
             display: "flex",
             flexDirection: "row",
-            gap: "2.5rem",
+            alignItems: "center",
+            gap: "2.2rem",
             margin: 0,
             padding: 0,
           }}
@@ -96,17 +120,17 @@ const Navbar = () => {
               key={nav.id}
               onClick={() => setActive(nav.title)}
               style={{
-                color: active === nav.title ? "#ffffff" : "#aaa6c3",
-                fontSize: 18,
+                color: active === nav.title ? "#fb923c" : "#c4b5dc",
+                fontSize: 16,
                 fontWeight: 500,
                 cursor: "pointer",
                 transition: "color 0.2s",
               }}
               onMouseEnter={(e) => {
-                e.currentTarget.style.color = "#ffffff";
+                e.currentTarget.style.color = "#fb923c";
               }}
               onMouseLeave={(e) => {
-                e.currentTarget.style.color = active === nav.title ? "#ffffff" : "#aaa6c3";
+                e.currentTarget.style.color = active === nav.title ? "#fb923c" : "#c4b5dc";
               }}
             >
               <a href={`#${nav.id}`} style={{ color: "inherit", textDecoration: "none" }}>
@@ -114,6 +138,23 @@ const Navbar = () => {
               </a>
             </li>
           ))}
+          <li>
+            <a
+              href="/login"
+              style={{
+                background: "linear-gradient(135deg,#7c3aed 0%,#db2777 45%,#f97316 100%)",
+                color: "#ffffff",
+                padding: "0.48rem 1.15rem",
+                borderRadius: 10,
+                fontSize: 14,
+                fontWeight: 700,
+                textDecoration: "none",
+                boxShadow: "0 4px 16px rgba(249,115,22,0.3)",
+              }}
+            >
+              Client Login
+            </a>
+          </li>
         </ul>
 
         <div
@@ -143,9 +184,10 @@ const Navbar = () => {
               top: 52,
               right: 0,
               margin: "0.5rem 0",
-              minWidth: 140,
+              minWidth: 160,
               zIndex: 10,
               borderRadius: 12,
+              border: "1px solid rgba(249,115,22,0.3)",
             }}
           >
             <ul
@@ -168,7 +210,7 @@ const Navbar = () => {
                     fontWeight: 500,
                     cursor: "pointer",
                     fontSize: 16,
-                    color: active === nav.title ? "#ffffff" : "#aaa6c3",
+                    color: active === nav.title ? "#fb923c" : "#c4b5dc",
                   }}
                   onClick={() => {
                     setToggle(!toggle);
@@ -180,6 +222,19 @@ const Navbar = () => {
                   </a>
                 </li>
               ))}
+              <li>
+                <a
+                  href="/login"
+                  style={{
+                    color: "#fb923c",
+                    fontWeight: 700,
+                    fontSize: 15,
+                    textDecoration: "none",
+                  }}
+                >
+                  Client Login →
+                </a>
+              </li>
             </ul>
           </div>
         </div>

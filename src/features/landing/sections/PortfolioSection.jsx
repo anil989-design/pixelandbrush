@@ -1,53 +1,50 @@
 import TiltCard from "../../../components/common/TiltCard";
-import github from "../../../assets/github.png";
-import project2 from "../../../assets/proj1.webp";
-import gearXpert from "../../../assets/gearXpert.png";
-import project3 from "../../../assets/project3.webp";
 
 const PROJECTS = [
   {
-    name: "Tekisky Mart",
+    name: "Kashish Makeup Studio",
     description:
-      "Tekisky Mart is a web-based platform that allows users to search, explore, and purchase a wide range of products from various providers, offering a seamless and efficient shopping experience.",
+      "Full website overhaul with online booking, services menu, and luxury brand visuals — doubling client bookings after launch.",
     tags: [
-      { name: "react", color: "blue-text-gradient" },
-      { name: "tailwind", color: "white-text-gradient" },
-      { name: "node", color: "pink-text-gradient" },
-      { name: "mongodb", color: "green-text-gradient" },
+      { name: "web-design", color: "orange-text-gradient" },
+      { name: "react", color: "white-text-gradient" },
+      { name: "branding", color: "pink-text-gradient" },
+      { name: "seo", color: "green-text-gradient" },
     ],
-    image: project2,
-    source_code_link: "https://github.com/",
+    image: "/projects/KA.webp",
+    link: "#contact",
   },
   {
-    name: "GearXpert",
+    name: "Bijaya Pharma",
     description:
-      "GearXpert is your ultimate destination for premium auto parts and accessories, Whether you're an automobile enthusiast or a professional, find everything you need to upgrade, repair.",
+      "Complete brand identity, responsive website, IT systems integration, and multi-channel digital marketing management.",
     tags: [
-      { name: "react", color: "blue-text-gradient" },
-      { name: "emailJs", color: "green-text-gradient" },
-      { name: "Gsap", color: "pink-text-gradient" },
+      { name: "brand-identity", color: "orange-text-gradient" },
+      { name: "web-dev", color: "white-text-gradient" },
+      { name: "digital-marketing", color: "pink-text-gradient" },
+      { name: "it-systems", color: "green-text-gradient" },
     ],
-    image: gearXpert,
-    source_code_link: "https://github.com/",
+    image: "/projects/vijaya.webp",
+    link: "#contact",
   },
   {
-    name: "GoGroove-Ecommerce",
+    name: "Kangaroo Education Foundation",
     description:
-      "Go-Groove is your ultimate destination for premium products across various categories. Whether you're a savvy shopper or a professional, enhance, and simplify your lifestyle—all in one place!",
+      "High-converting social media creatives, Adobe Photoshop/Illustrator brand campaigns, and content strategy achieving 300% follower growth in 60 days.",
     tags: [
-      { name: "react", color: "blue-text-gradient" },
-      { name: "express", color: "white-text-gradient" },
-      { name: "node", color: "green-text-gradient" },
-      { name: "mongodb", color: "green-text-gradient" },
+      { name: "graphic-design", color: "orange-text-gradient" },
+      { name: "social-media", color: "pink-text-gradient" },
+      { name: "adobe-suite", color: "green-text-gradient" },
     ],
-    image: project3,
-    source_code_link: "https://github.com/",
+    image: "/projects/kangaroo.webp",
+    link: "#contact",
   },
 ];
 
 const PortfolioSection = () => {
   return (
     <section
+      id="portfolio"
       style={{
         maxWidth: 1280,
         margin: "0 auto",
@@ -60,13 +57,14 @@ const PortfolioSection = () => {
         <p
           style={{
             fontSize: "clamp(14px, 1.6vw, 18px)",
-            color: "#aaa6c3",
+            color: "#fb923c",
             textTransform: "uppercase",
-            letterSpacing: "0.05em",
+            letterSpacing: "0.08em",
+            fontWeight: 700,
             margin: 0,
           }}
         >
-          My work
+          Pixel &amp; Brush Portfolio
         </p>
         <h2
           style={{
@@ -84,39 +82,41 @@ const PortfolioSection = () => {
         <p
           style={{
             marginTop: "0.75rem",
-            color: "#aaa6c3",
+            color: "#c4b5dc",
             fontSize: 17,
             maxWidth: 768,
             lineHeight: "30px",
           }}
         >
-          Following projects showcase my skills and experience through real-world examples of my work. Each project is
-          briefly described with links to code repositories and live demos. It reflects my ability to solve complex
-          problems, work with different technologies, and manage projects effectively.
+          A curated selection of websites, brand identities, and digital marketing campaigns delivered by{" "}
+          <strong style={{ color: "#fff" }}>Anil Panday</strong> at{" "}
+          <strong style={{ color: "#fb923c" }}>Pixel &amp; Brush</strong>.
         </p>
       </div>
 
       <div
         className="works-container"
         style={{
-          marginTop: "5rem",
+          marginTop: "4.5rem",
           display: "grid",
           gridTemplateColumns: "repeat(auto-fit, minmax(320px, 360px))",
           justifyContent: "center",
-          gap: "1.75rem",
+          gap: "2rem",
         }}
       >
         {PROJECTS.map((project, index) => (
           <div key={`project-${index}`} className="project-card">
             <TiltCard
-              max={25}
-              scale={1}
+              max={22}
+              scale={1.02}
               style={{
-                background: "#151030",
+                background: "#140a28",
+                border: "1px solid rgba(249,115,22,0.22)",
                 padding: "1.25rem",
-                borderRadius: 16,
+                borderRadius: 18,
                 width: "100%",
                 height: "100%",
+                boxShadow: "0px 25px 80px -15px rgba(0,0,0,0.6)",
               }}
             >
               <div style={{ position: "relative", width: "100%", height: 230 }}>
@@ -127,8 +127,7 @@ const PortfolioSection = () => {
                     width: "100%",
                     height: "100%",
                     objectFit: "cover",
-                    objectPosition: "left",
-                    borderRadius: 16,
+                    borderRadius: 14,
                   }}
                 />
 
@@ -141,33 +140,32 @@ const PortfolioSection = () => {
                     margin: "0.75rem",
                   }}
                 >
-                  <div
-                    onClick={() => window.open(project.source_code_link, "_blank")}
+                  <a
+                    href={project.link}
+                    aria-label={`Inquire about ${project.name}`}
                     className="black-gradient"
                     style={{
                       width: 40,
                       height: 40,
                       borderRadius: "50%",
+                      border: "1px solid rgba(249,115,22,0.45)",
                       display: "flex",
                       justifyContent: "center",
                       alignItems: "center",
+                      color: "#fb923c",
                       cursor: "pointer",
                     }}
                   >
-                    <img
-                      src={github}
-                      alt="source code"
-                      style={{ width: "50%", height: "50%", objectFit: "contain" }}
-                    />
-                  </div>
+                    <i className="bi bi-arrow-up-right" />
+                  </a>
                 </div>
               </div>
 
               <div style={{ marginTop: "1.25rem" }}>
-                <h3 style={{ color: "#ffffff", fontWeight: 700, fontSize: 24, margin: 0 }}>
+                <h3 style={{ color: "#ffffff", fontWeight: 700, fontSize: 22, margin: 0 }}>
                   {project.name}
                 </h3>
-                <p style={{ marginTop: "0.5rem", color: "#aaa6c3", fontSize: 14, lineHeight: 1.5 }}>
+                <p style={{ marginTop: "0.5rem", color: "#c4b5dc", fontSize: 14, lineHeight: 1.6 }}>
                   {project.description}
                 </p>
               </div>
@@ -177,7 +175,7 @@ const PortfolioSection = () => {
                   <p
                     key={`${project.name}-${tag.name}`}
                     className={tag.color}
-                    style={{ fontSize: 14, margin: 0 }}
+                    style={{ fontSize: 14, fontWeight: 600, margin: 0 }}
                   >
                     #{tag.name}
                   </p>

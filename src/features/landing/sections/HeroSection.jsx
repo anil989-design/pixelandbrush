@@ -10,7 +10,7 @@ const HeroSection = () => {
         height: "100vh",
         minHeight: 720,
         margin: "0 auto",
-        backgroundImage: `url(${heroBg})`,
+        backgroundImage: `linear-gradient(180deg, rgba(7,4,14,0.45) 0%, rgba(7,4,14,0.82) 100%), url(${heroBg})`,
         backgroundSize: "cover",
         backgroundPosition: "center",
         backgroundRepeat: "no-repeat",
@@ -21,7 +21,7 @@ const HeroSection = () => {
         style={{
           position: "absolute",
           inset: 0,
-          top: 120,
+          top: 115,
           maxWidth: 1280,
           margin: "0 auto",
           padding: "0 clamp(1.5rem, 5vw, 4rem)",
@@ -39,7 +39,7 @@ const HeroSection = () => {
             flexDirection: "column",
             justifyContent: "center",
             alignItems: "center",
-            marginTop: "1.25rem",
+            marginTop: "1rem",
           }}
         >
           <div
@@ -47,7 +47,8 @@ const HeroSection = () => {
               width: 20,
               height: 20,
               borderRadius: "50%",
-              background: "#915EFF",
+              background: "#f97316",
+              boxShadow: "0 0 18px #f97316",
             }}
           />
           <div
@@ -59,29 +60,40 @@ const HeroSection = () => {
           />
         </div>
 
-        <div style={{ marginTop: "1.25rem" }}>
+        <div style={{ marginTop: "0.75rem" }}>
           <h1
             style={{
               fontWeight: 900,
               color: "#ffffff",
-              fontSize: "clamp(40px, 5.5vw, 80px)",
+              fontSize: "clamp(36px, 5vw, 72px)",
               lineHeight: 1.15,
-              marginTop: "0.5rem",
+              marginTop: "0.25rem",
             }}
           >
-            Hi, I'm <span style={{ color: "#915EFF" }}>Anil</span>
+            Hi, I'm{" "}
+            <span
+              style={{
+                background: "linear-gradient(135deg,#c084fc 0%,#ec4899 45%,#f97316 80%,#fbbf24 100%)",
+                WebkitBackgroundClip: "text",
+                WebkitTextFillColor: "transparent",
+              }}
+            >
+              Anil Panday
+            </span>
           </h1>
           <p
             style={{
-              color: "#dfd9ff",
+              color: "#e9d5ff",
               fontWeight: 500,
-              fontSize: "clamp(16px, 2.2vw, 30px)",
-              lineHeight: 1.35,
+              fontSize: "clamp(15px, 2vw, 24px)",
+              lineHeight: 1.45,
               marginTop: "0.5rem",
+              maxWidth: 740,
             }}
           >
-            I develop modern, user <br />
-            interfaces and web applications
+            Digital Designer &amp; Founder of{" "}
+            <span style={{ color: "#fb923c", fontWeight: 700 }}>Pixel &amp; Brush</span> <br className="d-none d-sm-inline" />
+            Web Design, Branding, Graphic Design &amp; AI Automation in London
           </p>
         </div>
       </div>
@@ -91,7 +103,7 @@ const HeroSection = () => {
       <div
         style={{
           position: "absolute",
-          bottom: "2.5rem",
+          bottom: "2.2rem",
           width: "100%",
           display: "flex",
           justifyContent: "center",
@@ -105,19 +117,19 @@ const HeroSection = () => {
               width: 35,
               height: 64,
               borderRadius: 24,
-              border: "4px solid #aaa6c3",
+              border: "3px solid #fb923c",
               display: "flex",
               justifyContent: "center",
               alignItems: "flex-start",
-              padding: 8,
+              padding: 7,
             }}
           >
             <div
               style={{
-                width: 12,
-                height: 12,
+                width: 11,
+                height: 11,
                 borderRadius: "50%",
-                background: "#aaa6c3",
+                background: "#fb923c",
                 animation: "scrollDotBounce 1.5s infinite ease-in-out",
               }}
             />

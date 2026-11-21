@@ -5,7 +5,7 @@
  */
 
 export const CONTACT = Object.freeze({
-  email: "anilpte232@gmail.com",
+  email: "chhetrianil232@gmail.com",
   // NOTE: placeholder number – replace with the real WhatsApp business number.
   whatsappNumber: "447700000000",
   whatsappMessage: "Hi Pixel & Brush, I'd love to discuss a project!",

@@ -1,17 +1,78 @@
-import tekisky from "../../../assets/company/tekisky.png";
-
 const EXPERIENCES = [
   {
-    title: "Full-Stack Developer",
-    company_name: "Pixel and Brush",
-    icon: tekisky,
-    iconBg: "#383E56",
-    date: "Jan 2023 - present",
+    title: "Managing Director",
+    company_name: "Pixel and Brush · London Area, United Kingdom",
+    icon: "/logo-icon.webp",
+    iconBg: "#170b2c",
+    date: "October 2025 - Present",
     points: [
-      "Developing and maintaining web applications using MERN technologies.",
-      "Collaborating with cross-functional teams including designers, product managers, and other developers to create high-quality products.",
-      "Implementing responsive design and ensuring cross-browser compatibility.",
-      "Participating in code reviews and providing constructive feedback to other developers.",
+      "Founder & Managing Director of Pixel & Brush (pixelandbrush.vercel.app), delivering web design, branding, graphic design, and AI automation for businesses in the UK and internationally.",
+      "Increased client engagement by 90% through innovative brand identities, Adobe Photoshop/Illustrator/InDesign creatives, and high-converting websites.",
+      "Building AI automation workflows that save time and eliminate repetitive operational tasks for small businesses.",
+    ],
+  },
+  {
+    title: "Marketing Executive",
+    company_name: "Saad Overseas · Butwal, Lumbini, Nepal",
+    icon: "/logo-icon.webp",
+    iconBg: "#241242",
+    date: "June 2024 - Present",
+    points: [
+      "Leading digital marketing campaigns, brand positioning, and visual communication strategy.",
+      "Designing promotional assets and managing multi-channel social media growth.",
+    ],
+  },
+  {
+    title: "IT Technician & Marketing Agent",
+    company_name: "Bijaya Pharma Butwal · Butwal, Lumbini, Nepal",
+    icon: "/projects/vijaya.webp",
+    iconBg: "#170b2c",
+    date: "January 2023 - March 2025",
+    points: [
+      "Directed brand identity, website presence, digital marketing campaigns, and technical IT operations for Bijaya Pharma.",
+      "Bridged technical IT systems support with client-facing marketing and brand design.",
+    ],
+  },
+  {
+    title: "Graphic Designer",
+    company_name: "Kangaroo Education Foundation · Butwal, Lumbini, Nepal",
+    icon: "/projects/kangaroo.webp",
+    iconBg: "#241242",
+    date: "September 2022 - April 2024",
+    points: [
+      "Created high-impact social media graphics, print materials, and brand campaigns using Adobe Photoshop, Illustrator, and InDesign.",
+      "Drove 300% social media follower growth and increased student enquiries through consistent visual storytelling.",
+    ],
+  },
+  {
+    title: "Information Technology Technician",
+    company_name: "Guras Technology Pvt. Ltd. · Butwal, Lumbini, Nepal",
+    icon: "/logo-icon.webp",
+    iconBg: "#170b2c",
+    date: "July 2022 - April 2023",
+    points: [
+      "Managed IT infrastructure, computer systems diagnostics, networking, and client technical support.",
+    ],
+  },
+  {
+    title: "Technician",
+    company_name: "NSK Group Nepal",
+    icon: "/logo-icon.webp",
+    iconBg: "#241242",
+    date: "August 2020 - April 2022",
+    points: [
+      "Performed hardware and software maintenance, technical troubleshooting, and operational systems support.",
+    ],
+  },
+  {
+    title: "BA (Hons) Business Management",
+    company_name: "Ravensbourne University London · London, United Kingdom",
+    icon: "/anil-pandey-headshot-square.jpg",
+    iconBg: "#170b2c",
+    date: "May 2025 - Present",
+    points: [
+      "Bachelor of Business Management (Business, Management, Marketing, and Related Support Services) in London, UK.",
+      "Combining business management strategy with Artificial Intelligence (AI), Graphical User Interface (GUI) design, and Linux Foundation certified technical skills.",
     ],
   },
 ];
@@ -32,14 +93,15 @@ const ExperienceSection = () => {
         <p
           style={{
             fontSize: "clamp(14px, 1.6vw, 18px)",
-            color: "#aaa6c3",
+            color: "#fb923c",
             textTransform: "uppercase",
-            letterSpacing: "0.05em",
+            letterSpacing: "0.08em",
             textAlign: "center",
+            fontWeight: 700,
             margin: 0,
           }}
         >
-          What I have done so far
+          My Career &amp; Education Journey
         </p>
         <h2
           style={{
@@ -54,20 +116,21 @@ const ExperienceSection = () => {
         </h2>
       </div>
 
-      <div style={{ marginTop: "5rem" }} className="pb-timeline">
+      <div style={{ marginTop: "4.5rem" }} className="pb-timeline">
         {EXPERIENCES.map((experience, index) => (
           <div key={`experience-${index}`} className="pb-timeline-item">
             <div className="pb-timeline-card">
               <div>
-                <h3 style={{ color: "#ffffff", fontSize: 24, fontWeight: 700, margin: 0 }}>
+                <h3 style={{ color: "#ffffff", fontSize: 22, fontWeight: 700, margin: 0 }}>
                   {experience.title}
                 </h3>
                 <p
                   style={{
-                    color: "#aaa6c3",
-                    fontSize: 16,
+                    color: "#fb923c",
+                    fontSize: 15,
                     fontWeight: 600,
-                    margin: 0,
+                    marginTop: 4,
+                    marginBottom: 0,
                   }}
                 >
                   {experience.company_name}
@@ -76,7 +139,7 @@ const ExperienceSection = () => {
 
               <ul
                 style={{
-                  marginTop: "1.25rem",
+                  marginTop: "1.1rem",
                   listStyleType: "disc",
                   marginLeft: "1.25rem",
                   padding: 0,
@@ -89,10 +152,10 @@ const ExperienceSection = () => {
                   <li
                     key={`experience-point-${idx}`}
                     style={{
-                      color: "#f3f3f3",
+                      color: "#f4f1fa",
                       fontSize: 14,
                       paddingLeft: "0.25rem",
-                      letterSpacing: "0.05em",
+                      lineHeight: 1.65,
                     }}
                   >
                     {point}
@@ -105,7 +168,7 @@ const ExperienceSection = () => {
               <img
                 src={experience.icon}
                 alt={experience.company_name}
-                style={{ width: "90%", height: "90%", objectFit: "contain" }}
+                style={{ width: "100%", height: "100%", objectFit: "cover", borderRadius: "50%" }}
               />
             </div>
 

@@ -16,7 +16,7 @@ export default function HomePage() {
   usePageMeta(PAGE_META.home);
 
   return (
-    <div style={{ position: "relative", zIndex: 0, background: "#050816", minHeight: "100vh", overflowX: "hidden" }}>
+    <div style={{ position: "relative", zIndex: 0, background: "#07040e", minHeight: "100vh", overflowX: "hidden" }}>
       <GlobalStyles />
       <Navbar />
       <HeroSection />
