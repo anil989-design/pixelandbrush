@@ -1,8 +1,7 @@
 import { useEffect, useState } from "react";
 
 /**
- * Branded intro splash. Shortened from 2.6s to ~1.7s and shown once per session (see HomePage).
- * It lets the page-wide <HexMesh/> show through instead of mounting a second canvas animation.
+ * Branded intro splash featuring the official Pixel and Brush emblem and color palette.
  */
 const Loader = ({ onDone }) => {
   const [showName, setShowName] = useState(false);
@@ -31,30 +30,30 @@ const Loader = ({ onDone }) => {
         position: "fixed",
         inset: 0,
         zIndex: 10000,
-        background: "rgba(6,9,18,.84)",
-        backdropFilter: "blur(6px)",
+        background: "rgba(7,4,14,.92)",
+        backdropFilter: "blur(8px)",
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
         justifyContent: "center",
-        gap: "1.6rem",
+        gap: "1.4rem",
         opacity: phase === "out" ? 0 : 1,
         transform: phase === "out" ? "scale(1.03)" : "scale(1)",
         transition: phase === "out" ? "opacity .6s ease,transform .6s ease" : "none",
       }}
     >
-      <div style={{ position: "relative", zIndex: 1, display: "flex", flexDirection: "column", alignItems: "center", gap: "1.2rem" }}>
+      <div style={{ position: "relative", zIndex: 1, display: "flex", flexDirection: "column", alignItems: "center", gap: "1rem" }}>
         {showName && (
           <img
-            src="/logo.svg"
-            alt=""
-            width="64"
-            height="64"
+            src="/logo-icon.webp"
+            alt="Pixel and Brush"
+            width="84"
+            height="84"
             style={{
-              width: 64,
-              height: 64,
-              borderRadius: 16,
-              boxShadow: "0 0 28px rgba(34,211,238,.35)",
+              width: 84,
+              height: 84,
+              borderRadius: 20,
+              boxShadow: "0 0 36px rgba(249,115,22,.35), 0 0 24px rgba(147,51,234,.35)",
               animation: "nameReveal .8s cubic-bezier(.22,1,.36,1) forwards",
             }}
           />
@@ -64,22 +63,22 @@ const Loader = ({ onDone }) => {
             style={{
               fontFamily: "'Baloo 2',sans-serif",
               fontWeight: 800,
-              fontSize: "clamp(2.2rem,7vw,3.8rem)",
-              letterSpacing: ".08em",
-              background: "linear-gradient(90deg,#2563eb,#60a5fa,#e8edf7,#60a5fa,#22d3ee)",
-              backgroundSize: "300%",
-              WebkitBackgroundClip: "text",
-              WebkitTextFillColor: "transparent",
-              animation: "nameReveal .8s cubic-bezier(.22,1,.36,1) forwards,gradShift 4s ease infinite",
-              textTransform: "uppercase",
+              fontSize: "clamp(2.1rem,6vw,3.5rem)",
+              letterSpacing: ".03em",
+              animation: "nameReveal .8s cubic-bezier(.22,1,.36,1) forwards",
+              display: "flex",
+              alignItems: "baseline",
+              gap: ".45rem",
             }}
           >
-            PIXEL &amp; BRUSH
+            <span style={{ color: "#ffffff" }}>Pixel</span>
+            <span style={{ color: "#a1a1aa", fontStyle: "italic", fontWeight: 400, fontSize: ".7em", fontFamily: "'Outfit',sans-serif" }}>and</span>
+            <span style={{ background: "linear-gradient(135deg,#fbbf24,#f97316,#ea580c)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>Brush</span>
           </div>
         )}
         {showTag && (
-          <div style={{ color: "#6f7a96", fontSize: ".72rem", letterSpacing: ".28em", textTransform: "uppercase", animation: "taglineIn .6s ease forwards" }}>
-            Digital Creative Agency · UK
+          <div style={{ color: "#a79ab8", fontSize: ".74rem", letterSpacing: ".34em", textTransform: "uppercase", animation: "taglineIn .6s ease forwards" }}>
+            CREATE • DESIGN • INSPIRE
           </div>
         )}
       </div>

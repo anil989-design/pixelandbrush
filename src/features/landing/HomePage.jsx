@@ -59,7 +59,7 @@ export default function HomePage() {
   }, []);
 
   return (
-    <div style={{ background: "#060912", minHeight: "100vh", overflowX: "hidden", position: "relative" }}>
+    <div style={{ background: "#07040e", minHeight: "100vh", overflowX: "hidden", position: "relative" }}>
       <GlobalStyles />
       <HexMesh />
       <Cursor />

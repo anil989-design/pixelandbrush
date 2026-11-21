@@ -4,7 +4,7 @@ import { isAdminUser, signInWithPassword } from "../../services/authService";
 import { isValidEmail } from "../../utils/validators";
 
 const MAX_ATTEMPTS = 5;
-const LOCKOUT_DURATION_MS = 60 * 1000; // 60 seconds cooldown on 5 failures
+const LOCKOUT_DURATION_MS = 60 * 1000;
 
 export default function Login() {
   const [email, setEmail] = useState("");
@@ -14,7 +14,6 @@ export default function Login() {
   const [lockoutRemaining, setLockoutRemaining] = useState(0);
   const navigate = useNavigate();
 
-  // Check lockout on mount and tick countdown
   useEffect(() => {
     const checkLockout = () => {
       const lockUntil = parseInt(localStorage.getItem("pb_login_lockout") || "0", 10);
@@ -45,7 +44,6 @@ export default function Login() {
       return;
     }
 
-    // Basic email format check
     if (!isValidEmail(cleanEmail)) {
       setError("Please enter a valid email address.");
       return;
@@ -58,7 +56,6 @@ export default function Login() {
       const { data, error: authError } = await signInWithPassword(cleanEmail, cleanPassword);
 
       if (authError) {
-        // Increment failed attempts
         const attempts = parseInt(localStorage.getItem("pb_login_attempts") || "0", 10) + 1;
         if (attempts >= MAX_ATTEMPTS) {
           const lockUntil = Date.now() + LOCKOUT_DURATION_MS;
@@ -74,7 +71,6 @@ export default function Login() {
         return;
       }
 
-      // Reset attempts on successful login
       localStorage.removeItem("pb_login_attempts");
       localStorage.removeItem("pb_login_lockout");
 
@@ -96,8 +92,8 @@ export default function Login() {
   return (
     <div style={{
       minHeight: "100vh",
-      background: "#060912",
-      color: "#e8edf7",
+      background: "#07040e",
+      color: "#f4f1fa",
       display: "flex",
       justifyContent: "center",
       alignItems: "center",
@@ -110,20 +106,20 @@ export default function Login() {
         @keyframes fadeUp  { from{opacity:0;transform:translateY(24px)} to{opacity:1;transform:none} }
         @keyframes blink   { 0%,100%{opacity:1} 50%{opacity:0} }
         @keyframes loginGlow {
-          0%,100% { box-shadow:0 0 50px rgba(37,99,235,.15),0 30px 80px rgba(0,0,0,.5); }
-          50%     { box-shadow:0 0 80px rgba(34,211,238,.18),0 30px 80px rgba(0,0,0,.5); }
+          0%,100% { box-shadow:0 0 50px rgba(147,51,234,.2),0 30px 80px rgba(0,0,0,.55); }
+          50%     { box-shadow:0 0 80px rgba(249,115,22,.22),0 30px 80px rgba(0,0,0,.55); }
         }
       `}</style>
 
       {/* ambient orbs */}
-      <div style={{ position: "absolute", top: "20%", left: "20%", width: 400, height: 400, background: "radial-gradient(circle,rgba(37,99,235,.1),transparent 70%)", pointerEvents: "none", filter: "blur(20px)" }} />
-      <div style={{ position: "absolute", bottom: "10%", right: "15%", width: 300, height: 300, background: "radial-gradient(circle,rgba(34,211,238,.07),transparent 70%)", pointerEvents: "none", filter: "blur(20px)" }} />
+      <div style={{ position: "absolute", top: "20%", left: "20%", width: 400, height: 400, background: "radial-gradient(circle,rgba(147,51,234,.14),transparent 70%)", pointerEvents: "none", filter: "blur(24px)" }} />
+      <div style={{ position: "absolute", bottom: "10%", right: "15%", width: 320, height: 320, background: "radial-gradient(circle,rgba(249,115,22,.12),transparent 70%)", pointerEvents: "none", filter: "blur(24px)" }} />
 
       <div style={{
         width: "100%",
         maxWidth: 440,
-        background: "rgba(8,6,22,.93)",
-        border: "1px solid rgba(37,99,235,.2)",
+        background: "rgba(12,6,26,.94)",
+        border: "1px solid rgba(249,115,22,.25)",
         borderRadius: 22,
         padding: "2.8rem",
         backdropFilter: "blur(32px)",
@@ -132,28 +128,37 @@ export default function Login() {
         overflow: "hidden",
       }}>
         {/* top accent line */}
-        <div style={{ position: "absolute", top: 0, left: 0, right: 0, height: 2, background: "linear-gradient(90deg,transparent,#2563eb,#22d3ee,transparent)" }} />
+        <div style={{ position: "absolute", top: 0, left: 0, right: 0, height: 2.5, background: "linear-gradient(90deg,transparent,#7c3aed,#ec4899,#f97316,#fbbf24,transparent)" }} />
 
         {/* Logo */}
         <div style={{ textAlign: "center", marginBottom: "2.2rem" }}>
-          <div style={{ display: "inline-flex", alignItems: "center", gap: ".6rem", marginBottom: "1.6rem" }}>
-            <div style={{
-              width: 44, height: 44, borderRadius: 13,
-              background: "linear-gradient(135deg,#1e3a8a,#22d3ee)",
-              display: "flex", alignItems: "center", justifyContent: "center",
-              fontFamily: "'Baloo 2',sans-serif", fontWeight: 800, fontSize: "1.1rem", color: "#fff",
-            }}>PB</div>
-            <div style={{ fontFamily: "'Baloo 2',sans-serif", fontWeight: 800, fontSize: "1.3rem", background: "linear-gradient(135deg,#60a5fa,#22d3ee)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", letterSpacing: ".03em" }}>
-              Pixel &amp; Brush
+          <div style={{ display: "inline-flex", alignItems: "center", gap: ".65rem", marginBottom: "1.5rem" }}>
+            <img
+              src="/logo-icon.webp"
+              alt="Pixel and Brush logo"
+              width="44"
+              height="44"
+              style={{
+                width: 44,
+                height: 44,
+                borderRadius: 12,
+                border: "1px solid rgba(249,115,22,.35)",
+                boxShadow: "0 0 18px rgba(249,115,22,.28)",
+              }}
+            />
+            <div style={{ fontFamily: "'Baloo 2',sans-serif", fontWeight: 800, fontSize: "1.35rem", letterSpacing: ".02em", display: "inline-flex", alignItems: "baseline", gap: ".32rem" }}>
+              <span style={{ color: "#ffffff" }}>Pixel</span>
+              <span style={{ color: "#a1a1aa", fontStyle: "italic", fontWeight: 400, fontSize: ".76em", fontFamily: "'Outfit',sans-serif" }}>and</span>
+              <span style={{ background: "linear-gradient(135deg,#fbbf24,#f97316,#ea580c)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>Brush</span>
             </div>
           </div>
 
           <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: ".5rem", marginBottom: ".6rem" }}>
-            <span style={{ width: 6, height: 6, background: "#22d3ee", borderRadius: "50%", display: "inline-block", animation: "blink 1.5s ease infinite" }} />
-            <span style={{ color: "#6f7a96", fontSize: ".7rem", letterSpacing: ".2em", textTransform: "uppercase", fontWeight: 600 }}>Client Portal</span>
+            <span style={{ width: 6, height: 6, background: "#fb923c", borderRadius: "50%", display: "inline-block", animation: "blink 1.5s ease infinite" }} />
+            <span style={{ color: "#a79ab8", fontSize: ".7rem", letterSpacing: ".2em", textTransform: "uppercase", fontWeight: 600 }}>Client Portal</span>
           </div>
           <h1 style={{ fontFamily: "'Baloo 2',sans-serif", fontWeight: 800, fontSize: "1.9rem", letterSpacing: "-.02em", marginBottom: ".3rem" }}>Welcome Back</h1>
-          <p style={{ color: "#6f7a96", fontSize: ".86rem" }}>Sign in to your project dashboard</p>
+          <p style={{ color: "#8f84a6", fontSize: ".86rem" }}>Sign in to your project dashboard</p>
         </div>
 
         {/* Error */}
@@ -180,7 +185,7 @@ export default function Login() {
             <label style={{
               display: "block",
               fontSize: ".68rem",
-              color: "#6f7a96",
+              color: "#8f84a6",
               letterSpacing: ".1em",
               textTransform: "uppercase",
               fontFamily: "'Baloo 2',sans-serif",
@@ -195,15 +200,15 @@ export default function Login() {
               disabled={loading || isLocked}
               onChange={(e) => setEmail(e.target.value)}
               onKeyDown={handleKey}
-              onFocus={(e) => { e.target.style.borderColor = "#2563eb"; e.target.style.boxShadow = "0 0 0 3px rgba(37,99,235,.15)"; }}
-              onBlur={(e) => { e.target.style.borderColor = "rgba(37,99,235,.18)"; e.target.style.boxShadow = "none"; }}
+              onFocus={(e) => { e.target.style.borderColor = "#f97316"; e.target.style.boxShadow = "0 0 0 3px rgba(249,115,22,.18)"; }}
+              onBlur={(e) => { e.target.style.borderColor = "rgba(168,85,247,.22)"; e.target.style.boxShadow = "none"; }}
               style={{
                 width: "100%",
-                background: "rgba(3,3,12,.8)",
-                border: "1px solid rgba(37,99,235,.18)",
+                background: "rgba(7,3,16,.85)",
+                border: "1px solid rgba(168,85,247,.22)",
                 borderRadius: 9,
                 padding: ".9rem 1rem",
-                color: "#e8edf7",
+                color: "#f4f1fa",
                 fontFamily: "'Outfit',sans-serif",
                 fontSize: ".92rem",
                 outline: "none",
@@ -218,7 +223,7 @@ export default function Login() {
             <label style={{
               display: "block",
               fontSize: ".68rem",
-              color: "#6f7a96",
+              color: "#8f84a6",
               letterSpacing: ".1em",
               textTransform: "uppercase",
               fontFamily: "'Baloo 2',sans-serif",
@@ -233,15 +238,15 @@ export default function Login() {
               disabled={loading || isLocked}
               onChange={(e) => setPassword(e.target.value)}
               onKeyDown={handleKey}
-              onFocus={(e) => { e.target.style.borderColor = "#2563eb"; e.target.style.boxShadow = "0 0 0 3px rgba(37,99,235,.15)"; }}
-              onBlur={(e) => { e.target.style.borderColor = "rgba(37,99,235,.18)"; e.target.style.boxShadow = "none"; }}
+              onFocus={(e) => { e.target.style.borderColor = "#f97316"; e.target.style.boxShadow = "0 0 0 3px rgba(249,115,22,.18)"; }}
+              onBlur={(e) => { e.target.style.borderColor = "rgba(168,85,247,.22)"; e.target.style.boxShadow = "none"; }}
               style={{
                 width: "100%",
-                background: "rgba(3,3,12,.8)",
-                border: "1px solid rgba(37,99,235,.18)",
+                background: "rgba(7,3,16,.85)",
+                border: "1px solid rgba(168,85,247,.22)",
                 borderRadius: 9,
                 padding: ".9rem 1rem",
-                color: "#e8edf7",
+                color: "#f4f1fa",
                 fontFamily: "'Outfit',sans-serif",
                 fontSize: ".92rem",
                 outline: "none",
@@ -261,7 +266,7 @@ export default function Login() {
             width: "100%",
             marginTop: "1.6rem",
             padding: "1rem",
-            background: loading || isLocked ? "rgba(37,99,235,.45)" : "linear-gradient(135deg,#1e3a8a,#2563eb)",
+            background: loading || isLocked ? "rgba(147,51,234,.4)" : "linear-gradient(135deg,#7c3aed 0%,#db2777 45%,#f97316 100%)",
             color: "white",
             border: "none",
             borderRadius: 9,
@@ -271,10 +276,10 @@ export default function Login() {
             fontSize: "1rem",
             letterSpacing: ".04em",
             transition: "opacity .3s,box-shadow .3s",
-            boxShadow: loading || isLocked ? "none" : "0 0 28px rgba(37,99,235,.45)",
+            boxShadow: loading || isLocked ? "none" : "0 8px 28px rgba(249,115,22,.35),0 0 18px rgba(147,51,234,.25)",
           }}
-          onMouseEnter={(e) => { if (!loading && !isLocked) e.currentTarget.style.boxShadow = "0 0 40px rgba(37,99,235,.6)"; }}
-          onMouseLeave={(e) => { if (!loading && !isLocked) e.currentTarget.style.boxShadow = "0 0 28px rgba(37,99,235,.45)"; }}
+          onMouseEnter={(e) => { if (!loading && !isLocked) e.currentTarget.style.boxShadow = "0 12px 36px rgba(249,115,22,.5),0 0 24px rgba(147,51,234,.35)"; }}
+          onMouseLeave={(e) => { if (!loading && !isLocked) e.currentTarget.style.boxShadow = "0 8px 28px rgba(249,115,22,.35),0 0 18px rgba(147,51,234,.25)"; }}
         >
           {loading ? "Signing in…" : isLocked ? `Locked (${lockoutRemaining}s)` : "Sign In →"}
         </button>
@@ -283,9 +288,9 @@ export default function Login() {
         <div style={{ textAlign: "center", marginTop: "1.6rem" }}>
           <a
             href="/"
-            style={{ color: "#6f7a96", fontSize: ".84rem", textDecoration: "none", transition: "color .3s" }}
-            onMouseEnter={(e) => { e.target.style.color = "#8a93ab"; }}
-            onMouseLeave={(e) => { e.target.style.color = "#6f7a96"; }}
+            style={{ color: "#8f84a6", fontSize: ".84rem", textDecoration: "none", transition: "color .3s" }}
+            onMouseEnter={(e) => { e.target.style.color = "#fb923c"; }}
+            onMouseLeave={(e) => { e.target.style.color = "#8f84a6"; }}
           >
             ← Back to website
           </a>

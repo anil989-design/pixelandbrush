@@ -15,7 +15,7 @@ const SplitHeading = ({text,size="clamp(3rem,8vw,6.5rem)",delay=0,shimmer=false,
       {chars.map((ch,i)=>(
         <span key={i} style={{
           animationDelay:vis?`${delay+i*0.045}s`:"9999s",animationPlayState:vis?"running":"paused",
-          ...(shimmer?{}:{background:"linear-gradient(130deg,#e8edf7 0%,#60a5fa 55%,#22d3ee 100%)",WebkitBackgroundClip:"text",WebkitTextFillColor:"transparent"}),
+          ...(shimmer?{}:{background:"linear-gradient(130deg,#ffffff 0%,#c084fc 48%,#fb923c 100%)",WebkitBackgroundClip:"text",WebkitTextFillColor:"transparent"}),
         }} className={shimmer?"char shimmer-text":"char"}>
           {ch===" "?"\u00a0":ch}
         </span>

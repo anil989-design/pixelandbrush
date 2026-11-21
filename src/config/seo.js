@@ -4,7 +4,7 @@
  */
 
 export const SITE_URL = "https://pixelandbrush.vercel.app";
-export const SITE_NAME = "Pixel & Brush";
+export const SITE_NAME = "Pixel and Brush";
 
 /**
  * Public profiles (no social media or GitHub links).
@@ -14,14 +14,14 @@ export const SOCIAL = Object.freeze({});
 export const PAGE_META = Object.freeze({
   home: {
     path: "/",
-    title: "Pixel & Brush | Anil Pandey — Business, AI & Digital Studio in London",
+    title: "Pixel and Brush | Anil Pandey — Business, AI & Digital Studio in London",
     description:
-      "Pixel & Brush is a London digital creative & AI studio founded by Anil Pandey, a Business Management with International student at Ravensbourne University London and creator of FinAI.",
+      "Pixel and Brush is a London digital creative & AI studio founded by Anil Pandey, a Business Management with International student at Ravensbourne University London and creator of FinAI.",
   },
   about: {
     path: "/about",
-    title: "About Anil Pandey | Pixel & Brush · Ravensbourne University London & FinAI",
+    title: "About Anil Pandey | Pixel and Brush · Ravensbourne University London & FinAI",
     description:
-      "Meet Anil Pandey, founder of Pixel & Brush and a London-based Business Management with International student at Ravensbourne University London exploring Artificial Intelligence, Python, Business Analytics, and FinAI.",
+      "Meet Anil Pandey, founder of Pixel and Brush and a London-based Business Management with International student at Ravensbourne University London exploring Artificial Intelligence, Python, Business Analytics, and FinAI.",
   },
 });

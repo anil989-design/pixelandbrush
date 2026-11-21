@@ -40,8 +40,8 @@ if (!aboutHtml.includes("<!-- GOOGLE SEARCH CONSOLE VERIFICATION TAG GOES HERE -
   );
 }
 
-const aboutTitle = "About Anil Pandey | Pixel & Brush · Ravensbourne University London & FinAI";
-const aboutDesc = "Meet Anil Pandey, founder of Pixel & Brush and a London-based Business Management with International student at Ravensbourne University London exploring Artificial Intelligence, Python, Business Analytics, and FinAI.";
+const aboutTitle = "About Anil Pandey | Pixel and Brush · Ravensbourne University London & FinAI";
+const aboutDesc = "Meet Anil Pandey, founder of Pixel and Brush and a London-based Business Management with International student at Ravensbourne University London exploring Artificial Intelligence, Python, Business Analytics, and FinAI.";
 const aboutUrl = "https://pixelandbrush.vercel.app/about";
 
 aboutHtml = aboutHtml.replace(/<title>[\s\S]*?<\/title>/i, `<title>${aboutTitle}</title>`);
@@ -59,15 +59,15 @@ if (aboutHtml.includes('<link rel="canonical"')) {
 }
 
 const aboutPrerenderContent = `
-  <main style="background:#060912;color:#e8edf7;padding:9rem 1.5rem 6rem;font-family:'Outfit',sans-serif;">
+  <main style="background:#07040e;color:#f4f1fa;padding:9rem 1.5rem 6rem;font-family:'Outfit',sans-serif;">
     <div style="max-width:1140px;margin:0 auto;">
       <div style="display:flex;align-items:center;gap:0.75rem;margin-bottom:1.25rem;">
-        <img src="/logo.svg" alt="Pixel &amp; Brush logo" width="40" height="40" style="width:40px;height:40px;border-radius:10px;display:block;" />
-        <span style="font-family:'Baloo 2',sans-serif;font-weight:800;font-size:1.25rem;color:#60a5fa;">Pixel &amp; Brush</span>
+        <img src="/logo-icon.webp" alt="Pixel and Brush logo" width="40" height="40" style="width:40px;height:40px;border-radius:10px;display:block;" />
+        <span style="font-family:'Baloo 2',sans-serif;font-weight:800;font-size:1.25rem;color:#fb923c;">Pixel and Brush</span>
       </div>
-      <p style="color:#2563eb;font-weight:700;letter-spacing:.22em;text-transform:uppercase;font-size:0.7rem;margin-bottom:0.65rem;">About Anil Pandey</p>
-      <h1 style="font-family:'Baloo 2',sans-serif;font-weight:800;font-size:clamp(2.2rem,4.5vw,3.6rem);letter-spacing:-.02em;line-height:1.08;margin-bottom:1.8rem;color:#e8edf7;">
-        Anil Pandey — <span style="background:linear-gradient(135deg,#60a5fa,#22d3ee);-webkit-background-clip:text;-webkit-text-fill-color:transparent;">Business, AI &amp; Technology in London</span>
+      <p style="color:#fb923c;font-weight:700;letter-spacing:.22em;text-transform:uppercase;font-size:0.7rem;margin-bottom:0.65rem;">About Anil Pandey</p>
+      <h1 style="font-family:'Baloo 2',sans-serif;font-weight:800;font-size:clamp(2.2rem,4.5vw,3.6rem);letter-spacing:-.02em;line-height:1.08;margin-bottom:1.8rem;color:#f4f1fa;">
+        Anil Pandey — <span style="background:linear-gradient(135deg,#c084fc,#ec4899,#f97316,#fbbf24);-webkit-background-clip:text;-webkit-text-fill-color:transparent;">Business, AI &amp; Technology in London</span>
       </h1>
       <p style="color:#8a93ab;line-height:1.8;font-size:1.05rem;margin-bottom:1.3rem;">
         Hi, I'm <strong>Anil Pandey</strong> (also spelled <strong>Anil Panday</strong>), based in London, United Kingdom and originally from Nepal. I am studying <strong>Business Management with International</strong> at <strong>Ravensbourne University London</strong>, where I focus on connecting business strategy with modern technology.
@@ -96,17 +96,17 @@ const aboutPrerenderContent = `
 aboutHtml = aboutHtml.replace('<div id="root"></div>', `<div id="root">${aboutPrerenderContent}</div>`);
 
 const homePrerenderContent = `
-  <main style="background:#060912;color:#e8edf7;padding:8rem 1.5rem 5rem;font-family:'Outfit',sans-serif;">
+  <main style="background:#07040e;color:#f4f1fa;padding:8rem 1.5rem 5rem;font-family:'Outfit',sans-serif;">
     <div style="max-width:1140px;margin:0 auto;">
       <div style="display:flex;align-items:center;gap:0.75rem;margin-bottom:1.5rem;">
-        <img src="/logo.svg" alt="Pixel &amp; Brush logo" width="44" height="44" style="width:44px;height:44px;border-radius:10px;display:block;" />
-        <span style="font-family:'Baloo 2',sans-serif;font-weight:800;font-size:1.35rem;color:#60a5fa;">Pixel &amp; Brush</span>
+        <img src="/logo-icon.webp" alt="Pixel and Brush logo" width="44" height="44" style="width:44px;height:44px;border-radius:10px;display:block;" />
+        <span style="font-family:'Baloo 2',sans-serif;font-weight:800;font-size:1.35rem;color:#fb923c;">Pixel and Brush</span>
       </div>
-      <h1 style="font-family:'Baloo 2',sans-serif;font-size:clamp(3rem,8vw,6.5rem);font-weight:800;line-height:1.02;color:#e8edf7;">
+      <h1 style="font-family:'Baloo 2',sans-serif;font-size:clamp(3rem,8vw,6.5rem);font-weight:800;line-height:1.02;color:#f4f1fa;">
         We Craft Digital World
       </h1>
-      <p style="font-size:clamp(1.1rem,2.2vw,1.4rem);color:#9aa6c4;line-height:1.65;max-width:480px;margin:1.6rem 0 2.4rem;">
-        Pixel &amp; Brush — Web development, graphic design &amp; digital solutions in London, founded by Anil Pandey, Business Management with International student at Ravensbourne University London and creator of FinAI.
+      <p style="font-size:clamp(1.1rem,2.2vw,1.4rem);color:#b8adc9;line-height:1.65;max-width:480px;margin:1.6rem 0 2.4rem;">
+        Pixel and Brush — Web development, graphic design &amp; digital solutions in London, founded by Anil Pandey, Business Management with International student at Ravensbourne University London and creator of FinAI.
       </p>
       <img src="/anil-pandey-anil-panday.jpg" alt="Anil Pandey — Ravensbourne University London" width="768" height="1024" style="max-width:320px;display:none;" />
     </div>
@@ -203,12 +203,12 @@ for (const article of articles) {
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <link rel="icon" href="/favicon.ico" sizes="48x48" />
-  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-  <link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png" />
-  <link rel="icon" type="image/png" sizes="48x48" href="/favicon-48x48.png" />
-  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
-  <meta name="application-name" content="Pixel &amp; Brush" />
+  <link rel="icon" href="/favicon.ico?v=2" sizes="48x48" />
+  <link rel="icon" type="image/png" sizes="48x48" href="/favicon-48x48.png?v=2" />
+  <link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png?v=2" />
+  <link rel="icon" type="image/png" sizes="192x192" href="/logo192.png?v=2" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png?v=2" />
+  <meta name="application-name" content="Pixel and Brush" />
   <meta name="google-site-verification" content="zxJ9NwoEE3Z6vaX_07ZiyXqKPhk7I0Zl0Y7QyEbEDcs" />
   <title>${article.title}</title>
   <meta name="description" content="${article.description}" />
@@ -216,7 +216,7 @@ for (const article of articles) {
   <meta name="robots" content="index, follow" />
   <link rel="canonical" href="${canonicalUrl}" />
   <meta property="og:type" content="article" />
-  <meta property="og:site_name" content="Pixel &amp; Brush" />
+  <meta property="og:site_name" content="Pixel and Brush" />
   <meta property="og:title" content="${article.title}" />
   <meta property="og:description" content="${article.description}" />
   <meta property="og:image" content="https://pixelandbrush.vercel.app/anil-pandey-anil-panday.jpg" />
@@ -252,20 +252,20 @@ for (const article of articles) {
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Outfit:wght@400;500;600&display=swap" />
   <style>
-    body { margin: 0; background: #060912; color: #e8edf7; font-family: 'Outfit', sans-serif; line-height: 1.8; }
+    body { margin: 0; background: #07040e; color: #f4f1fa; font-family: 'Outfit', sans-serif; line-height: 1.8; }
     .container { max-width: 820px; margin: 0 auto; padding: 4.5rem 1.5rem 5rem; }
     .nav { margin-bottom: 2.5rem; font-size: 0.92rem; }
-    .nav a { color: #60a5fa; text-decoration: none; margin-right: 1.2rem; }
+    .nav a { color: #fb923c; text-decoration: none; margin-right: 1.2rem; }
     h1 { font-family: 'Baloo 2', sans-serif; font-size: clamp(2rem, 4vw, 3rem); line-height: 1.15; margin-bottom: 1rem; color: #ffffff; }
-    h2 { font-family: 'Baloo 2', sans-serif; font-size: 1.5rem; color: #60a5fa; margin-top: 2.2rem; margin-bottom: 0.7rem; }
-    p, li { color: #9aa6c4; font-size: 1.06rem; }
-    strong { color: #e8edf7; }
-    .byline { display: flex; align-items: center; gap: 1rem; margin: 1.5rem 0 2.2rem; padding: 1rem; background: rgba(37,99,235,0.08); border: 1px solid rgba(37,99,235,0.22); border-radius: 14px; }
+    h2 { font-family: 'Baloo 2', sans-serif; font-size: 1.5rem; color: #fb923c; margin-top: 2.2rem; margin-bottom: 0.7rem; }
+    p, li { color: #b8adc9; font-size: 1.06rem; }
+    strong { color: #f4f1fa; }
+    .byline { display: flex; align-items: center; gap: 1rem; margin: 1.5rem 0 2.2rem; padding: 1rem; background: rgba(147,51,234,0.1); border: 1px solid rgba(249,115,22,0.28); border-radius: 14px; }
     .byline img { width: 64px; height: 64px; border-radius: 50%; object-fit: cover; }
-    .byline-text { font-size: 0.92rem; color: #9aa6c4; line-height: 1.5; }
-    .portrait { width: 100%; max-width: 420px; border-radius: 16px; border: 1px solid rgba(37,99,235,0.25); margin: 1.5rem 0; display: block; }
-    .footer-links { margin-top: 3rem; padding-top: 1.5rem; border-top: 1px solid rgba(37,99,235,0.2); font-size: 0.95rem; }
-    .footer-links a { color: #60a5fa; text-decoration: none; }
+    .byline-text { font-size: 0.92rem; color: #b8adc9; line-height: 1.5; }
+    .portrait { width: 100%; max-width: 420px; border-radius: 16px; border: 1px solid rgba(249,115,22,0.3); margin: 1.5rem 0; display: block; }
+    .footer-links { margin-top: 3rem; padding-top: 1.5rem; border-top: 1px solid rgba(168,85,247,0.22); font-size: 0.95rem; }
+    .footer-links a { color: #fb923c; text-decoration: none; }
   </style>
 </head>
 <body>

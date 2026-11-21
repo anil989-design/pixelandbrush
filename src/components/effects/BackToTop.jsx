@@ -15,15 +15,15 @@ const BackToTop = () => {
       style={{
         position:"fixed",bottom:"5.5rem",right:"1.8rem",zIndex:600,
         width:46,height:46,borderRadius:"50%",
-        background:"linear-gradient(135deg,#1e3a8a,#2563eb)",
-        border:"1px solid rgba(37,99,235,.55)",
+        background:"linear-gradient(135deg,#7c3aed,#db2777,#f97316)",
+        border:"1px solid rgba(251,146,60,.55)",
         color:"#fff",fontSize:"1.1rem",cursor:"pointer",
-        boxShadow:"0 0 22px rgba(37,99,235,.45)",
+        boxShadow:"0 0 22px rgba(249,115,22,.45)",
         display:"flex",alignItems:"center",justifyContent:"center",
         transition:"box-shadow .3s,transform .3s",
       }}
-      onMouseEnter={e=>{e.currentTarget.style.boxShadow="0 0 36px rgba(37,99,235,.7)";e.currentTarget.style.transform="scale(1.1)";}}
-      onMouseLeave={e=>{e.currentTarget.style.boxShadow="0 0 22px rgba(37,99,235,.45)";e.currentTarget.style.transform="none";}}>
+      onMouseEnter={e=>{e.currentTarget.style.boxShadow="0 0 36px rgba(249,115,22,.75)";e.currentTarget.style.transform="scale(1.1)";}}
+      onMouseLeave={e=>{e.currentTarget.style.boxShadow="0 0 22px rgba(249,115,22,.45)";e.currentTarget.style.transform="none";}}>
       <i className="bi bi-arrow-up"></i>
     </button>
   );

@@ -1,10 +1,5 @@
 import { useEffect, useRef } from "react";
 
-/**
- * Top-of-page reading progress bar.
- * Updates the DOM node directly (inside requestAnimationFrame) so scrolling never triggers
- * React re-renders.
- */
 const ScrollProgress = () => {
   const barRef = useRef(null);
 
@@ -38,8 +33,8 @@ const ScrollProgress = () => {
         height: 3,
         width: 0,
         zIndex: 9997,
-        background: "linear-gradient(90deg,#1e3a8a,#2563eb,#22d3ee)",
-        boxShadow: "0 0 12px rgba(34,211,238,.6)",
+        background: "linear-gradient(90deg,#7c3aed,#ec4899,#f97316,#fbbf24)",
+        boxShadow: "0 0 14px rgba(249,115,22,.65)",
         pointerEvents: "none",
         transition: "width .08s linear",
       }}

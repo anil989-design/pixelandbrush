@@ -1,42 +1,37 @@
 {
-  "short_name": "Pixel & Brush",
-  "name": "Pixel & Brush",
+  "short_name": "Pixel and Brush",
+  "name": "Pixel and Brush",
   "icons": [
     {
-      "src": "/favicon.ico",
+      "src": "/favicon.ico?v=2",
       "sizes": "48x48 32x32 16x16",
       "type": "image/x-icon"
     },
     {
-      "src": "/favicon-48x48.png",
+      "src": "/favicon-48x48.png?v=2",
       "type": "image/png",
       "sizes": "48x48"
     },
     {
-      "src": "/favicon-96x96.png",
+      "src": "/favicon-96x96.png?v=2",
       "type": "image/png",
       "sizes": "96x96"
     },
     {
-      "src": "/logo192.png",
+      "src": "/logo192.png?v=2",
       "type": "image/png",
       "sizes": "192x192",
       "purpose": "any maskable"
     },
     {
-      "src": "/logo512.png",
+      "src": "/logo512.png?v=2",
       "type": "image/png",
       "sizes": "512x512",
       "purpose": "any maskable"
-    },
-    {
-      "src": "/favicon.svg",
-      "type": "image/svg+xml",
-      "sizes": "any"
     }
   ],
   "start_url": "/",
   "display": "standalone",
-  "theme_color": "#060912",
-  "background_color": "#060912"
+  "theme_color": "#07040e",
+  "background_color": "#07040e"
 }

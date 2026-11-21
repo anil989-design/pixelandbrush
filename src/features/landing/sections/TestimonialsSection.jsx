@@ -9,9 +9,9 @@ const TestimonialsSection = () => {
       <div className="rv text-center mb-5" data-dir="up">
         <SectionLabel text="Client Stories"/>
         <h2 style={{fontFamily:"'Baloo 2',sans-serif",fontWeight:800,fontSize:"clamp(2.4rem,4.5vw,3.8rem)",letterSpacing:"-.02em",lineHeight:1.08,marginBottom:"1rem"}}>
-          What Our Clients{" "}<span style={{background:"linear-gradient(135deg,#60a5fa,#22d3ee)",WebkitBackgroundClip:"text",WebkitTextFillColor:"transparent"}}>Say</span>
+          What Our Clients{" "}<span style={{background:"linear-gradient(135deg,#c084fc,#ec4899,#f97316,#fbbf24)",WebkitBackgroundClip:"text",WebkitTextFillColor:"transparent"}}>Say</span>
         </h2>
-        <p style={{color:"#8a93ab",lineHeight:1.74,fontFamily:"'Outfit',sans-serif",fontSize:"1rem",maxWidth:460,margin:"0 auto"}}>Real feedback from real businesses we've helped grow.</p>
+        <p style={{color:"#a79ab8",lineHeight:1.74,fontFamily:"'Outfit',sans-serif",fontSize:"1rem",maxWidth:460,margin:"0 auto"}}>Real feedback from real businesses we've helped grow.</p>
       </div>
       <div className="row g-4 align-items-stretch">
         {testimonials.map((t,i)=>(

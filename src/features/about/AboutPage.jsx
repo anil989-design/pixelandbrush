@@ -12,17 +12,17 @@ import { PAGE_META } from "../../config/seo";
 import usePageMeta from "../../hooks/usePageMeta";
 import GlobalStyles from "../../styles/GlobalStyles";
 
-const gradientText = { background: "linear-gradient(135deg,#60a5fa,#22d3ee)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" };
-const paragraph = { color: "#8a93ab", lineHeight: 1.8, fontFamily: "'Outfit',sans-serif", fontSize: "1.05rem", marginBottom: "1.3rem" };
-const inlineLink = { color: "#60a5fa", textDecoration: "none" };
+const gradientText = { background: "linear-gradient(135deg,#c084fc,#ec4899,#f97316,#fbbf24)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" };
+const paragraph = { color: "#a79ab8", lineHeight: 1.8, fontFamily: "'Outfit',sans-serif", fontSize: "1.05rem", marginBottom: "1.3rem" };
+const inlineLink = { color: "#fb923c", textDecoration: "none" };
 const frameRadius = "50% 50% 46% 46% / 40% 40% 60% 60%";
 
-/** /about – who Anil Panday is, what Pixel & Brush does, and how to get in touch. */
+/** /about – who Anil Pandey is, what Pixel & Brush does, and how to get in touch. */
 export default function AboutPage() {
   usePageMeta(PAGE_META.about);
 
   return (
-    <div style={{ background: "#060912", minHeight: "100vh", overflowX: "hidden", position: "relative" }}>
+    <div style={{ background: "#07040e", minHeight: "100vh", overflowX: "hidden", position: "relative" }}>
       <GlobalStyles />
       <HexMesh />
       <Cursor />
@@ -66,8 +66,8 @@ export default function AboutPage() {
                   <Button href={`mailto:${CONTACT.email}`}>Email Me</Button>
                 </div>
 
-                <div style={{ marginTop: "3rem", paddingTop: "2rem", borderTop: "1px solid rgba(37,99,235,.18)" }}>
-                  <h2 style={{ fontFamily: "'Baloo 2',sans-serif", fontWeight: 700, fontSize: "1.35rem", color: "#e8edf7", marginBottom: "1rem" }}>
+                <div style={{ marginTop: "3rem", paddingTop: "2rem", borderTop: "1px solid rgba(168,85,247,.2)" }}>
+                  <h2 style={{ fontFamily: "'Baloo 2',sans-serif", fontWeight: 700, fontSize: "1.35rem", color: "#f4f1fa", marginBottom: "1rem" }}>
                     Articles &amp; Case Studies by Anil Pandey
                   </h2>
                   <ul style={{ listStyle: "none", padding: 0, margin: 0, display: "grid", gap: "0.75rem" }}>
@@ -92,8 +92,8 @@ export default function AboutPage() {
 
               <div className="col-12 col-lg-5 text-center">
                 <div style={{ position: "relative", width: "clamp(240px,26vw,360px)", margin: "0 auto" }}>
-                  <div style={{ position: "absolute", bottom: "-8%", left: "10%", right: "10%", height: "55%", background: "radial-gradient(ellipse,rgba(37,99,235,.42) 0%,transparent 70%)", filter: "blur(26px)", zIndex: 0 }} />
-                  <div style={{ position: "relative", zIndex: 1, border: "1px solid rgba(37,99,235,.25)", borderRadius: frameRadius, overflow: "hidden", aspectRatio: "3/4", background: "linear-gradient(160deg,rgba(30,58,138,.18),rgba(34,211,238,.07))" }}>
+                  <div style={{ position: "absolute", bottom: "-8%", left: "10%", right: "10%", height: "55%", background: "radial-gradient(ellipse,rgba(249,115,22,.38) 0%,rgba(147,51,234,.28) 45%,transparent 75%)", filter: "blur(28px)", zIndex: 0 }} />
+                  <div style={{ position: "relative", zIndex: 1, border: "1px solid rgba(249,115,22,.32)", borderRadius: frameRadius, overflow: "hidden", aspectRatio: "3/4", background: "linear-gradient(160deg,rgba(124,58,237,.22),rgba(249,115,22,.12))" }}>
                     <img
                       src="/anil-pandey-anil-panday.jpg"
                       alt="Anil Panday (Anil Pandey) — Business Management with International student at Ravensbourne University London"

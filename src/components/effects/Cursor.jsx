@@ -3,7 +3,7 @@ import { useEffect, useRef } from "react";
 const Cursor = () => {
   const dot = useRef(null), ring = useRef(null);
   const p = useRef({x:0,y:0}), l = useRef({x:0,y:0});
-  const coarse = window.matchMedia("(pointer: coarse)").matches; // no custom cursor on touch
+  const coarse = window.matchMedia("(pointer: coarse)").matches;
   useEffect(() => {
     if (coarse) return undefined;
     const mv = e => { p.current = {x:e.clientX,y:e.clientY}; };
@@ -26,8 +26,8 @@ const Cursor = () => {
   },[coarse]);
   if (coarse) return null;
   return (<>
-    <div ref={dot}  style={{position:"fixed",width:10,height:10,background:"#60a5fa",borderRadius:"50%",pointerEvents:"none",zIndex:9999,mixBlendMode:"screen"}}/>
-    <div ref={ring} style={{position:"fixed",width:40,height:40,border:"1.5px solid #2563eb",borderRadius:"50%",pointerEvents:"none",zIndex:9998,transition:"transform .35s cubic-bezier(.22,1,.36,1)",mixBlendMode:"screen"}}/>
+    <div ref={dot}  style={{position:"fixed",width:10,height:10,background:"#fb923c",borderRadius:"50%",pointerEvents:"none",zIndex:9999,mixBlendMode:"screen",boxShadow:"0 0 10px rgba(249,115,22,.8)"}}/>
+    <div ref={ring} style={{position:"fixed",width:40,height:40,border:"1.5px solid #a855f7",borderRadius:"50%",pointerEvents:"none",zIndex:9998,transition:"transform .35s cubic-bezier(.22,1,.36,1)",mixBlendMode:"screen"}}/>
   </>);
 };
 
